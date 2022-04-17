@@ -5,16 +5,17 @@
     </div>
   </div>
 
-  <form method="post" class="content">
+  <form method="post" class="content" (ngSubmit)="registrarProducto()">
     <div class="form-group">
       <label for="nombre">Nombre</label>
-        <input
-          type="text"
-          class="form-control"
-          name="nombre"
-          id="nombre"
-          maxlength="45"
-        />
+      <input
+        type="text"
+        class="form-control"
+        name="nombre"
+        id="nombre"
+        maxlength="45"
+        [(ngModel)]="objProducto.nombre"
+      />
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -25,6 +26,7 @@
           name="serie"
           id="serie"
           maxlength="45"
+          [(ngModel)]="objProducto.serie"
         />
       </div>
 
@@ -36,6 +38,7 @@
           name="durabilidad"
           id="durabilidad"
           maxlength="45"
+          [(ngModel)]="objProducto.durabilidad"
         />
       </div>
     </div>
@@ -47,6 +50,7 @@
           class="form-control"
           id="fechaVigencia"
           name="fechaVigencia"
+          [(ngModel)]="objProducto.fechaVigencia"
         />
       </div>
 
@@ -59,6 +63,7 @@
           name="precio"
           min="0"
           step="any"
+          [(ngModel)]="objProducto.precio"
         />
       </div>
 
@@ -71,22 +76,38 @@
           name="stock"
           min="0"
           step="1"
+          [(ngModel)]="objProducto.stock"
         />
       </div>
-
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="marca">Marca</label>
-        <select id="marca" name="marca" class="form-control">
+        <select
+          [(ngModel)]="objProducto.marca!.idMarca"
+          id="marca"
+          name="marca"
+          class="form-control"
+        >
           <option value="-1">[Seleccione]</option>
+          <option *ngFor="let marca of listaMarcas" [value]="marca.idMarca">
+            {{ marca.nombre }}
+          </option>
         </select>
       </div>
 
       <div class="form-group col-md-6">
         <label for="pais">País</label>
-        <select id="pais" name="pais" class="form-control">
+        <select
+          [(ngModel)]="objProducto.pais!.idPais"
+          id="pais"
+          name="pais"
+          class="form-control"
+        >
           <option value="-1">[Seleccione]</option>
+          <option *ngFor="let pais of listaPaises" [value]="pais.idPais">
+            {{ pais.nombre }}
+          </option>
         </select>
       </div>
     </div>

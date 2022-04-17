@@ -4,19 +4,16 @@ import { Observable } from 'rxjs';
 import { Producto } from '../models/producto.model';
 import { AppSettings } from '../app.settings';
 
-const baseUrlUtil = AppSettings.API_ENDPOINT+ '/util';
-const baseUrlProducto = AppSettings.API_ENDPOINT+ '/producto';
-
-
+const baseUrlUtil = AppSettings.API_ENDPOINT + '/util';
+const baseUrlProducto = AppSettings.API_ENDPOINT + '/producto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductoService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) { }
-
-
+  public insertarProducto(data: Producto): Observable<any> {
+    return this.http.post<any>(baseUrlProducto, data);
+  }
 }
-
-
