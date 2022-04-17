@@ -6,13 +6,15 @@ import { AppSettings } from '../app.settings';
 
 const baseUrlUtil = AppSettings.API_ENDPOINT+ '/util';
 const baseUrlReclamo = AppSettings.API_ENDPOINT+ '/reclamo';
-
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class ReclamoService {
 
   constructor(private http:HttpClient) {   }
 
+  insertarReclamo(data: Reclamo): Observable<any> {
+    return this.http.post(baseUrlReclamo, data)
+  }
 }
