@@ -5,6 +5,7 @@ import { TipoReclamo } from 'src/app/models/tipo-reclamo.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { ReclamoService } from 'src/app/services/reclamo.service';
 import { TipoReclamoService } from 'src/app/services/tipo-reclamo.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registra-reclamo',
@@ -29,7 +30,7 @@ export class RegistraReclamoComponent implements OnInit {
     }
   }
 
-  constructor(private TipoReclamoService: TipoReclamoService, private ClienteService: ClienteService, private ReclamoService: ReclamoService) {
+  constructor(private TipoReclamoService: TipoReclamoService, private ClienteService: ClienteService, private ReclamoService: ReclamoService, private toastr: ToastrService) {
     this.TipoReclamoService.listaTipoReclamo().subscribe(r => this.tipoReclamos = r)
     this.ClienteService.listaCliente().subscribe(c => this.clientes = c)
   }
@@ -40,13 +41,13 @@ export class RegistraReclamoComponent implements OnInit {
   insertarReclamo() {
     return this.ReclamoService.insertarReclamo(this.reclamo).subscribe(
       res => {
-        alert('Registro exitoso')
+        this.toastr.success('Reclamo', 'Insertado correctamente')
       },
-
+      
       err => {
+        console.log(this.reclamo)
         console.error(err)
       }
     )
   }
-
 }

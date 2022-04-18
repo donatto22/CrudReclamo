@@ -27,6 +27,8 @@ import { TransaccionComprobanteComponent } from './components/transaccion-compro
 import { TransaccionPedidoComponent } from './components/transaccion-pedido/transaccion-pedido.component';
 import { ConsultaPedidoComponent } from './components/consulta-pedido/consulta-pedido.component';
 import { ConsultaComprobanteComponent } from './components/consulta-comprobante/consulta-comprobante.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -61,10 +63,14 @@ import { ConsultaComprobanteComponent } from './components/consulta-comprobante/
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
-    AppRoutingModule
+    AppRoutingModule,
+    ToastrModule.forRoot({
+      positionClass :'toast-bottom-right'
+    })
   ],
   providers: [
 
