@@ -18,4 +18,8 @@ export class MarcaService {
     return this.http.get<Marca[]>(baseUrlUtil + '/listaMarca');
   }
 
+  insertaMarca(data:Marca): Observable<any>{
+    return this.http.post(baseUrlMarca, data);
+  }
+
 }
