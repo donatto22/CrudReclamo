@@ -41,12 +41,11 @@ export class RegistraReclamoComponent implements OnInit {
   insertarReclamo() {
     return this.ReclamoService.insertarReclamo(this.reclamo).subscribe(
       res => {
-        this.toastr.success('Reclamo', 'Insertado correctamente')
+        this.toastr.success('Reclamo', 'Reclamo registrado')
       },
       
       err => {
-        console.log(this.reclamo)
-        console.error(err)
+        this.toastr.error('Reclamo', 'Error al reclamar')
       }
     )
   }
