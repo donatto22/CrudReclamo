@@ -4,22 +4,17 @@ import { Observable } from 'rxjs';
 import { AppSettings } from '../app.settings';
 import { Cliente } from '../models/cliente.model';
 
-const baseUrlUtil = AppSettings.API_ENDPOINT+ '/util';
-const baseUrlCliente = AppSettings.API_ENDPOINT+ '/cliente';
+const baseUrlCliente = 'http://localhost:8090/cliente';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
-
   
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  listaCliente():Observable<Cliente[]>{
-    return this.http.get<Cliente[]>(baseUrlUtil+"/listaCliente");
+  insertarCliente(data: Cliente): Observable<any> {
+    return this.http.post(baseUrlCliente + "/Registro", data);
   }
 
-  
-
-  
 }

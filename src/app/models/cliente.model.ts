@@ -2,7 +2,6 @@ import { Ubigeo } from "./ubigeo.model";
 
 export class Cliente {
     idCliente?:number;
-	nombreCompleto?:string;
     nombres ?: string; 
     apellidos ?: string;
     fechaNacimiento?: Date;
