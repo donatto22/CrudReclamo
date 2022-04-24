@@ -8,12 +8,13 @@ const baseUrlUtil = AppSettings.API_ENDPOINT+ '/util';
 const baseUrlSede = AppSettings.API_ENDPOINT+ '/sede';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SedeService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) { }
-
- 
+  public insertaActualizaSede(data: Sede): Observable<any> {
+    return this.http.post<any>(baseUrlSede, data);
+  }
 
 }
