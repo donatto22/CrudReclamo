@@ -5,7 +5,7 @@ import { Producto } from '../models/producto.model';
 import { AppSettings } from '../app.settings';
 
 const baseUrlUtil = AppSettings.API_ENDPOINT + '/util';
-const baseUrlProducto = AppSettings.API_ENDPOINT + '/producto';
+const baseUrlProducto = AppSettings.URL_API_ENDPOINT + '/producto';
 
 @Injectable({
   providedIn: 'root',

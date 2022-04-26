@@ -4,17 +4,22 @@ import { Cliente } from 'src/app/models/cliente.model';
 import { Ubigeo } from 'src/app/models/ubigeo.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { UbigeoService } from 'src/app/services/ubigeo.service';
+import { ToastrService } from 'ngx-toastr';
 
+
+const date = document.querySelector('input[type="date"]')
 @Component({
   selector: 'app-registra-cliente',
   templateUrl: './registra-cliente.component.html',
   styleUrls: ['./registra-cliente.component.css']
 })
+
 export class RegistraClienteComponent implements OnInit {  
 
   departamentos: string[] = [];
   provincias: string[] = [];
   distritos: Ubigeo[] = [];
+  
 
   cliente: Cliente = {
     ubigeo: {
@@ -25,25 +30,22 @@ export class RegistraClienteComponent implements OnInit {
     }
   }; 
 
-  constructor(private ubigeoService: UbigeoService, private clienteService: ClienteService) {
+  constructor(private ubigeoService: UbigeoService, private clienteService: ClienteService, private toastr: ToastrService) {
     this.ubigeoService.listarDepartamento().subscribe(
       (departamentos) => this.departamentos = departamentos);
 
   }
 
   insertClient() {
-    console.log(this.cliente)
     this.clienteService.insertarCliente(this.cliente).subscribe(
-      response => {
-        console.log(response.mensaje);
-        alert(response.mensaje);
+      res => {
+        this.toastr.success('Cliente registrado', 'Cliente')
       },
-      error => {
-        console.log(error);
+      err => {
+        this.toastr.error('Ocurrió error inesperado', 'Error')
+        console.log(err);
       }
-
     );
-
   }
 
   listaProvincia() {
@@ -65,4 +67,5 @@ export class RegistraClienteComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  
 }

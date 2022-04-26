@@ -3,6 +3,7 @@ import { Pais } from 'src/app/models/pais.model';
 import { Sede } from 'src/app/models/sede.model';
 import { PaisService } from 'src/app/services/pais.service';
 import { SedeService } from 'src/app/services/sede.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registra-sede',
@@ -14,34 +15,16 @@ export class RegistraSedeComponent implements OnInit {
   listaPaises: Pais[] = [];
 
   objSede: Sede = {
-
     pais: {
       idPais: -1,
     },
-    
   };
 
-  constructor(private paisService: PaisService,
-    
-    private sedeService: SedeService
-  ) {
-    this.llenarCombos();
+  constructor(private paisService: PaisService, private sedeService: SedeService, private toastr: ToastrService) {
+    this.paisService.listaPais().subscribe(p => this.listaPaises = p)
   }
 
   ngOnInit(): void {
-  }
-
-  private llenarCombos() {
-    this.cargarPaises();
-    
-  }
-
-  private cargarPaises() {
-    this.paisService.listaPais().subscribe((paises: Pais[]) => {
-      if (paises && paises.length > 0) {
-        this.listaPaises = paises;
-      }
-    });
   }
 
   public registrarSede() {
@@ -52,10 +35,11 @@ export class RegistraSedeComponent implements OnInit {
 
     this.sedeService.insertaActualizaSede (this.objSede).subscribe(
       (response) => {
-        alert(response?.mensaje);
+        this.toastr.success(response?.mensaje, 'Sede')
       },
       (error) => {
-        alert(error?.mensaje);
+        this.toastr.error(error?.mensaje, 'Sede')
+        console.log(error?.mensaje);
       }
     );
   }

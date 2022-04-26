@@ -5,7 +5,7 @@ import { Proveedor } from '../models/proveedor.model';
 import { AppSettings } from '../app.settings';
 
 const baseUrlUtil = AppSettings.API_ENDPOINT+ '/util';
-const baseUrlProveedor = AppSettings.API_ENDPOINT+ '/proveedor';
+const baseUrlProveedor = AppSettings.URL_API_ENDPOINT+ '/proveedor';
 
 
 @Injectable({
