@@ -5,6 +5,7 @@ import { PaisService } from '../../services/pais.service';
 import { MarcaService } from '../../services/marca.service';
 import { Producto } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registra-producto',
@@ -27,7 +28,8 @@ export class RegistraProductoComponent implements OnInit {
   constructor(
     private paisService: PaisService,
     private marcaService: MarcaService,
-    private productoService: ProductoService
+    private productoService: ProductoService,
+    private toastr: ToastrService
   ) {
     this.llenarCombos();
   }
@@ -57,21 +59,22 @@ export class RegistraProductoComponent implements OnInit {
 
   public registrarProducto() {
     if (this.objProducto.pais?.idPais == -1) {
-      alert('Seleccione un pais');
+      this.toastr.warning('Debes seleccionar un país', 'Producto')
       return;
     }
 
     if (this.objProducto.marca?.idMarca == -1) {
-      alert('Seleccione una marca');
+      this.toastr.warning('Selecciona una marca', 'Producto')
       return;
     }
 
     this.productoService.insertarProducto(this.objProducto).subscribe(
       (response) => {
-        alert(response?.mensaje);
+        this.toastr.success(response?.mensaje, 'Producto')
       },
       (error) => {
-        alert(error?.mensaje);
+        this.toastr.error('Ocurrió error inesperado', 'Error')
+        console.log(error?.mensaje)
       }
     );
   }

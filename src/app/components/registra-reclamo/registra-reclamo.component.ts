@@ -17,11 +17,7 @@ export class RegistraReclamoComponent implements OnInit {
   tipoReclamos: TipoReclamo[] = []
   clientes: Cliente[] = []
 
-  fecha = new Date().getFullYear() + '-0' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
-  tiempo = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
-
   reclamo: Reclamo = {
-    fechaRegistro: this.fecha + ' ' + this.tiempo,
     cliente: {
       idCliente: -1
     },
@@ -39,14 +35,38 @@ export class RegistraReclamoComponent implements OnInit {
   }
 
   insertarReclamo() {
+    this.validarCampos()
     return this.ReclamoService.insertarReclamo(this.reclamo).subscribe(
-      res => {
-        this.toastr.success('Reclamo', 'Reclamo registrado')
-      },
+      res => this.toastr.success('Reclamo registrado', 'Reclamo'),
       
       err => {
-        this.toastr.error('Reclamo', 'Error al reclamar')
+        this.toastr.error('Error al reclamar', 'Reclamo')
       }
     )
+  }
+
+  validarCampos() {
+
+    if(this.reclamo.tipoReclamo?.idTipoReclamo == -1 && this.reclamo.cliente?.idCliente == -1 && 
+      typeof this.reclamo.fechaCompra == 'undefined') {
+
+      this.toastr.error('Completa los datos', 'Reclamo')
+      return
+    }
+    
+    if(this.reclamo.tipoReclamo?.idTipoReclamo == -1) {
+      this.toastr.warning('Selecciona tu tipo de marca', 'Reclamo')
+      return
+    }
+
+    if(this.reclamo.cliente?.idCliente == -1) {
+      this.toastr.warning('Debe seleccionar el cliente', 'Reclamo')
+      return
+    }
+
+    if(typeof this.reclamo.fechaCompra == 'undefined') {
+      this.toastr.warning('Establezca la fecha de compra', 'Reclamo')
+      return
+    }
   }
 }

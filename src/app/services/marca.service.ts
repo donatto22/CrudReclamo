@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { AppSettings } from '../app.settings';
 import { Marca } from '../models/marca.model';
 
-const baseUrlUtil = AppSettings.API_ENDPOINT+ '/util';
-const baseUrlMarca = AppSettings.API_ENDPOINT+ '/marca';
+const baseUrlUtil = AppSettings.API_ENDPOINT + '/util';
+const baseUrlMarca = AppSettings.URL_API_ENDPOINT + '/marca';
 
 @Injectable({
   providedIn: 'root',

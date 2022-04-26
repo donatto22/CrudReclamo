@@ -5,7 +5,7 @@ import { AppSettings } from '../app.settings';
 import { Cliente } from '../models/cliente.model';
 
 const baseUrlUtil = AppSettings.API_ENDPOINT + '/util';
-const baseUrlCliente = AppSettings.API_ENDPOINT + '/cliente';
+const baseUrlCliente = AppSettings.URL_API_ENDPOINT + '/cliente';
 
 @Injectable({
   providedIn: 'root'

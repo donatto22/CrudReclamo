@@ -5,7 +5,7 @@ import { Reclamo } from '../models/reclamo.model';
 import { AppSettings } from '../app.settings';
 
 const baseUrlUtil = AppSettings.API_ENDPOINT+ '/util';
-const baseUrlReclamo = AppSettings.API_ENDPOINT+ '/reclamo';
+const baseUrlReclamo = AppSettings.URL_API_ENDPOINT+ '/reclamo';
 @Injectable({
   providedIn: 'root'
 })

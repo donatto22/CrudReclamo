@@ -5,7 +5,7 @@ import { Sede } from '../models/sede.model';
 import { AppSettings } from '../app.settings';
 
 const baseUrlUtil = AppSettings.API_ENDPOINT+ '/util';
-const baseUrlSede = AppSettings.API_ENDPOINT+ '/sede';
+const baseUrlSede = AppSettings.URL_API_ENDPOINT+ '/sede';
 
 @Injectable({
   providedIn: 'root',
