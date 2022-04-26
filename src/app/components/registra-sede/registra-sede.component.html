@@ -1,1 +1,61 @@
-<p>registra-sede works!</p>
+<div>
+
+    <form class="content" (ngSubmit)= "registrarSede()">
+    <div class="submit-form" >
+  
+         <div class="row">
+            <div class="col-lg-12">
+                <h6>Registro de Sede </h6>
+            </div>
+        </div>
+  
+        <div class="row" style="margin-top: 3%">
+                <div class="col-lg-6">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" maxlength="45" [(ngModel)]="sede.nombre" />
+                </div>
+            
+                <div class="col-lg-3">
+                    <label for="direccion">Direccion</label>
+                    <input type="text" class="form-control" name="direccion" id="direccion" [(ngModel)]="sede.direccion" />
+                </div>
+
+              
+         </div>
+  
+        <div class="row" style="margin-top: 3%">
+        <div class="col-lg-3">
+            <label for="fechaCreacion">Fecha Creacion</label>
+            <input type="date"  class="form-control" id="fechaCreacion"  name="fechaCreacion" [(ngModel)]="sede.fechaCreacion"  />
+        </div>
+    
+
+            <div class="col-lg-3">
+                <label for="codigoPostal">Codigo Postal</label>
+                <input type="text"  class="form-control" id="codigoPostal"  name="codigoPostal" maxlength="5" [(ngModel)]="sede.codigoPostal" />
+            </div>
+
+            <div class="col-lg-3">
+                <label for="pais">Pais</label>
+                <select id="pais" name="pais" class="form-control" [(ngModel)]="marca.pais!.idPais">
+                    <option value="-1"> [Seleccione] </option>
+                    <option *ngFor="let aux of paises" value="{{ aux.idPais }}">
+                        {{aux.nombre}}
+                    </option>
+                </select>
+            </div>
+        </div>
+  
+        <div class="row" style="margin-top: 3%"> 
+                <div class="col-lg-12">
+                    <button class="btn btn-success"  >Enviar</button>
+                </div>
+        </div>
+  
+    
+      </div>
+  
+     </form>
+  
+  
+    </div>
