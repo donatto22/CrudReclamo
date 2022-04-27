@@ -39,12 +39,10 @@ export class RegistraClienteComponent implements OnInit {
   insertClient() {
     this.clienteService.insertarCliente(this.cliente).subscribe(
       res => {
-        //this.toastr.success('Cliente registrado', 'Cliente')
-        alert('Cliente registrado')
+        
+        alert(res.mensaje)
       },
       err => {
-        //this.toastr.error('Ocurrió error inesperado', 'Error')
-        alert('Error al insertar cliente')
         console.log(err);
       }
     );
