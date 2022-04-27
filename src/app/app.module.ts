@@ -28,7 +28,7 @@ import { TransaccionPedidoComponent } from './components/transaccion-pedido/tran
 import { ConsultaPedidoComponent } from './components/consulta-pedido/consulta-pedido.component';
 import { ConsultaComprobanteComponent } from './components/consulta-comprobante/consulta-comprobante.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule } from 'ngx-toastr';
+//import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -68,9 +68,9 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     ReactiveFormsModule.withConfig({warnOnNgModelWithFormControl: 'never'}),
     AppRoutingModule,
-    ToastrModule.forRoot({
+    /* ToastrModule.forRoot({
       positionClass :'toast-bottom-right'
-    })
+    }) */
   ],
   providers: [
 

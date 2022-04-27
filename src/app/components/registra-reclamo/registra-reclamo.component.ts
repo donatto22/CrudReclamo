@@ -5,7 +5,7 @@ import { TipoReclamo } from 'src/app/models/tipo-reclamo.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { ReclamoService } from 'src/app/services/reclamo.service';
 import { TipoReclamoService } from 'src/app/services/tipo-reclamo.service';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registra-reclamo',
@@ -26,7 +26,7 @@ export class RegistraReclamoComponent implements OnInit {
     }
   }
 
-  constructor(private TipoReclamoService: TipoReclamoService, private ClienteService: ClienteService, private ReclamoService: ReclamoService, private toastr: ToastrService) {
+  constructor(private TipoReclamoService: TipoReclamoService, private ClienteService: ClienteService, private ReclamoService: ReclamoService,  /*private toastr: ToastrService */) {
     this.TipoReclamoService.listaTipoReclamo().subscribe(r => this.tipoReclamos = r)
     this.ClienteService.listaCliente().subscribe(c => this.clientes = c)
   }
@@ -37,10 +37,12 @@ export class RegistraReclamoComponent implements OnInit {
   insertarReclamo() {
     this.validarCampos()
     return this.ReclamoService.insertarReclamo(this.reclamo).subscribe(
-      res => this.toastr.success('Reclamo registrado', 'Reclamo'),
+      res => //this.toastr.success('Reclamo registrado', 'Reclamo'),
+      alert('Reclamo registrado'),
       
       err => {
-        this.toastr.error('Error al reclamar', 'Reclamo')
+        //this.toastr.error('Error al reclamar', 'Reclamo')
+        alert('Error al reclamar')
       }
     )
   }
@@ -50,22 +52,26 @@ export class RegistraReclamoComponent implements OnInit {
     if(this.reclamo.tipoReclamo?.idTipoReclamo == -1 && this.reclamo.cliente?.idCliente == -1 && 
       typeof this.reclamo.fechaCompra == 'undefined') {
 
-      this.toastr.error('Completa los datos', 'Reclamo')
+      //this.toastr.error('Completa los datos', 'Reclamo')
+      alert('Llenar todos los campos')
       return
     }
     
     if(this.reclamo.tipoReclamo?.idTipoReclamo == -1) {
-      this.toastr.warning('Selecciona tu tipo de marca', 'Reclamo')
+      //this.toastr.warning('Selecciona tu tipo de marca', 'Reclamo')
+      alert('Selecciona tipo reclamo')
       return
     }
 
     if(this.reclamo.cliente?.idCliente == -1) {
-      this.toastr.warning('Debe seleccionar el cliente', 'Reclamo')
+      //this.toastr.warning('Debe seleccionar el cliente', 'Reclamo')
+      alert('Selecciona el cliente')
       return
     }
 
     if(typeof this.reclamo.fechaCompra == 'undefined') {
-      this.toastr.warning('Establezca la fecha de compra', 'Reclamo')
+      //this.toastr.warning('Establezca la fecha de compra', 'Reclamo')
+      alert('Marca la fecha de compra')
       return
     }
   }
