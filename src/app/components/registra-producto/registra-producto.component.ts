@@ -5,7 +5,7 @@ import { PaisService } from '../../services/pais.service';
 import { MarcaService } from '../../services/marca.service';
 import { Producto } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registra-producto',
@@ -29,7 +29,7 @@ export class RegistraProductoComponent implements OnInit {
     private paisService: PaisService,
     private marcaService: MarcaService,
     private productoService: ProductoService,
-    private toastr: ToastrService
+    //private toastr: ToastrService
   ) {
     this.llenarCombos();
   }
@@ -59,21 +59,25 @@ export class RegistraProductoComponent implements OnInit {
 
   public registrarProducto() {
     if (this.objProducto.pais?.idPais == -1) {
-      this.toastr.warning('Debes seleccionar un país', 'Producto')
+      //this.toastr.warning('Debes seleccionar un país', 'Producto')
+      alert('Debes seleccionar un pais')
       return;
     }
 
     if (this.objProducto.marca?.idMarca == -1) {
-      this.toastr.warning('Selecciona una marca', 'Producto')
+      //this.toastr.warning('Selecciona una marca', 'Producto')
+      alert('Selecciona una marca')
       return;
     }
 
     this.productoService.insertarProducto(this.objProducto).subscribe(
       (response) => {
-        this.toastr.success(response?.mensaje, 'Producto')
+        //this.toastr.success(response?.mensaje, 'Producto')
+        alert('Producto registrado')
       },
       (error) => {
-        this.toastr.error('Ocurrió error inesperado', 'Error')
+        //this.toastr.error('Ocurrió error inesperado', 'Error')
+        alert('Error al registros')
         console.log(error?.mensaje)
       }
     );

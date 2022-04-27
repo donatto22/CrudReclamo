@@ -3,7 +3,7 @@ import { MarcaService } from 'src/app/services/marca.service';
 import { Pais } from 'src/app/models/pais.model';
 import { PaisService } from 'src/app/services/pais.service';
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registra-marca',
@@ -20,7 +20,7 @@ export class RegistraMarcaComponent implements OnInit {
     }
   }
 
-  constructor(private paisService: PaisService, private marcaService: MarcaService, private toastr: ToastrService) {
+  constructor(private paisService: PaisService, private marcaService: MarcaService, /* private toastr: ToastrService */) {
 
     this.paisService.listaPais().subscribe(
       (x) => this.paises = x
@@ -30,11 +30,13 @@ export class RegistraMarcaComponent implements OnInit {
   insertaMarca() {
     this.marcaService.insertaMarca(this.marca).subscribe(
       response => {
-        this.toastr.success('Marca creada exitosamente', 'Marca')
+        //this.toastr.success('Marca creada exitosamente', 'Marca')
+        alert('Se ha registrado una marca')
         console.log(response.mensaje)
       },
       error => {
-        this.toastr.success('Ocurrió error inesperado', 'Error')
+        //this.toastr.error('Ocurrió error inesperado', 'Error')
+        alert('Ocurrió un error')
         console.log(error);
       }
 

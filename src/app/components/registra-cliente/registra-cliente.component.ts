@@ -4,7 +4,7 @@ import { Cliente } from 'src/app/models/cliente.model';
 import { Ubigeo } from 'src/app/models/ubigeo.model';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { UbigeoService } from 'src/app/services/ubigeo.service';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 
 
 const date = document.querySelector('input[type="date"]')
@@ -30,7 +30,7 @@ export class RegistraClienteComponent implements OnInit {
     }
   }; 
 
-  constructor(private ubigeoService: UbigeoService, private clienteService: ClienteService, private toastr: ToastrService) {
+  constructor(private ubigeoService: UbigeoService, private clienteService: ClienteService, /* private toastr: ToastrService */) {
     this.ubigeoService.listarDepartamento().subscribe(
       (departamentos) => this.departamentos = departamentos);
 
@@ -39,10 +39,12 @@ export class RegistraClienteComponent implements OnInit {
   insertClient() {
     this.clienteService.insertarCliente(this.cliente).subscribe(
       res => {
-        this.toastr.success('Cliente registrado', 'Cliente')
+        //this.toastr.success('Cliente registrado', 'Cliente')
+        alert('Cliente registrado')
       },
       err => {
-        this.toastr.error('Ocurrió error inesperado', 'Error')
+        //this.toastr.error('Ocurrió error inesperado', 'Error')
+        alert('Error al insertar cliente')
         console.log(err);
       }
     );

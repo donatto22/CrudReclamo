@@ -3,7 +3,7 @@ import { Pais } from 'src/app/models/pais.model';
 import { Sede } from 'src/app/models/sede.model';
 import { PaisService } from 'src/app/services/pais.service';
 import { SedeService } from 'src/app/services/sede.service';
-import { ToastrService } from 'ngx-toastr';
+//import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registra-sede',
@@ -20,7 +20,7 @@ export class RegistraSedeComponent implements OnInit {
     },
   };
 
-  constructor(private paisService: PaisService, private sedeService: SedeService, private toastr: ToastrService) {
+  constructor(private paisService: PaisService, private sedeService: SedeService, /*private toastr: ToastrService*/) {
     this.paisService.listaPais().subscribe(p => this.listaPaises = p)
   }
 
@@ -35,10 +35,12 @@ export class RegistraSedeComponent implements OnInit {
 
     this.sedeService.insertaActualizaSede (this.objSede).subscribe(
       (response) => {
-        this.toastr.success(response?.mensaje, 'Sede')
+        //this.toastr.success(response?.mensaje, 'Sede')
+        alert('Sede registrado')
       },
       (error) => {
-        this.toastr.error(error?.mensaje, 'Sede')
+        //this.toastr.error(error?.mensaje, 'Sede')
+        alert('Error sede')
         console.log(error?.mensaje);
       }
     );
