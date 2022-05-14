@@ -23,4 +23,9 @@ export class ClienteService {
     return this.http.get<Cliente[]>(baseUrlUtil + "/listaCliente");
   }
 
+  filtroCliente(nombres:string, apellidos:string, dni:string, idUbigeo: number ) : Observable<any>{    
+    const params = new HttpParams().set("nombres",nombres).set("apellidos",apellidos).set("dni",dni).set("idUbigeo",idUbigeo);
+    return this.http.get<any>( baseUrlCliente + "/listaClientePorParametros", {params});
+  }
+
 }
