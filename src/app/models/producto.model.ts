@@ -2,11 +2,11 @@ import { Marca } from "./marca.model";
 import { Pais } from "./pais.model";
 
 export class Producto {
-    
+
     idProducto?: number;
-    nombre?: String;
-    serie?: String;
-    durabilidad?: String;
+    nombre?: string;
+    serie?: string;
+    durabilidad?: string;
     fechaVigencia?: Date;
     precio?: number;
     stock?: number;
