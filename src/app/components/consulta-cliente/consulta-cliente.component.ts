@@ -19,6 +19,7 @@ export class ConsultaClienteComponent implements OnInit {
   selDepartamento: string = "-1";
   selProvincia: string = "-1";
   selDistrito: number = -1;
+  estado: boolean = true;
 
   departamentos: string[] = [];
   provincias: string[] = [];
@@ -49,7 +50,7 @@ export class ConsultaClienteComponent implements OnInit {
   }
 
   filtroCliente() {
-    this.clienteService.filtroCliente(this.nombres, this.apellidos, this.dni, this.selDistrito).subscribe(
+    this.clienteService.filtroCliente(this.nombres, this.apellidos, this.dni, this.selDistrito, this.estado?1:0).subscribe(
       (x) => {
         this.clientes = x.data;
         alert(x.mensaje);
