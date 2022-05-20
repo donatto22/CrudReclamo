@@ -39,7 +39,7 @@ export class RegistraReclamoComponent implements OnInit {
     return this.ReclamoService.insertarReclamo(this.reclamo).subscribe(
       res => //this.toastr.success('Reclamo registrado', 'Reclamo'),
       alert('Reclamo registrado'),
-      
+
       err => {
         //this.toastr.error('Error al reclamar', 'Reclamo')
         alert('Error al reclamar')
@@ -49,14 +49,14 @@ export class RegistraReclamoComponent implements OnInit {
 
   validarCampos() {
 
-    if(this.reclamo.tipoReclamo?.idTipoReclamo == -1 && this.reclamo.cliente?.idCliente == -1 && 
+    if(this.reclamo.tipoReclamo?.idTipoReclamo == -1 && this.reclamo.cliente?.idCliente == -1 &&
       typeof this.reclamo.fechaCompra == 'undefined') {
 
       //this.toastr.error('Completa los datos', 'Reclamo')
       alert('Llenar todos los campos')
       return
     }
-    
+
     if(this.reclamo.tipoReclamo?.idTipoReclamo == -1) {
       //this.toastr.warning('Selecciona tu tipo de marca', 'Reclamo')
       alert('Selecciona tipo reclamo')

@@ -1,1 +1,58 @@
-<p>consulta-reclamo works!</p>
+<form (ngSubmit)="listaReclamos()">
+    <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" id="description" rows="3" [(ngModel)]="descripcion"
+            name="description"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Tipo de Reclamo</label>
+
+        <select class="form-control" id="tipoReclamo" [(ngModel)]="selTipoReclamo"
+            name="tipoReclamo">
+            <option hidden selected value="-1">Seleccione tipo de reclamo</option>
+            <option *ngFor="let reclamo of tipoReclamos" value="{{reclamo.idTipoReclamo}}">{{reclamo.descripcion}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Cliente</label>
+
+        <select class="form-control" id="clientes" [(ngModel)]="selIdCliente" name="idCliente">
+            <option value="-1">Seleccione cliente</option>
+            <option *ngFor="let cliente of clientes" value="{{cliente.idCliente}}">{{cliente.nombres}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="estado" [(ngModel)]= "estado" checked  name="estado"/>
+        <label class="custom-control-label" for="estado">Estado</label>
+    </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+<div style="margin-top: 3%">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripcion</th>
+                <th>Tipo Reclamo</th>
+                <th>Cliente</th>
+                <th>Fecha de compra</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tr *ngFor="let aux of reclamos">
+            <td>{{ aux.idReclamo }}</td>
+            <td>{{ aux.descripcion }}</td>
+            <td>{{ aux.tipoReclamo!.descripcion }}</td>
+            <td>{{ aux.cliente!.nombres }}</td>
+            <td>{{ aux.fechaCompra }}</td>
+            <td>{{ aux.estado == 1 ? "Activo" : "Inactivo" }}</td>
+        </tr>
+    </table>
+</div>
