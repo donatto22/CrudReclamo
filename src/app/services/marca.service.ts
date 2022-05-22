@@ -22,4 +22,11 @@ export class MarcaService {
     return this.http.post(baseUrlMarca, data);
   }
 
+  
+  listaMarcaPorNombre(nombre:string, descripcion:string, certificado:string, estado:number, idPais:number ) : Observable<any>{
+
+    const params = new HttpParams().set("nombre", nombre).set("descripcion", descripcion).set("certificado", certificado).set("estado", estado).set("idPais", idPais);
+    return this.http.get<any>(baseUrlMarca + "/listaPorParametros", {params});
+  }
+
 }

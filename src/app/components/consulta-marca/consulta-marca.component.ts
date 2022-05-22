@@ -11,8 +11,35 @@ import { PaisService } from 'src/app/services/pais.service';
 })
 export class ConsultaMarcaComponent implements OnInit {
 
+    //Ng model
+    nombre:string="";
+    descripcion:string="";
+    certificado:string = ""; 
+    estado:boolean = true;
+    idPais:number = -1;
 
-  constructor() { }
+
+    //Pais
+    nombrepais: Pais[]  = [];
+
+    //Grila
+    marca: Marca[] = [];
+
+  constructor(private paisService: PaisService, private marcaService:MarcaService) {
+    paisService.listaPais().subscribe(
+      (x) => this.nombrepais = x
+  );
+   }
+
+  listaMarcaPorNombre(){
+    this.marcaService.listaMarcaPorNombre(this.nombre, this.descripcion, this.certificado, this.estado?1:0, this.idPais).subscribe(
+      (x) => {
+            this.marca = x.data;
+            alert(x.mensaje);
+      }
+);
+
+  }
 
   ngOnInit(): void {
   }
