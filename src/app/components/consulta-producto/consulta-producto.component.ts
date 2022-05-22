@@ -18,6 +18,7 @@ export class ConsultaProductoComponent implements OnInit {
   mensajeDeConsulta: string = '';
 
   objProducto: Producto = {
+    estado : 1,
     pais: {
       idPais: -1,
     },
@@ -59,10 +60,17 @@ export class ConsultaProductoComponent implements OnInit {
   }
 
   public consultarProductos() {
-    const { nombre, durabilidad, marca, pais } = this.objProducto;
+    let { nombre, durabilidad, marca, pais, estado } = this.objProducto;
+
+    // Si estado es true o 1
+    if (estado) {
+      estado = 1
+    } else {
+      estado = 0
+    }
 
     this.productoService
-      .consultar(nombre, durabilidad, marca?.idMarca, pais?.idPais)
+      .consultar(nombre, durabilidad, marca?.idMarca, pais?.idPais, estado)
       .subscribe(
         (res: any) => {
           this.mensajeDeConsulta = res.mensaje;
