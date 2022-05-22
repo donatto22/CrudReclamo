@@ -16,4 +16,22 @@ export class ProductoService {
   public insertarProducto(data: Producto): Observable<any> {
     return this.http.post<any>(baseUrlProducto, data);
   }
+
+  public consultar(
+    nombre: string = '',
+    durabilidad: string = '',
+    marcaId: number = -1,
+    paisId: number = -1,
+    estado: number = -1,
+  ): Observable<any> {
+    let url = baseUrlProducto + '/listarPorFiltros';
+    const params = new HttpParams()
+      .append('nombre', nombre)
+      .append('durabilidad', durabilidad)
+      .append('marcaId', marcaId.toString())
+      .append('paisId', paisId.toString())
+      .append('estado', estado.toString());
+
+    return this.http.get(url, { params });
+  }
 }
