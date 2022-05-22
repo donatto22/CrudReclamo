@@ -1,0 +1,121 @@
+<form class="row g-4" (ngSubmit)="filtroCliente()">
+  <div class="col-lg-12">
+    <h1>Consultar Cliente</h1>
+  </div>
+
+  <div class="col-md-4">
+    <label for="nombres">Nombres:</label>
+    <input
+      type="text"
+      class="form-control"
+      name="nombres"
+      id="nombres"
+      [(ngModel)]="nombres"
+    />
+  </div>
+
+  <div class="col-md-4">
+    <label for="apellidos">Apellidos:</label>
+    <input
+      type="text"
+      class="form-control"
+      name="apellidos"
+      id="apellidos"
+      [(ngModel)]="apellidos"
+    />
+  </div>
+
+  <div class="col-md-4">
+    <label for="dni">DNI:</label>
+    <input
+      type="text"
+      class="form-control"
+      name="dni"
+      id="dni"
+      [(ngModel)]="dni"
+    />
+  </div>
+
+  <div class="col-md-4">
+    <label for="departamento">Departamento</label>
+    <select
+      id="departamento"
+      name="departamento"
+      class="form-control"
+      (change)="listaProvincia()"
+      [(ngModel)]="selDepartamento"
+    >
+      <option value="-1">[Seleccione]</option>
+      <option *ngFor="let aux of departamentos" value="{{ aux }}">
+        {{ aux }}
+      </option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label for="provincia">Provincia</label>
+    <select
+      id="provincia"
+      name="provincia"
+      class="form-control"
+      (change)="listaDistrito()"
+      [(ngModel)]="selProvincia"
+    >
+      <option value="-1">[Seleccione]</option>
+      <option *ngFor="let aux of provincias" value="{{ aux }}">
+        {{ aux }}
+      </option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label for="distrito">Distrito</label>
+    <select
+      id="distrito"
+      name="distrito"
+      class="form-control"
+      [(ngModel)]="selDistrito"
+    >
+      <option value="-1">[Seleccione]</option>
+      <option *ngFor="let aux of distritos" value="{{ aux.idUbigeo }}">
+        {{ aux.distrito }}
+      </option>
+    </select>
+  </div>
+  <div class="col-md-12">
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="estado" [(ngModel)]= "estado" checked  name="estado"/>
+        <label class="custom-control-label" for="estado">Estado</label>
+    </div>
+</div>
+  <div class="col-md-4">
+    <br />
+    <button class="btn btn-success">Filtrar</button>
+  </div>
+</form>
+
+<div class="row" style="margin-top: 3%">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>DNI</th>
+        <th>Ubigeo</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tr *ngFor="let aux of clientes">
+      <td>{{ aux.idCliente }}</td>
+      <td>{{ aux.nombres }}</td>
+      <td>{{ aux.apellidos }}</td>
+      <td>{{ aux.dni }}</td>
+      <td>
+        {{ aux.ubigeo!.departamento }} - {{ aux.ubigeo!.provincia }} -
+        {{ aux.ubigeo!.distrito }}
+      </td>
+      <td>{{ aux.estado == 1 ? "Activo" : "Inactivo" }}</td>
+    </tr>
+  </table>
+</div>
