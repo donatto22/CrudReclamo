@@ -36,6 +36,7 @@ export class ConsultaSedeComponent implements OnInit {
    }
 
    consultaSede(){
+     alert(this.estado);
      console.log("fecInicio >>>" + this.fecInicio);
      console.log("fecFin >>>" + this.fecFin);
 
