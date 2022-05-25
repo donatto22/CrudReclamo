@@ -35,62 +35,62 @@
                     <button class="btn btn-success">Filtrar</button>
                 </div>
             </div>
+            <div class="row" style="margin-top: 2%">
+                <div class="col-lg-2">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="estado" [(ngModel)]="estado" checked
+                            name="estado" />
+                        <label class="custom-control-label" for="estado">Estado</label>
+                    </div>
+                </div>
 
-            <div class="col-lg-2">
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="estado" [(ngModel)]="estado" checked
-                        name="estado" />
-                    <label class="custom-control-label" for="estado">Estado</label>
+
+            </div>
+
+
+            <div class="row" style="margin-top: 2%">
+                <label for="idSede" class="col-lg-2">Fecha Inicio</label>
+                <div class="col-lg-3">
+                    <input type="date" class="form-control" name="fecInicio" id="fecInicio" [(ngModel)]="fecInicio" />
+                </div>
+                <label for="idSede" class="col-lg-2">Fecha Fin</label>
+                <div class="col-lg-3">
+                    <input type="date" class="form-control" name="fecFin" id="fecFin" [(ngModel)]="fecFin" />
                 </div>
             </div>
 
+            <div class="row" style="margin-top: 3%">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Direccion</th>
+                            <th>Pais</th>
+                            <th>Estado</th>
+                            <th>Fecha Registro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let aux of sede">
+                            <td>{{ aux.idSede }}</td>
+                            <td>{{ aux.nombre }}</td>
+                            <td>{{ aux.direccion }}</td>
+                            <td>{{ aux.pais?.idPais }}</td>
+                            <td>{{ aux.estado==1?'Activo':'Inactivo' }}</td>
+                            <td>{{ aux.fechaRegistro }}</td>
+                        </tr>
 
-        </div>
+                    </tbody>
 
 
-        <div class="row" style="margin-top: 2%">
-            <label for="idSede" class="col-lg-2">Fecha Inicio</label>
-            <div class="col-lg-3">
-                <input type="date" class="form-control" name="fecInicio" id="fecInicio" [(ngModel)]="fecInicio" />
+                </table>
+
+
             </div>
-            <label for="idSede" class="col-lg-2">Fecha Fin</label>
-            <div class="col-lg-3">
-                <input type="date" class="form-control" name="fecFin" id="fecFin" [(ngModel)]="fecFin" />
-            </div>
-        </div>
-
-        <div class="row" style="margin-top: 3%">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Direccion</th>
-                        <th>Pais</th>
-                        <th>Estado</th>
-                        <th>Fecha Registro</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let aux of sede">
-                        <td>{{ aux.idSede }}</td>
-                        <td>{{ aux.nombre }}</td>
-                        <td>{{ aux.direccion }}</td>
-                        <td>{{ aux.pais?.idPais }}</td>
-                        <td>{{ aux.estado==1?'Activo':'Inactivo' }}</td>
-                        <td>{{ aux.fechaRegistro }}</td>
-                    </tr>
-
-                </tbody>
-
-
-            </table>
 
 
         </div>
-
-
-        
 
 
     </form>
