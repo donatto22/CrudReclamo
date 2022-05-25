@@ -22,8 +22,8 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <label for="distrito">Pais</label>
-                    <select id="pais" name="pais" class="form-control" [(ngModel)]="objSede.pais!.idPais">
+                    <label for="pais">Pais</label>
+                    <select id="pais" name="pais" class="form-control" [(ngModel)]="idPais">
                         <option value="-1">[Seleccione]</option>
                         <option *ngFor="let aux of listaPaises" value="{{ aux.idPais }}">
                             {{ aux.nombre }}

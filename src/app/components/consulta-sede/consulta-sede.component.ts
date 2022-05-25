@@ -20,12 +20,6 @@ export class ConsultaSedeComponent implements OnInit {
 
   listaPaises: Pais[] = [];
 
-  objSede: Sede = {
-    pais: {
-      idPais: -1,
-    },
-  };
-
   sede: Sede[] = [];
 
   constructor(private paisService: PaisService, private sedeService:SedeService) {
