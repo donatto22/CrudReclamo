@@ -4,7 +4,7 @@
     </div>
   
     <div class="col-md-6">
-      <label for="razonsocial">Razon social:</label>
+      <label for="razonsocial">Razón social:</label>
       <input
         type="text"
         class="form-control"
@@ -15,7 +15,7 @@
     </div>
   
     <div class="col-md-6">
-      <label for="ruc">ruc:</label>
+      <label for="ruc">RUC:</label>
       <input
         type="text"
         class="form-control"
@@ -26,7 +26,7 @@
     </div>
   
     <div class="col-md-4">
-      <label for="celular">celular:</label>
+      <label for="celular">Celular:</label>
       <input
         type="text"
         class="form-control"
@@ -37,7 +37,7 @@
     </div>
   
     <div class="col-md-4">
-        <label for="contacto">contacto:</label>
+        <label for="contacto">Contacto:</label>
         <input
           type="text"
           class="form-control"
@@ -47,11 +47,18 @@
         />
       </div>
     <div class="col-md-4">
-      <div class="custom-control custom-switch">
-        
-          <input type="checkbox" class="custom-control-input" id="estado" [(ngModel)]= "estado" checked  name="estado"/>
-          <label class="custom-control-label" for="estado">Estado</label>
-      </div>
+      <label for="checkbox">Estado</label>
+            <div class="">
+              <label class="switch" for="checkbox">
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  [(ngModel)]="estado"
+                />
+                <div class="slider round"></div>
+              </label>
+            </div>
   </div>
     <div class="col-md-4">
       <br />
@@ -64,9 +71,9 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Razon Social</th>
-          <th>Ruc</th>
-          <th>Direccion</th>
+          <th>Razón Social</th>
+          <th>RUC</th>
+          <th>Dirección</th>
           <th>Celular</th>
           <th>Contacto</th>
           <th>Estado</th>
