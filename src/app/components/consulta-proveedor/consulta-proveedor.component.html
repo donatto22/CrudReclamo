@@ -1,1 +1,85 @@
-<p>consulta-proveedor works!</p>
+<form method="post" class="row g-4" (ngSubmit)="filtroProveedor()">
+    <div class="col-lg-12">
+      <h1>Consultar Proveedor</h1>
+    </div>
+  
+    <div class="col-md-4">
+      <label for="razonsocial">Razon social:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="razonsocial"
+        id="razonsocial"
+        [(ngModel)]="razonsocial"
+      />
+    </div>
+  
+    <div class="col-md-4">
+      <label for="ruc">ruc:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="ruc"
+        id="ruc"
+        [(ngModel)]="ruc"
+      />
+    </div>
+  
+    <div class="col-md-4">
+      <label for="celular">celular:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="celular"
+        id="celular"
+        [(ngModel)]="celular"
+      />
+    </div>
+  
+    <div class="col-md-4">
+        <label for="contacto">contacto:</label>
+        <input
+          type="text"
+          class="form-control"
+          name="contacto"
+          id="contacto"
+          [(ngModel)]="contacto"
+        />
+      </div>
+    <div class="col-md-12">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="estado" [(ngModel)]= "estado" checked  name="estado"/>
+          <label class="custom-control-label" for="estado">Estado</label>
+      </div>
+  </div>
+    <div class="col-md-4">
+      <br />
+      <button type="submit" class="btn btn-outline-primary btn-block">Consultar</button>
+    </div>
+  </form>
+  
+  <div class="row" style="margin-top: 3%">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Razon Social</th>
+          <th>Ruc</th>
+          <th>Direccion</th>
+          <th>Celular</th>
+          <th>Contacto</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let proveedor of proveedores">
+        <td>{{ proveedor.idProveedor }}</td>
+        <td>{{ proveedor.razonsocial }}</td>
+        <td>{{ proveedor.ruc }}</td>
+        <td>{{ proveedor.direccion }}</td>
+        <td>{{ proveedor.celular }}</td>
+        <td>{{ proveedor.contacto }}</td>
+        <td>{{ proveedor.estado == 1 ? "Activo" : "Inactivo" }}</td>
+      </tr>
+    </table>
+  </div>
+  
