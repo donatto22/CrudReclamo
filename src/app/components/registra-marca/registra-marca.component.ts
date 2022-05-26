@@ -31,7 +31,8 @@ export class RegistraMarcaComponent implements OnInit {
     this.marcaService.insertaMarca(this.marca).subscribe(
       response => {
         //this.toastr.success('Marca creada exitosamente', 'Marca')
-        alert('Se ha registrado una marca')
+        //alert('Se ha registrado una marca')
+        alert(response.mensaje)
         console.log(response.mensaje)
       },
       error => {

@@ -1,1 +1,94 @@
-<p>consulta-marca works!</p>
+<div>
+
+    <form class="content" (ngSubmit)="listaMarcaPorNombre()">
+
+
+        <div class="submit-form">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Consulta de Marca</h1>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 2%">
+
+                <label for="nombre" class="col-lg-1">Nombre</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="nombre" id="nombre" [(ngModel)]="nombre" />
+                </div>
+
+                <label for="descripcion" class="col-lg-1.5">Descripción</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="descripcion" id="descripcion"
+                        [(ngModel)]="descripcion" />
+                </div>
+
+                <label for="certificado" class="col-lg-1">Certificado</label>
+                <div class="col-lg-2">
+                    <input type="text" class="form-control" name="certificado" id="certificado"
+                        [(ngModel)]="certificado" />
+                </div>
+
+                <label for="pais" class="col-lg-1" style="margin-top: 10px;">País</label>
+                <div class="col-lg-3" style="margin-top: 10px;">
+                    <select id="pais" name="pais" class="form-control" [(ngModel)]="idPais">
+                        <option value="-1"> [Seleccione] </option>
+                        <option *ngFor="let aux of nombrepais" value="{{ aux.idPais }}">
+                            {{aux.nombre}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2" style="margin-top: 10px;">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="estado" [(ngModel)]="estado" checked
+                            name="estado" />
+                        <label class="custom-control-label" for="estado">Estado</label>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2" style="margin-top: 10px;">
+                    <button class="btn btn-success">Filtrar</button>
+                </div>
+
+
+            </div>
+
+            <div class="row" style="margin-top: 3%">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Certificado</th>
+                            <th>País</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let aux of marca">
+                            <td>{{ aux.idMarca }}</td>
+                            <td>{{ aux.nombre }}</td>
+                            <td>{{ aux.descripcion }}</td>
+                            <td>{{ aux.certificado }}</td>
+                            <td>{{ aux.pais!.nombre }}</td>
+                            <td>{{ aux.estado == 1? "Activo" : "Inactivo" }}</td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </form>
+
+
+</div>
