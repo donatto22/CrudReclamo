@@ -33,6 +33,7 @@ export class ConsultaProveedorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.filtroProveedor()
   }
 
 }
