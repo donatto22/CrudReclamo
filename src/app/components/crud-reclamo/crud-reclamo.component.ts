@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Reclamo } from 'src/app/models/reclamo.model';
+import { ReclamoService } from 'src/app/services/reclamo.service';
+import { ClienteService } from 'src/app/services/cliente.service';
+import { Cliente } from 'src/app/models/cliente.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crud-reclamo',
@@ -7,9 +13,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CrudReclamoComponent implements OnInit {
 
-  constructor() { }
+  listaClientes: Cliente[] = []
+  listaReclamos: Reclamo[] = []
+  toogleEstado: number = 1
 
-  ngOnInit(): void {
+  txtDescripcion: string = ''
+  mensaje: string = ''
+
+  constructor(private clienteService: ClienteService, private reclamoService: ReclamoService) {
+      this.listarReclamos()
+  }
+
+  ngOnInit(): void {}
+
+  listarReclamos() {
+    this.toogleEstado ? this.toogleEstado = 1 : this.toogleEstado = 0
+
+    this.reclamoService.listarReclamos({ descripcion: this.txtDescripcion, estado: this.toogleEstado })
+    .subscribe((res: any) => {
+      if (res && res.data.length > 0) {
+        this.listaReclamos = res.data; this.mensaje = res.mensaje
+      } else this.listaReclamos = []
+    })
+  }
+
+  listarClientes() {
+      this.clienteService.listaCliente().subscribe((clientes: Cliente[]) => {this.listaClientes = clientes})
   }
 
 }
