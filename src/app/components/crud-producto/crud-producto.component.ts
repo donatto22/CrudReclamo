@@ -6,6 +6,7 @@ import { MarcaService } from 'src/app/services/marca.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { Pais } from '../../models/pais.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crud-producto',
