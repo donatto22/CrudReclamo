@@ -17,6 +17,24 @@ export class ProductoService {
     return this.http.post<any>(baseUrlProducto, data);
   }
 
+  public editarProducto(idProducto: number, producto: Producto) {
+    return this.http.put(baseUrlProducto + '/' + idProducto, producto);
+  }
+
+  public cambiarEstadoProducto(
+    idProducto: number,
+    estado: number
+  ): Observable<any> {
+    return this.http.patch(
+      baseUrlProducto + '/estado/' + idProducto + '/' + estado,
+      null
+    );
+  }
+
+  public eliminar(idProducto: number): Observable<any> {
+    return this.http.delete(baseUrlProducto + '/' + idProducto);
+  }
+
   public consultar(data: {
     nombre?: string;
     durabilidad?: string;
