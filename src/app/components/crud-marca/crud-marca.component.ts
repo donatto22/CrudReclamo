@@ -37,7 +37,7 @@ export class CrudMarcaComponent implements OnInit {
     validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{10,50}')]),
     validaFechaV: new FormControl('', [Validators.required]),
     validaCertificado: new FormControl('', [Validators.required,Validators.pattern('[0-9A-Z]{9}')]),
-    validaPais: new FormControl('', [Validators.min(1)]),
+    validaPais: new FormControl(-1, [Validators.min(1)]),
   });
 
   formsActualiza = new FormGroup({
@@ -45,7 +45,7 @@ export class CrudMarcaComponent implements OnInit {
     validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{3,50}')]),
     validaFechaV: new FormControl('', [Validators.required]),
     validaCertificado: new FormControl('', [Validators.required,Validators.pattern('[0-9A-Z]{9}')]),
-    validaPais: new FormControl('', [Validators.min(1)]),
+    validaPais: new FormControl(-1, [Validators.min(1)]),
     validaEstado: new FormControl('', [Validators.min(0)]),
   });
 
@@ -59,6 +59,7 @@ export class CrudMarcaComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
 
   consultaMarca() {
     this.marcaService.listadoMarca(this.filtro == "" ? "todos" : this.filtro).subscribe(
@@ -149,7 +150,7 @@ export class CrudMarcaComponent implements OnInit {
 
     if(this.formsActualiza.invalid){
       this.formsActualiza.markAllAsTouched();
-      console.log("invaluda", this.formsActualiza.value)
+      console.log("invalida", this.formsActualiza.value)
       return;
 
     }
@@ -211,5 +212,24 @@ export class CrudMarcaComponent implements OnInit {
 
     this.marcaService.actualizaMarca(this.marca).subscribe();
   }
+
+
+
+  invalidaRegistrar(field: string) {
+    return (
+      this.formsRegistra.get(field)?.invalid &&
+      this.formsRegistra.get(field)?.touched
+    );
+  }
+
+  invalidaActualizar(field: string) {
+    return (
+      this.formsActualiza.get(field)?.invalid &&
+      this.formsActualiza.get(field)?.touched
+    );
+  }
+
+
+
 
 }

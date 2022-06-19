@@ -44,4 +44,8 @@ export class MarcaService {
     return this.http.put<any>(baseUrlCrudMarca + '/actualizaMarca', marca);
   }
 
+  public eliminar(idMarca: number): Observable<any> {
+    return this.http.delete(baseUrlCrudMarca + '/' + idMarca);
+  }
+
 }

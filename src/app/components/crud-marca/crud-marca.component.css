@@ -13,3 +13,12 @@
     font-size: 90%;
     color: #dc3545;
   }
+
+  .msg-invalid {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
+  }
+  

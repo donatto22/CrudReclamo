@@ -1,6 +1,6 @@
 
 <div class="container" >
-    <h5>Crud de Marca</h5>
+    <h5>CRUD de Marca</h5>
 
     <div class="col-md-23" style="margin-top: 3%">
 
@@ -50,6 +50,7 @@
                                     </div>    
                                 </td>
                                 <td><button type="button" style="width: 90px" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#idModalActualizar" (click)="buscaMarca(aux)" >Editar</button></td>
+                                <td><button type="button" style="width: 90px" class="btn btn-danger btn-sm"  data-toggle="modal" data-target="#idModalEliminar">Eliminar</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -79,14 +80,24 @@
                                 <div  class="row">
                                     <div class="col-lg-4">
                                         <label for="id_reg_nombre">Nombre</label>
-                                        <input formControlName="validaNombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_reg_nombre" />
-                                        
+                                        <input formControlName="validaNombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_reg_nombre" [class.is-invalid]="invalidaRegistrar('validaNombre')"/>
+                                        <div class="msg-invalid" *ngIf="invalidaRegistrar('validaNombre')">
+                                            <ul>
+                                                <li>El Nombre es obligatorio.</li>    
+                                                <li>El Nombre es de 3 a 30 caracteres.</li>    
+                                            </ul>
+                                        </div>
                                     </div>
                                     
                                     <div class="col-lg-8">
                                         <label for="id_reg_dni">Descripción</label>
-                                        <input  formControlName="validaDescripcion" type="text" placeholder="Ingrese Descripción" class="form-control" id="id_reg_descripcion"/>
-
+                                        <input  formControlName="validaDescripcion" type="text" placeholder="Ingrese Descripción" class="form-control" id="id_reg_descripcion" [class.is-invalid]="invalidaRegistrar('validaDescripcion')"/>
+                                        <div class="msg-invalid" *ngIf="invalidaRegistrar('validaDescripcion')">
+                                            <ul>
+                                                <li>La Descripción es obligatorio.</li>    
+                                                <li>La Descripción es de más de 10 caracteres.</li>    
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -95,24 +106,39 @@
 
                                     <div class="col-lg-4">
                                         <label for="fechaVigencia">Fecha Vigencia</label>
-                                        <input type="date" class="form-control" id="fechaVigencia" formControlName="validaFechaV"/>
+                                        <input type="date" class="form-control" id="fechaVigencia" formControlName="validaFechaV" [class.is-invalid]="invalidaRegistrar('validaFechaV')"/>
+                                        <div class="msg-invalid" *ngIf="invalidaRegistrar('validaFechaV')">
+                                            <ul>
+                                                <li>La Fecha Vigencia es obligatorio.</li>
+                                            </ul>
+                                        </div>
                                     </div>
 
                                     <div class="col-lg-4">
                                         <label for="id_reg_dni">Certificado</label>
-                                        <input formControlName="validaCertificado" type="text" placeholder="Ingrese Certificado" class="form-control" id="id_reg_certificado"  maxlength="9"/>
-
+                                        <input formControlName="validaCertificado" type="text" placeholder="Ingrese Certificado" class="form-control" id="id_reg_certificado"  maxlength="9" [class.is-invalid]="invalidaRegistrar('validaCertificado')"/>
+                                        <div class="msg-invalid" *ngIf="invalidaRegistrar('validaCertificado')">
+                                            <ul>
+                                                <li>El Certificado es obligatorio.</li>    
+                                                <li>El Certificado solo permite Mayúsculas.</li>    
+                                                <li>El Certificado es de 9 dígitos.</li>    
+                                            </ul>
+                                        </div>
                                     </div>
                                     
                                     <div class="col-lg-4">
                                         <label for="id_reg_pais">País</label>
-                                        <select id="id_reg_pais" name="pais" class="form-control" formControlName="validaPais" >
+                                        <select id="id_reg_pais" name="pais" class="form-control" formControlName="validaPais" [class.is-invalid]="invalidaRegistrar('validaPais')">
                                             <option value="-1"> [Seleccione] </option>
-                                            <option *ngFor="let aux of nombrepais" value="{{ aux.idPais }}">
+                                            <option *ngFor="let aux of nombrepais" value="{{ aux.idPais }}" >
                                                 {{aux.nombre}}
                                             </option>
                                         </select>
-
+                                        <div class="msg-invalid" *ngIf="invalidaRegistrar('validaPais')">
+                                            <ul>
+                                                <li>El Pais es obligatorio.</li>      
+                                            </ul>
+                                        </div>
                                     </div>
                                 
                                 
@@ -156,19 +182,30 @@
                             <div  class="row">
                                 <div class="col-lg-4">
                                     <label for="id_act_nombre">Nombre</label>
-                                    <input   formControlName="validaNombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_act_nombre" />
+                                    <input   formControlName="validaNombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_act_nombre" [class.is-invalid]="invalidaActualizar('validaNombre')"/>
+                                    <div class="msg-invalid" *ngIf="invalidaActualizar('validaNombre')">
+                                        <ul>
+                                            <li>El Nombre es obligatorio.</li>    
+                                            <li>El Nombre es de 3 a 30 caracteres.</li>    
+                                        </ul>
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <label for="id_act_dni">Descripción</label>
-                                    <input  formControlName="validaDescripcion" type="text" placeholder="Ingrese Descripción" class="form-control" id="id_act_descripcion" />
-
+                                    <input  formControlName="validaDescripcion" type="text" placeholder="Ingrese Descripción" class="form-control" id="id_act_descripcion" [class.is-invalid]="invalidaActualizar('validaDescripcion')" />
+                                    <div class="msg-invalid" *ngIf="invalidaActualizar('validaDescripcion')">
+                                        <ul>
+                                            <li>La Descripción es obligatorio.</li>    
+                                            <li>La Descripción es de más de 10 caracteres.</li>    
+                                        </ul>
+                                    </div>
                                 </div>
 
                                     
                                 <div class="col-lg-2">
                                     <label  for="id_act_estado">Estado</label>
-                                    <select formControlName="validaEstado"  id="id_act_estado" name="estado" class="form-control">
+                                    <select formControlName="validaEstado"  id="id_act_estado" name="estado" class="form-control" [class.is-invalid]="invalidaActualizar('validaEstado')">
                                         <option value="-1"> [Seleccione] </option>
                                         <option value="1"> Activo </option>
                                         <option value="0"> Inactivo </option>
@@ -181,24 +218,39 @@
 
                                 <div class="col-lg-4">
                                     <label for="fechaVigencia">Fecha Vigencia</label>
-                                    <input type="date" class="form-control" id="fechaVigencia" formControlName="validaFechaV" />
+                                    <input type="date" class="form-control" id="fechaVigencia" formControlName="validaFechaV" [class.is-invalid]="invalidaActualizar('fechaVigencia')" />
+                                    <div class="msg-invalid" *ngIf="invalidaActualizar('validaFechaV')">
+                                        <ul>
+                                            <li>La Fecha Vigencia es obligatorio.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                                     
                                 <div class="col-lg-4">
                                     <label for="id_act_certificado">Certificado</label>
-                                    <input  formControlName="validaCertificado" type="text" placeholder="Ingrese Certificado" class="form-control" id="id_reg_certificado"  maxlength="9"/>
-                                    
+                                    <input  formControlName="validaCertificado" type="text" placeholder="Ingrese Certificado" class="form-control" id="id_reg_certificado"  maxlength="9" [class.is-invalid]="invalidaActualizar('validaCertificado')"/>
+                                    <div class="msg-invalid" *ngIf="invalidaActualizar('validaCertificado')">
+                                        <ul>
+                                            <li>El Certificado es obligatorio.</li>    
+                                            <li>El Certificado solo permite Mayúsculas.</li>    
+                                            <li>El Certificado es de 9 dígitos.</li>    
+                                        </ul>
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <label for="id_act_pais">País</label>
-                                    <select id="id_act_pais" class="form-control" formControlName="validaPais" >
+                                    <select id="id_act_pais" class="form-control" formControlName="validaPais" [class.is-invalid]="invalidaActualizar('validaPais')" >
                                         <option value="-1"> [Seleccione] </option>
                                         <option *ngFor="let aux of nombrepais" value="{{ aux.idPais }}">
                                             {{aux.nombre}}
                                         </option>
                                     </select>
-
+                                    <div class="msg-invalid" *ngIf="invalidaActualizar('validaPais')">
+                                        <ul>
+                                            <li>El País es obligatorio.</li>       
+                                        </ul>
+                                    </div>
                                 </div>
                             
                             
