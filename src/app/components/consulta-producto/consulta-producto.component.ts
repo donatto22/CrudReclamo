@@ -70,7 +70,7 @@ export class ConsultaProductoComponent implements OnInit {
     }
 
     this.productoService
-      .consultar(nombre, durabilidad, marca?.idMarca, pais?.idPais, estado)
+      .consultar({nombre, durabilidad, marcaId: marca?.idMarca, paisId: pais?.idPais, estado})
       .subscribe(
         (res: any) => {
           this.mensajeDeConsulta = res.mensaje;

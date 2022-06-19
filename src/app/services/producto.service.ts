@@ -17,14 +17,40 @@ export class ProductoService {
     return this.http.post<any>(baseUrlProducto, data);
   }
 
-  public consultar(
-    nombre: string = '',
-    durabilidad: string = '',
-    marcaId: number = -1,
-    paisId: number = -1,
-    estado: number = -1,
+  public editarProducto(idProducto: number, producto: Producto) {
+    return this.http.put(baseUrlProducto + '/' + idProducto, producto);
+  }
+
+  public cambiarEstadoProducto(
+    idProducto: number,
+    estado: number
   ): Observable<any> {
+    return this.http.patch(
+      baseUrlProducto + '/estado/' + idProducto + '/' + estado,
+      null
+    );
+  }
+
+  public eliminar(idProducto: number): Observable<any> {
+    return this.http.delete(baseUrlProducto + '/' + idProducto);
+  }
+
+  public consultar(data: {
+    nombre?: string;
+    durabilidad?: string;
+    marcaId?: number;
+    paisId?: number;
+    estado?: number;
+  }): Observable<any> {
     let url = baseUrlProducto + '/listarPorFiltros';
+    const {
+      nombre = '',
+      durabilidad = '',
+      marcaId = -1,
+      paisId = -1,
+      estado = -1,
+    } = data;
+
     const params = new HttpParams()
       .append('nombre', nombre)
       .append('durabilidad', durabilidad)
