@@ -1,1 +1,112 @@
-<p>crud-producto works!</p>
+<div class="animate__animated animate__fadeIn">
+  <div class="card border-0">
+    <div class="card-title" style="padding: 0 1.25rem !important">
+      <h5>CRUD de Productos</h5>
+    </div>
+
+    <div class="card-body" style="padding: 0 1.25rem 0 !important">
+      <form method="post" class="content" (ngSubmit)="consultarProductos()">
+        <div class="form-row">
+          <div class="form-group col-md-8">
+            <label for="nombre">Nombre del producto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre"
+              name="nombre"
+              [(ngModel)]="objProducto.nombre"
+            />
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="checkbox"
+              >Estado:
+              <span
+                class="font-weight-bold"
+                [class]="
+                  objProducto.estado == 1 ? 'text-success' : 'text-warning'
+                "
+                >{{ objProducto.estado == 1 ? "Activos" : "Inactivos" }}</span
+              >
+            </label>
+            <div class="">
+              <label class="switch" for="checkbox">
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  [(ngModel)]="objProducto.estado"
+                />
+                <div class="slider round"></div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="button" class="invisible-text">.</label>
+            <button type="submit" class="btn btn-primary btn-block">
+              Consultar
+            </button>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="text-wrap table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr class="table-secondary">
+          <th scope="col">Id</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Durabilidad</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Marca</th>
+          <th scope="col">País</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngIf="listaProductos.length === 0"
+          class="animate__animated animate__fadeIn"
+        >
+          <td colspan="7" class="text-center">{{ mensajeDeConsulta }}</td>
+        </tr>
+        <tr
+          *ngFor="let producto of listaProductos"
+          class="animate__animated animate__fadeIn"
+        >
+          <th scope="row">{{ producto.idProducto }}</th>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.durabilidad }}</td>
+          <td>S/ {{ producto.precio | number: "1.2-2" }}</td>
+          <td>{{ producto.stock }}</td>
+          <td>{{ producto.marca?.nombre }}</td>
+          <td>{{ producto.pais?.nombre }}</td>
+          <td>
+            <span *ngIf="producto.estado == 1" class="badge badge-success"
+              >Activo</span
+            >
+            <span *ngIf="producto.estado == 0" class="badge badge-warning"
+              >Inactivo</span
+            >
+          </td>
+        </tr>
+      </tbody>
+      <tfoot
+        *ngIf="listaProductos.length !== 0"
+        class="animate__animated animate__fadeIn"
+      >
+        <td colspan="7">{{ mensajeDeConsulta }}</td>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+
