@@ -27,13 +27,8 @@ export class ClienteService {
     return this.http.get<Cliente[]>(baseUrlUtil + "/listaCliente");
   }
 
-  listaClienteNombre(nombres: string):Observable<any[]> {
-    const params = new HttpParams().set("nombres",nombres);
-
-    // if (nombre){
-    //   params.set("nombres", nombre)
-    //   return this.http.get<any[]>(baseUrlCliente + "/listaClientePorParametros",{params});
-    // }
+  listaClienteNombre(dni: string):Observable<any[]> {
+    const params = new HttpParams().set("dni",dni);
       return this.http.get<any[]>(baseUrlCliente + "/listaClientePorParametros", {params});
   }
 
