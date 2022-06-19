@@ -23,8 +23,18 @@ export class ClienteService {
     return this.http.put(baseUrlCliente, data);
   }
 
-  listaCliente(filtro: string):Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(baseUrlUtil + "/listaCliente" + filtro);
+  listaCliente():Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(baseUrlUtil + "/listaCliente");
+  }
+
+  listaClienteNombre(nombres: string):Observable<any[]> {
+    const params = new HttpParams().set("nombres",nombres);
+
+    // if (nombre){
+    //   params.set("nombres", nombre)
+    //   return this.http.get<any[]>(baseUrlCliente + "/listaClientePorParametros",{params});
+    // }
+      return this.http.get<any[]>(baseUrlCliente + "/listaClientePorParametros", {params});
   }
 
   filtroCliente(nombres:string, apellidos:string, dni:string, idUbigeo: number, estado: number ) : Observable<any>{    

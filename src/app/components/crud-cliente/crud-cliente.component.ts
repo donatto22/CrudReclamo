@@ -62,8 +62,10 @@ export class CrudClienteComponent implements OnInit {
   }
 
   consulta() {
-    this.clienteService.listaCliente(this.filtro == "" ? "todos" : this.filtro).subscribe(
-      (x) => this.clientes = x
+    console.log("aea",this.filtro);
+    const nombres = this.filtro;
+    this.clienteService.listaClienteNombre(nombres).subscribe(
+      (x: any) => this.clientes = x.data
     );
   }
 
@@ -75,9 +77,10 @@ export class CrudClienteComponent implements OnInit {
   registra() {
     this.clienteService.insertarCliente(this.cliente).subscribe(
       (x) => {
+        document.getElementById("btn_reg_limpiar")?.click();
         document.getElementById("btn_reg_cerrar")?.click();
         alert(x.mensaje);
-        this.clienteService.listaCliente(this.filtro == "" ? "todos" : this.filtro).subscribe(
+        this.clienteService.listaCliente().subscribe(
           (x) => this.clientes = x
         );
       }
@@ -119,9 +122,10 @@ export class CrudClienteComponent implements OnInit {
   actualiza() {
     this.clienteService.actualizarCliente(this.cliente).subscribe(
       (x) => {
+        document.getElementById("btn_act_limpiar")?.click();
         document.getElementById("btn_act_cerrar")?.click();
         alert(x.mensaje);
-        this.clienteService.listaCliente(this.filtro == "" ? "todos" : this.filtro).subscribe(
+        this.clienteService.listaCliente().subscribe(
           (x) => this.clientes = x
         );
       }
