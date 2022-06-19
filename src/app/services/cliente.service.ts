@@ -19,8 +19,12 @@ export class ClienteService {
     return this.http.post(baseUrlCliente, data);
   }
 
-  listaCliente():Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(baseUrlUtil + "/listaCliente");
+  actualizarCliente(data: Cliente): Observable<any>{
+    return this.http.put(baseUrlCliente, data);
+  }
+
+  listaCliente(filtro: string):Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(baseUrlUtil + "/listaCliente" + filtro);
   }
 
   filtroCliente(nombres:string, apellidos:string, dni:string, idUbigeo: number, estado: number ) : Observable<any>{    
