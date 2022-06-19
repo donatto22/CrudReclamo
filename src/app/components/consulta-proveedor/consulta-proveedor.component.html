@@ -1,1 +1,93 @@
-<p>consulta-proveedor works!</p>
+<form method="post" class="row g-4" (ngSubmit)="filtroProveedor()">
+    <div class="col-lg-12">
+      <h1>Consultar Proveedor</h1>
+    </div>
+  
+    <div class="col-md-6">
+      <label for="razonsocial">Razón social:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="razonsocial"
+        id="razonsocial"
+        [(ngModel)]="razonsocial"
+      />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="ruc">RUC:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="ruc"
+        id="ruc"
+        [(ngModel)]="ruc"
+      />
+    </div>
+  
+    <div class="col-md-4">
+      <label for="celular">Celular:</label>
+      <input
+        type="text"
+        class="form-control"
+        name="celular"
+        id="celular"
+        [(ngModel)]="celular"
+      />
+    </div>
+  
+    <div class="col-md-4">
+        <label for="contacto">Contacto:</label>
+        <input
+          type="text"
+          class="form-control"
+          name="contacto"
+          id="contacto"
+          [(ngModel)]="contacto"
+        />
+      </div>
+    <div class="col-md-4">
+      <label for="checkbox">Estado</label>
+            <div class="">
+              <label class="switch" for="checkbox">
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  [(ngModel)]="estado"
+                />
+                <div class="slider round"></div>
+              </label>
+            </div>
+  </div>
+    <div class="col-md-4">
+      <br />
+      <button type="submit" class="btn btn-outline-primary btn-block">Consultar</button>
+    </div>
+  </form>
+  
+  <div class="row" style="margin-top: 3%">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Razón Social</th>
+          <th>RUC</th>
+          <th>Dirección</th>
+          <th>Celular</th>
+          <th>Contacto</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let proveedor of proveedores">
+        <td>{{ proveedor.idProveedor }}</td>
+        <td>{{ proveedor.razonsocial }}</td>
+        <td>{{ proveedor.ruc }}</td>
+        <td>{{ proveedor.direccion }}</td>
+        <td>{{ proveedor.celular }}</td>
+        <td>{{ proveedor.contacto }}</td>
+        <td>{{ proveedor.estado == 1 ? "Activo" : "Inactivo" }}</td>
+      </tr>
+    </table>
+  </div>
+  

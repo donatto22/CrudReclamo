@@ -18,4 +18,10 @@ export class ProveedorService {
   insertarProveedor(data: Proveedor): Observable<any> {
     return this.http.post(baseUrlProveedor, data);
   }
+
+  filtroProveedor(razonsocial:string, ruc:string, celular:string, contacto:string, estado: number ) : Observable<any>{    
+    const params = new HttpParams().set("razonsocial",razonsocial).set("ruc",ruc).set("celular",celular).set("contacto",contacto).set("estado", estado);
+    return this.http.get<any>( baseUrlProveedor + "/consultaFiltro", {params});
+  }
+
 }
