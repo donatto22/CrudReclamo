@@ -18,7 +18,28 @@ export class ReclamoService {
     return this.http.post(baseUrlReclamo, data)
   }
 
-  listarReclamos(descripcion: string, tipoReclamo: string, idCliente: string, estado: number) {
+  editarReclamo(idReclamo: number, reclamo: Reclamo) {
+      return this.http.put(`${baseUrlReclamo}/${idReclamo}`, reclamo)
+  }
+
+  alternarEstado(idReclamo: number, estado: number): Observable<any> {
+      return this.http.patch(`${baseUrlReclamo}/estado/${idReclamo}`, null)
+  }
+
+  eliminar(id: number): Observable<any> {
+      return this.http.delete(`${baseUrlReclamo}/id/${id}`)
+  }
+
+  listarReclamos(data: {
+    descripcion?: string, tipoReclamo?: string, idCliente?: string, estado?: number
+  }) {
+      const {
+          descripcion = '',
+          tipoReclamo = '-1',
+          idCliente = '-1',
+          estado = -1
+      } = data
+
       const params = new HttpParams()
       .set("descripcion", descripcion)
       .set("idTipoReclamo", tipoReclamo)
