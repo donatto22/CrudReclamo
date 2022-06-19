@@ -45,9 +45,7 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>FechaNacimiento</th>
+                <th>Nombre Completo</th>
                 <th>DNI</th>
                 <th>Correo</th>
                 <th>Dirección</th>
@@ -60,9 +58,7 @@
             <tbody>
               <tr *ngFor="let aux of clientes">
                 <td>{{ aux.idCliente }}</td>
-                <td>{{ aux.nombres }}</td>
-                <td>{{ aux.apellidos }}</td>
-                <td>{{ aux.fechaNacimiento }}</td>
+                <td>{{ aux.nombres }} {{aux.apellidos}}</td>
                 <td>{{ aux.dni }}</td>
                 <td>{{ aux.correo }}</td>
                 <td>{{ aux.direccion }}</td>
@@ -141,7 +137,6 @@
                     class="form-control"
                     name="nombres"
                     id="id_reg_nombres"/>                    
-                  />
                 </div>
 
                 <div class="col-lg-3">
@@ -178,8 +173,7 @@
                     class="form-control"
                     name="dni"
                     id="id_reg_dni"
-                    maxlength="8"
-                  />
+                    maxlength="8"/>
                 </div>
 
                 <div class="col-lg-4">
