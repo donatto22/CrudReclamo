@@ -178,7 +178,11 @@
               id="nombre"
               maxlength="45"
               formControlName="nombre"
+              [class.is-invalid]="esValidoParaRegistrar('nombre')"
             />
+            <div class="msg-invalid" *ngIf="esValidoParaRegistrar('nombre')">
+              * {{ validarNombreRMsg }}
+            </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -189,7 +193,11 @@
                 id="serie"
                 maxlength="45"
                 formControlName="serie"
+                [class.is-invalid]="esValidoParaRegistrar('serie')"
               />
+              <div class="msg-invalid" *ngIf="esValidoParaRegistrar('serie')">
+                * {{ validarSerieRMsg }}
+              </div>
             </div>
 
             <div class="form-group col-md-6">
@@ -200,7 +208,14 @@
                 id="durabilidad"
                 maxlength="45"
                 formControlName="durabilidad"
+                [class.is-invalid]="esValidoParaRegistrar('durabilidad')"
               />
+              <div
+                class="msg-invalid"
+                *ngIf="esValidoParaRegistrar('durabilidad')"
+              >
+                * {{ validarDurabilidadRMsg }}
+              </div>
             </div>
           </div>
           <div class="form-row">
@@ -211,7 +226,14 @@
                 class="form-control"
                 id="fechaVigencia"
                 formControlName="fechaVigencia"
+                [class.is-invalid]="esValidoParaRegistrar('fechaVigencia')"
               />
+              <div
+                class="msg-invalid"
+                *ngIf="esValidoParaRegistrar('fechaVigencia')"
+              >
+                * El campo fecha es obligatorio
+              </div>
             </div>
 
             <div class="form-group col-md-4">
@@ -223,7 +245,11 @@
                 min="0"
                 step="any"
                 formControlName="precio"
+                [class.is-invalid]="esValidoParaRegistrar('precio')"
               />
+              <div class="msg-invalid" *ngIf="esValidoParaRegistrar('precio')">
+                * {{ validarPrecioRMsg }}
+              </div>
             </div>
 
             <div class="form-group col-md-4">
@@ -235,13 +261,22 @@
                 min="0"
                 step="1"
                 formControlName="stock"
+                [class.is-invalid]="esValidoParaRegistrar('stock')"
               />
+              <div class="msg-invalid" *ngIf="esValidoParaRegistrar('stock')">
+                * {{ validarStockRMsg }}
+              </div>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="marca">Marca</label>
-              <select formControlName="marcaId" id="marca" class="form-control">
+              <select
+                formControlName="marcaId"
+                id="marca"
+                class="form-control"
+                [class.is-invalid]="esValidoParaRegistrar('marcaId')"
+              >
                 <option value="-1">[Seleccione]</option>
                 <option
                   *ngFor="let marca of listaMarcas"
@@ -250,16 +285,27 @@
                   {{ marca.nombre }}
                 </option>
               </select>
+              <div *ngIf="esValidoParaRegistrar('marcaId')" class="msg-invalid">
+                * El campo marca es obligatorio
+              </div>
             </div>
 
             <div class="form-group col-md-6">
               <label for="pais">País</label>
-              <select formControlName="paisId" id="pais" class="form-control">
+              <select
+                formControlName="paisId"
+                id="pais"
+                class="form-control"
+                [class.is-invalid]="esValidoParaRegistrar('paisId')"
+              >
                 <option value="-1">[Seleccione]</option>
                 <option *ngFor="let pais of listaPaises" [value]="pais.idPais">
                   {{ pais.nombre }}
                 </option>
               </select>
+              <div *ngIf="esValidoParaRegistrar('paisId')" class="msg-invalid">
+                * El campo país es obligatorio
+              </div>
             </div>
           </div>
         </form>
@@ -272,6 +318,13 @@
           (click)="cancelarRegistrar()"
         >
           Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-info"
+          (click)="limpiarFormulario()"
+        >
+          Limpiar
         </button>
         <button
           type="button"
@@ -320,7 +373,11 @@
               id="nombre"
               maxlength="45"
               formControlName="nombre"
+              [class.is-invalid]="esValidoParaEditar('nombre')"
             />
+            <div class="msg-invalid" *ngIf="esValidoParaEditar('nombre')">
+              * {{ validarNombreEMsg }}
+            </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -331,7 +388,11 @@
                 id="serie"
                 maxlength="45"
                 formControlName="serie"
+                [class.is-invalid]="esValidoParaEditar('serie')"
               />
+              <div class="msg-invalid" *ngIf="esValidoParaEditar('serie')">
+                * {{ validarSerieEMsg }}
+              </div>
             </div>
 
             <div class="form-group col-md-6">
@@ -342,7 +403,14 @@
                 id="durabilidad"
                 maxlength="45"
                 formControlName="durabilidad"
+                [class.is-invalid]="esValidoParaEditar('durabilidad')"
               />
+              <div
+                class="msg-invalid"
+                *ngIf="esValidoParaEditar('durabilidad')"
+              >
+                * {{ validarDurabilidadEMsg }}
+              </div>
             </div>
           </div>
           <div class="form-row">
@@ -353,7 +421,14 @@
                 class="form-control"
                 id="fechaVigencia"
                 formControlName="fechaVigencia"
+                [class.is-invalid]="esValidoParaEditar('fechaVigencia')"
               />
+              <div
+                class="msg-invalid"
+                *ngIf="esValidoParaEditar('fechaVigencia')"
+              >
+                * El campo fecha es obligatorio
+              </div>
             </div>
 
             <div class="form-group col-md-4">
@@ -365,7 +440,11 @@
                 min="0"
                 step="any"
                 formControlName="precio"
+                [class.is-invalid]="esValidoParaEditar('precio')"
               />
+              <div class="msg-invalid" *ngIf="esValidoParaEditar('precio')">
+                * {{ validarPrecioEMsg }}
+              </div>
             </div>
 
             <div class="form-group col-md-4">
@@ -377,13 +456,22 @@
                 min="0"
                 step="1"
                 formControlName="stock"
+                [class.is-invalid]="esValidoParaEditar('stock')"
               />
+              <div class="msg-invalid" *ngIf="esValidoParaEditar('stock')">
+                * {{ validarStockEMsg }}
+              </div>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="marca">Marca</label>
-              <select formControlName="marcaId" id="marca" class="form-control">
+              <select
+                formControlName="marcaId"
+                id="marca"
+                class="form-control"
+                [class.is-invalid]="esValidoParaEditar('marcaId')"
+              >
                 <option value="-1">[Seleccione]</option>
                 <option
                   *ngFor="let marca of listaMarcas"
@@ -392,16 +480,27 @@
                   {{ marca.nombre }}
                 </option>
               </select>
+              <div *ngIf="esValidoParaEditar('marcaId')" class="msg-invalid">
+                * El campo marca es obligatorio
+              </div>
             </div>
 
             <div class="form-group col-md-6">
               <label for="pais">País</label>
-              <select formControlName="paisId" id="pais" class="form-control">
+              <select
+                formControlName="paisId"
+                id="pais"
+                class="form-control"
+                [class.is-invalid]="esValidoParaEditar('paisId')"
+              >
                 <option value="-1">[Seleccione]</option>
                 <option *ngFor="let pais of listaPaises" [value]="pais.idPais">
                   {{ pais.nombre }}
                 </option>
               </select>
+              <div *ngIf="esValidoParaEditar('paisId')" class="msg-invalid">
+                * El campo país es obligatorio
+              </div>
             </div>
           </div>
         </form>

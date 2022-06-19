@@ -18,7 +18,7 @@
 }
 
 .switch input {
-  display:none;
+  display: none;
 }
 
 .slider {
@@ -29,7 +29,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  transition: .4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -39,7 +39,7 @@
   height: 26px;
   left: 4px;
   position: absolute;
-  transition: .4s;
+  transition: 0.4s;
   width: 26px;
 }
 
@@ -59,3 +59,10 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+.msg-invalid {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}

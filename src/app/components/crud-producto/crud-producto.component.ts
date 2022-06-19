@@ -234,4 +234,141 @@ export class CrudProductoComponent implements OnInit {
         this.consultarProductos();
       });
   }
+
+  // VALIDACIONES
+  limpiarFormulario() {
+    this.formRegistrarProducto.reset({
+      marcaId: -1,
+      paisId: -1,
+    });
+  }
+
+  esValidoParaRegistrar(field: string) {
+    return (
+      this.formRegistrarProducto.get(field)?.invalid &&
+      this.formRegistrarProducto.get(field)?.touched
+    );
+  }
+
+  esValidoParaEditar(field: string) {
+    return (
+      this.formActualizarProducto.get(field)?.invalid &&
+      this.formActualizarProducto.get(field)?.touched
+    );
+  }
+
+  // Registrar
+
+  get validarNombreRMsg() {
+    if (this.formRegistrarProducto?.get('nombre')?.hasError('required')) {
+      return 'El campo nombre es obligatorio';
+    } else if (
+      this.formRegistrarProducto?.get('nombre')?.hasError('maxlength')
+    ) {
+      return 'El campo nombre debe tener un máximo de 45 caracteres';
+    }
+
+    return '';
+  }
+
+  get validarSerieRMsg() {
+    if (this.formRegistrarProducto?.get('serie')?.hasError('required')) {
+      return 'El campo serie es obligatorio';
+    } else if (
+      this.formRegistrarProducto?.get('serie')?.hasError('maxlength')
+    ) {
+      return 'El campo serie debe tener un máximo de 45 caracteres';
+    }
+
+    return '';
+  }
+
+  get validarDurabilidadRMsg() {
+    if (this.formRegistrarProducto?.get('durabilidad')?.hasError('required')) {
+      return 'El campo durabilidad es obligatorio';
+    } else if (
+      this.formRegistrarProducto?.get('durabilidad')?.hasError('maxlength')
+    ) {
+      return 'El campo durabilidad debe tener un máximo de 45 caracteres';
+    }
+
+    return '';
+  }
+
+  get validarPrecioRMsg() {
+    if (this.formRegistrarProducto?.get('precio')?.hasError('required')) {
+      return 'El campo precio es obligatorio';
+    } else if (this.formRegistrarProducto?.get('precio')?.hasError('min')) {
+      return 'El campo precio debe tener números positivos o iguales a 0';
+    }
+
+    return '';
+  }
+
+  get validarStockRMsg() {
+    if (this.formRegistrarProducto?.get('stock')?.hasError('required')) {
+      return 'El campo stock es obligatorio';
+    } else if (this.formRegistrarProducto?.get('stock')?.hasError('min')) {
+      return 'El campo stock debe tener números positivos o iguales a 0';
+    }
+
+    return '';
+  }
+
+  // Editar
+  get validarNombreEMsg() {
+    if (this.formActualizarProducto?.get('nombre')?.hasError('required')) {
+      return 'El campo nombre es obligatorio';
+    } else if (
+      this.formActualizarProducto?.get('nombre')?.hasError('maxlength')
+    ) {
+      return 'El campo nombre debe tener un máximo de 45 caracteres';
+    }
+
+    return '';
+  }
+
+  get validarSerieEMsg() {
+    if (this.formActualizarProducto?.get('serie')?.hasError('required')) {
+      return 'El campo serie es obligatorio';
+    } else if (
+      this.formActualizarProducto?.get('serie')?.hasError('maxlength')
+    ) {
+      return 'El campo serie debe tener un máximo de 45 caracteres';
+    }
+
+    return '';
+  }
+
+  get validarDurabilidadEMsg() {
+    if (this.formActualizarProducto?.get('durabilidad')?.hasError('required')) {
+      return 'El campo durabilidad es obligatorio';
+    } else if (
+      this.formActualizarProducto?.get('durabilidad')?.hasError('maxlength')
+    ) {
+      return 'El campo durabilidad debe tener un máximo de 45 caracteres';
+    }
+
+    return '';
+  }
+
+  get validarPrecioEMsg() {
+    if (this.formActualizarProducto?.get('precio')?.hasError('required')) {
+      return 'El campo precio es obligatorio';
+    } else if (this.formActualizarProducto?.get('precio')?.hasError('min')) {
+      return 'El campo precio debe tener números positivos o iguales a 0';
+    }
+
+    return '';
+  }
+
+  get validarStockEMsg() {
+    if (this.formActualizarProducto?.get('stock')?.hasError('required')) {
+      return 'El campo stock es obligatorio';
+    } else if (this.formActualizarProducto?.get('stock')?.hasError('min')) {
+      return 'El campo stock debe tener números positivos o iguales a 0';
+    }
+
+    return '';
+  }
 }
