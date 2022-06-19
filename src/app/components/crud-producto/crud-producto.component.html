@@ -1,1 +1,527 @@
-<p>crud-producto works!</p>
+<div class="animate__animated animate__fadeIn">
+  <div class="card border-0">
+    <div class="card-title" style="padding: 0 1.25rem !important">
+      <h5>CRUD de Productos</h5>
+    </div>
+
+    <div class="card-body" style="padding: 0 1.25rem 0 !important">
+      <div class="content">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="nombre">Nombre del producto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre"
+              name="nombre"
+              [(ngModel)]="filtroNombre"
+            />
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="checkbox"
+              >Estado:
+              <span
+                class="font-weight-bold"
+                [class]="filtroEstado == 1 ? 'text-success' : 'text-warning'"
+                >{{ filtroEstado == 1 ? "Activos" : "Inactivos" }}</span
+              >
+            </label>
+            <div class="">
+              <label class="switch" for="checkbox">
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  id="checkbox"
+                  [(ngModel)]="filtroEstado"
+                />
+                <div class="slider round"></div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="button" class="invisible-text">.</label>
+            <button
+              (click)="consultarProductos()"
+              class="btn btn-primary btn-block"
+            >
+              Consultar
+            </button>
+          </div>
+
+          <div class="form-group col-md-2">
+            <label for="button" class="invisible-text">.</label>
+            <button
+              class="btn btn-success btn-block"
+              data-toggle="modal"
+              data-target="#modalRegistrarProducto"
+            >
+              Registrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="text-wrap table-responsive">
+    <table class="table table-hover text-center text-nowrap">
+      <thead>
+        <tr class="table-secondary">
+          <th scope="col">Id</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Durabilidad</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Marca</th>
+          <th scope="col">País</th>
+          <th scope="col">Estado</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngIf="listaProductos.length === 0"
+          class="animate__animated animate__fadeIn"
+        >
+          <td colspan="7" class="text-center">{{ mensajeDeConsulta }}</td>
+        </tr>
+        <tr
+          *ngFor="let producto of listaProductos"
+          class="animate__animated animate__fadeIn"
+        >
+          <th scope="row">{{ producto.idProducto }}</th>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.durabilidad }}</td>
+          <td>S/ {{ producto.precio | number: "1.2-2" }}</td>
+          <td>{{ producto.stock }}</td>
+          <td>{{ producto.marca?.nombre }}</td>
+          <td>{{ producto.pais?.nombre }}</td>
+          <td>
+            <div class="custom-control custom-switch">
+              <input
+                (change)="cambiarEstado(producto)"
+                type="checkbox"
+                [checked]="producto.estado"
+                class="custom-control-input"
+                style="width: 2rem !important; z-index: 999"
+              />
+              <label class="custom-control-label">
+                <span *ngIf="producto.estado == 1" class="badge badge-success"
+                  >Activo</span
+                >
+                <span *ngIf="producto.estado == 0" class="badge badge-warning"
+                  >Inactivo</span
+                >
+              </label>
+            </div>
+          </td>
+          <td>
+            <button
+              class="btn btn-outline-info"
+              data-toggle="modal"
+              data-target="#modalEditarProducto"
+              (click)="abrirModalParaEditar(producto)"
+            >
+              Editar
+            </button>
+            <button
+              class="ml-2 btn btn-outline-danger"
+              (click)="eliminarProducto(producto)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot
+        *ngIf="listaProductos.length !== 0"
+        class="animate__animated animate__fadeIn text-left"
+      >
+        <td colspan="7">{{ mensajeDeConsulta }}</td>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="modalRegistrarProducto"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalRegistrarProducto"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Registrar Producto</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formRegistrarProducto" method="post" class="content">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre"
+              maxlength="45"
+              formControlName="nombre"
+              [class.is-invalid]="esValidoParaRegistrar('nombre')"
+            />
+            <div class="msg-invalid" *ngIf="esValidoParaRegistrar('nombre')">
+              * {{ validarNombreRMsg }}
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="serie">Serie</label>
+              <input
+                type="text"
+                class="form-control"
+                id="serie"
+                maxlength="45"
+                formControlName="serie"
+                [class.is-invalid]="esValidoParaRegistrar('serie')"
+              />
+              <div class="msg-invalid" *ngIf="esValidoParaRegistrar('serie')">
+                * {{ validarSerieRMsg }}
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="durabilidad">Durabilidad</label>
+              <input
+                type="text"
+                class="form-control"
+                id="durabilidad"
+                maxlength="45"
+                formControlName="durabilidad"
+                [class.is-invalid]="esValidoParaRegistrar('durabilidad')"
+              />
+              <div
+                class="msg-invalid"
+                *ngIf="esValidoParaRegistrar('durabilidad')"
+              >
+                * {{ validarDurabilidadRMsg }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="fechaVigencia">Fecha Vigencia</label>
+              <input
+                type="date"
+                class="form-control"
+                id="fechaVigencia"
+                formControlName="fechaVigencia"
+                [class.is-invalid]="esValidoParaRegistrar('fechaVigencia')"
+              />
+              <div
+                class="msg-invalid"
+                *ngIf="esValidoParaRegistrar('fechaVigencia')"
+              >
+                * El campo fecha es obligatorio
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="precio">Precio</label>
+              <input
+                type="number"
+                class="form-control"
+                id="precio"
+                min="0"
+                step="any"
+                formControlName="precio"
+                [class.is-invalid]="esValidoParaRegistrar('precio')"
+              />
+              <div class="msg-invalid" *ngIf="esValidoParaRegistrar('precio')">
+                * {{ validarPrecioRMsg }}
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="stock">Stock</label>
+              <input
+                type="number"
+                class="form-control"
+                id="stock"
+                min="0"
+                step="1"
+                formControlName="stock"
+                [class.is-invalid]="esValidoParaRegistrar('stock')"
+              />
+              <div class="msg-invalid" *ngIf="esValidoParaRegistrar('stock')">
+                * {{ validarStockRMsg }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="marca">Marca</label>
+              <select
+                formControlName="marcaId"
+                id="marca"
+                class="form-control"
+                [class.is-invalid]="esValidoParaRegistrar('marcaId')"
+              >
+                <option value="-1">[Seleccione]</option>
+                <option
+                  *ngFor="let marca of listaMarcas"
+                  [value]="marca.idMarca"
+                >
+                  {{ marca.nombre }}
+                </option>
+              </select>
+              <div *ngIf="esValidoParaRegistrar('marcaId')" class="msg-invalid">
+                * El campo marca es obligatorio
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="pais">País</label>
+              <select
+                formControlName="paisId"
+                id="pais"
+                class="form-control"
+                [class.is-invalid]="esValidoParaRegistrar('paisId')"
+              >
+                <option value="-1">[Seleccione]</option>
+                <option *ngFor="let pais of listaPaises" [value]="pais.idPais">
+                  {{ pais.nombre }}
+                </option>
+              </select>
+              <div *ngIf="esValidoParaRegistrar('paisId')" class="msg-invalid">
+                * El campo país es obligatorio
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="cancelarRegistrar()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-info"
+          (click)="limpiarFormulario()"
+        >
+          Limpiar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="registrarProducto()"
+        >
+          Registrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="modalEditarProducto"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalEditarProducto"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Actualizar Producto</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          [formGroup]="formActualizarProducto"
+          method="post"
+          class="content"
+        >
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nombre"
+              maxlength="45"
+              formControlName="nombre"
+              [class.is-invalid]="esValidoParaEditar('nombre')"
+            />
+            <div class="msg-invalid" *ngIf="esValidoParaEditar('nombre')">
+              * {{ validarNombreEMsg }}
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="serie">Serie</label>
+              <input
+                type="text"
+                class="form-control"
+                id="serie"
+                maxlength="45"
+                formControlName="serie"
+                [class.is-invalid]="esValidoParaEditar('serie')"
+              />
+              <div class="msg-invalid" *ngIf="esValidoParaEditar('serie')">
+                * {{ validarSerieEMsg }}
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="durabilidad">Durabilidad</label>
+              <input
+                type="text"
+                class="form-control"
+                id="durabilidad"
+                maxlength="45"
+                formControlName="durabilidad"
+                [class.is-invalid]="esValidoParaEditar('durabilidad')"
+              />
+              <div
+                class="msg-invalid"
+                *ngIf="esValidoParaEditar('durabilidad')"
+              >
+                * {{ validarDurabilidadEMsg }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="fechaVigencia">Fecha Vigencia</label>
+              <input
+                type="date"
+                class="form-control"
+                id="fechaVigencia"
+                formControlName="fechaVigencia"
+                [class.is-invalid]="esValidoParaEditar('fechaVigencia')"
+              />
+              <div
+                class="msg-invalid"
+                *ngIf="esValidoParaEditar('fechaVigencia')"
+              >
+                * El campo fecha es obligatorio
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="precio">Precio</label>
+              <input
+                type="number"
+                class="form-control"
+                id="precio"
+                min="0"
+                step="any"
+                formControlName="precio"
+                [class.is-invalid]="esValidoParaEditar('precio')"
+              />
+              <div class="msg-invalid" *ngIf="esValidoParaEditar('precio')">
+                * {{ validarPrecioEMsg }}
+              </div>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="stock">Stock</label>
+              <input
+                type="number"
+                class="form-control"
+                id="stock"
+                min="0"
+                step="1"
+                formControlName="stock"
+                [class.is-invalid]="esValidoParaEditar('stock')"
+              />
+              <div class="msg-invalid" *ngIf="esValidoParaEditar('stock')">
+                * {{ validarStockEMsg }}
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="marca">Marca</label>
+              <select
+                formControlName="marcaId"
+                id="marca"
+                class="form-control"
+                [class.is-invalid]="esValidoParaEditar('marcaId')"
+              >
+                <option value="-1">[Seleccione]</option>
+                <option
+                  *ngFor="let marca of listaMarcas"
+                  [value]="marca.idMarca"
+                >
+                  {{ marca.nombre }}
+                </option>
+              </select>
+              <div *ngIf="esValidoParaEditar('marcaId')" class="msg-invalid">
+                * El campo marca es obligatorio
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="pais">País</label>
+              <select
+                formControlName="paisId"
+                id="pais"
+                class="form-control"
+                [class.is-invalid]="esValidoParaEditar('paisId')"
+              >
+                <option value="-1">[Seleccione]</option>
+                <option *ngFor="let pais of listaPaises" [value]="pais.idPais">
+                  {{ pais.nombre }}
+                </option>
+              </select>
+              <div *ngIf="esValidoParaEditar('paisId')" class="msg-invalid">
+                * El campo país es obligatorio
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="cancelarRegistrar()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="actualizarProducto()"
+        >
+          Actualizar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
