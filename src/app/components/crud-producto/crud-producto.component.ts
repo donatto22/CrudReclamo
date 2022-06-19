@@ -42,7 +42,7 @@ export class CrudProductoComponent implements OnInit {
     durabilidad: ['', [Validators.required, Validators.maxLength(45)]],
     fechaVigencia: ['', [Validators.required]],
     precio: ['', [Validators.required, Validators.min(0)]],
-    stock: ['', [Validators.required, Validators.min(0)]],
+    stock: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
     marcaId: [-1, [Validators.required, Validators.min(1)]],
     paisId: [-1, [Validators.required, Validators.min(1)]],
   });
@@ -53,7 +53,7 @@ export class CrudProductoComponent implements OnInit {
     durabilidad: ['', [Validators.required, Validators.maxLength(45)]],
     fechaVigencia: ['', [Validators.required]],
     precio: ['', [Validators.required, Validators.min(0)]],
-    stock: ['', [Validators.required, Validators.min(0)]],
+    stock: ['', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]],
     marcaId: [-1, [Validators.required, Validators.min(1)]],
     paisId: [-1, [Validators.required, Validators.min(1)]],
   });
@@ -148,15 +148,19 @@ export class CrudProductoComponent implements OnInit {
 
     this.productoService.insertarProducto(this.objProducto).subscribe(
       (response) => {
-        alert('Producto registrado');
+        //alert('Producto registrado');
         this.formRegistrarProducto.reset({
           marcaId: -1,
           paisId: -1,
         });
+        document.getElementById('btnCerrarModalRegistrarProducto')?.click();
+        Swal.fire('Registro exitoso', 'Producto registrado correctamente', 'success');
         this.consultarProductos();
       },
       (error) => {
-        alert('Error al registros');
+        //alert('Error al registros');
+        document.getElementById('btnCerrarModalRegistrarProducto')?.click();
+        Swal.fire('Error', 'Error al registrar el producto', 'error');
         console.log(error?.mensaje);
       }
     );
@@ -201,15 +205,15 @@ export class CrudProductoComponent implements OnInit {
 
     this.productoService.editarProducto(this.idProducto, producto).subscribe(
       (response) => {
-        alert('Producto actualizado');
-        // this.formActualizarProducto.reset({
-        //   marcaId: -1,
-        //   paisId: -1
-        // })
+        //alert('Producto actualizado');
+        document.getElementById('btnCerrarModalEditarProducto')?.click();
+        Swal.fire('Producto actualizado', '', 'success');
         this.consultarProductos();
       },
       (error) => {
-        alert('Error al actualizar');
+        //alert('Error al actualizar');
+        document.getElementById('btnCerrarModalEditarProducto')?.click();
+        Swal.fire('Error al actualizar', '', 'error');
         console.log(error?.mensaje);
       }
     );
@@ -229,11 +233,28 @@ export class CrudProductoComponent implements OnInit {
   }
 
   public eliminarProducto(producto: Producto) {
-    this.productoService
-      .eliminar(Number(producto.idProducto))
-      .subscribe((e) => {
-        this.consultarProductos();
-      });
+
+    Swal.fire({
+      title: 'Eliminar Producto',
+      html: `¿Está seguro de eliminar el producto? </br> La información relacionada a ese producto se perderá`,
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar',
+      confirmButtonColor: '#dc3545'
+    }).then( (res) => {
+      if (res.isConfirmed) {
+        this.productoService
+        .eliminar(Number(producto.idProducto))
+        .subscribe((e) => {
+          Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success');
+          this.consultarProductos();
+
+        });
+      }
+    })
+
+
   }
 
   // VALIDACIONES
@@ -311,6 +332,8 @@ export class CrudProductoComponent implements OnInit {
       return 'El campo stock es obligatorio';
     } else if (this.formRegistrarProducto?.get('stock')?.hasError('min')) {
       return 'El campo stock debe tener números positivos o iguales a 0';
+    } else if(this.formRegistrarProducto?.get('stock')?.hasError('pattern')){
+      return 'El campo stock debe tener números enteros positivos';
     }
 
     return '';
@@ -368,6 +391,8 @@ export class CrudProductoComponent implements OnInit {
       return 'El campo stock es obligatorio';
     } else if (this.formActualizarProducto?.get('stock')?.hasError('min')) {
       return 'El campo stock debe tener números positivos o iguales a 0';
+    } else if(this.formActualizarProducto?.get('stock')?.hasError('pattern')){
+      return 'El campo stock debe tener números enteros positivos';
     }
 
     return '';
