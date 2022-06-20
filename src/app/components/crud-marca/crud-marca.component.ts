@@ -46,7 +46,7 @@ export class CrudMarcaComponent implements OnInit {
     validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{3,50}')]),
     validaFechaV: new FormControl('', [Validators.required]),
     validaCertificado: new FormControl('', [Validators.required, Validators.pattern('[0-9A-Z]{9}')]),
-    validaPais: new FormControl(-1, [Validators.min(1)]),
+    validaPais: new FormControl('', [Validators.min(1)]),
     validaEstado: new FormControl('', [Validators.min(0)]),
   });
 
@@ -59,6 +59,9 @@ export class CrudMarcaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.marcaService.listaMarca().subscribe(
+      (x) => this.marcas = x
+    );
   }
 
 
@@ -108,7 +111,6 @@ export class CrudMarcaComponent implements OnInit {
       (x) => {
         document.getElementById("btn_reg_cerrar")?.click();
 
-        /*    Swal.fire('Mensaje', x.mensaje,'info');    */
         Swal.fire('Mensaje', x.mensaje, 'success');
 
         this.marcaService.listadoMarca(this.filtro == "" ? "todos" : this.filtro).subscribe(
@@ -154,7 +156,14 @@ export class CrudMarcaComponent implements OnInit {
 
     if (this.formsActualiza.invalid) {
       this.formsActualiza.markAllAsTouched();
-      console.log("invalida", this.formsActualiza.value)
+      /*console.log("invalida", this.formsActualiza.value)
+      console.log(this.formsActualiza.errors)
+      console.log(this.formsActualiza.get("validaNombre")?.errors)
+      console.log(this.formsActualiza.get("validaDescripcion")?.errors)
+      console.log(this.formsActualiza.get("validaFechaV")?.errors)
+      console.log(this.formsActualiza.get("validaCertificado")?.errors)
+      console.log(this.formsActualiza.get("validaPais")?.errors)
+      console.log(this.formsActualiza.get("validaEstado")?.errors)*/
       return;
 
     }
@@ -168,7 +177,7 @@ export class CrudMarcaComponent implements OnInit {
       descripcion: data.validaDescripcion,
       certificado: data.validaCertificado,
       fechaVigencia: data.validaFechaV,
-      estado: 1,
+      estado: data.validaEstado,
       pais: {
         idPais: Number(data.validaPais)
       }
@@ -206,7 +215,52 @@ export class CrudMarcaComponent implements OnInit {
 
 
   actualizaEstado(obj: Marca) {
-    this.marca = obj;
+    let titulo = '¿Estás seguro de inactivar la Marca?';
+    let texto = '¡Esta acción es reversible!';
+    let btnTexto = '¡Sí, inactivar!';
+    let titulo2 = '¡Inactivada!';
+    let texto2 = '¡Marca inactiva!';
+
+    if (obj.estado==0){
+      titulo = '¿Estás seguro de activar la Marca?'
+      texto = '¡Esta acción es reversible!';
+      btnTexto = '¡Sí, activar!';
+      titulo2 = '¡Activado!';
+      texto2 = '¡Marca activada!';
+    }
+
+    Swal.fire({
+      title: titulo,
+      text: texto,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: btnTexto
+    }).then((result) => {
+      if (result.isConfirmed) {
+        obj.estado = obj.estado == 0 ? 1 : 0;
+        this.marcaService.actualizaMarca(obj).subscribe(
+          (x) => {
+            Swal.fire(
+              titulo2,
+              texto2,
+              'success'
+            )
+            this.marcaService.listaMarca().subscribe(
+              (x) => this.marcas = x
+            );
+          }
+        );                
+      }else{
+        obj.estado = obj.estado == 0 ? 0 : 1;
+        this.marcaService.listaMarca().subscribe(
+          (x) => this.marcas = x
+        );
+      }      
+    })
+
+    /*this.marca = obj;
 
     if (obj.estado == 0) {
       obj.estado = 1;
@@ -214,7 +268,7 @@ export class CrudMarcaComponent implements OnInit {
       obj.estado = 0;
     }
 
-    this.marcaService.actualizaMarca(this.marca).subscribe();
+    this.marcaService.actualizaMarca(obj).subscribe();*/
   }
 
 

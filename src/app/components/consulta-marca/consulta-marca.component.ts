@@ -3,6 +3,7 @@ import { Marca } from 'src/app/models/marca.model';
 import { Pais } from 'src/app/models/pais.model';
 import { MarcaService } from 'src/app/services/marca.service';
 import { PaisService } from 'src/app/services/pais.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-consulta-marca',
@@ -11,33 +12,39 @@ import { PaisService } from 'src/app/services/pais.service';
 })
 export class ConsultaMarcaComponent implements OnInit {
 
-    //Ng model
-    nombre:string="";
-    descripcion:string="";
-    certificado:string = ""; 
-    estado:boolean = true;
-    idPais:number = -1;
+  //Ng model
+  nombre: string = "";
+  descripcion: string = "";
+  certificado: string = "";
+  estado: boolean = true;
+  idPais: number = -1;
 
 
-    //Pais
-    nombrepais: Pais[]  = [];
+  //Pais
+  nombrepais: Pais[] = [];
 
-    //Grila
-    marca: Marca[] = [];
+  //Grila
+  marca: Marca[] = [];
 
-  constructor(private paisService: PaisService, private marcaService:MarcaService) {
+  constructor(private paisService: PaisService, private marcaService: MarcaService) {
     paisService.listaPais().subscribe(
       (x) => this.nombrepais = x
-  );
-   }
+    );
+  }
 
-  listaMarcaPorNombre(){
-    this.marcaService.listaMarcaPorNombre(this.nombre, this.descripcion, this.certificado, this.estado?1:0, this.idPais).subscribe(
+  listaMarcaPorNombre() {
+    this.marcaService.listaMarcaPorNombre(this.nombre, this.descripcion, this.certificado, this.estado ? 1 : 0, this.idPais).subscribe(
       (x) => {
-            this.marca = x.data;
-            alert(x.mensaje);
+
+        if (
+          this.marca = x.data) {
+          Swal.fire('Mensaje', x.mensaje, 'success');
+        }
+        else {
+          Swal.fire('Lista Vacia', x.mensajeErr, 'error')
+        }
       }
-);
+    );
 
   }
 
