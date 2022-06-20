@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <label for="descripcion">Descripcion</label>
-            <input type="text" [(ngModel)]="txtDescripcion" class="form-control" id="descripcion" name="descripcion">
+            <input type="text" maxlength="100" placeholder="Máximo 100 caracteres" [(ngModel)]="txtDescripcion" class="form-control" id="descripcion" name="descripcion">
         </div>
 
         <br><br><br><br>
@@ -22,7 +22,7 @@
 
                     <div class="col-auto">
                         <button class="btn btn-outline-info" (click)="listarReclamos()">Consultar</button> |
-                        <button class="btn btn-outline-info" data-toggle="modal" data-target="#modalCrear">Crear Reclamo</button>
+                        <button id="btnCrear" class="btn btn-outline-info" data-toggle="modal" data-target="#modalCrear" (click)="ejecutarAccion(1)">Crear Reclamo</button>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                 <th>Tipo de Reclamo</th>
                 <th>Fecha de Compra</th>
                 <th>Estado</th>
-                <th>#</th>
+                <th class="text-center">#</th>
             </tr>
         </thead>
 
@@ -57,7 +57,7 @@
                     </span>
                 </td>
                 <td>
-                    <button class="btn btn-outline-warning">Editar</button> |
+                    <button class="btn btn-outline-warning" data-toggle="modal" data-target="#modalCrear" id="btnEditar" (click)="ejecutarAccion(2, r)">Editar</button> |
                     <button class="btn btn-outline-danger" (click)="eliminarReclamo(r)">Eliminar</button>
                 </td>
             </tr>
@@ -70,22 +70,52 @@
 </div>
 
 <div class="modal fade" id="modalCrear" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="modalCrear">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Reclamo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCerrarCrear">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Reset</button>
-        <button type="button" class="btn btn-info">Crear</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title">Crud Reclamo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCerrarCrear">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form method="post" class="content" [formGroup]="formCrearReclamo">
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="descripcion" maxlength="100" formControlName="descripcion">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="idCliente">Cliente <span class="text-danger">*</span></label>
+                            <select id="idCliente" formControlName="idCliente" class="form-control">
+                                <option value="-1" selected>Seleccione cliente</option>
+                                <option *ngFor="let c of listaClientes" [value]="c.idCliente">{{ c.nombres }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="tipoReclamo">Tipo de Reclamo <span class="text-danger">*</span></label>
+                            <select id="tipoReclamo" formControlName="tipoReclamo" class="form-control">
+                                <option value="-1" selected>Seleccionar tipo de Reclamo</option>
+                                <option *ngFor="let t of listaTipoReclamos" [value]="t.idTipoReclamo">{{ t.descripcion }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fechaCompra">Fecha de compra <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="fechaCompra" class="form-control" id="fechaCompra" name="fechaCompra"/>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Reset</button>
+                <button type="button" id="btnAction" class="btn btn-info">Grabar</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

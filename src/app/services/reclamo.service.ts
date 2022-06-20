@@ -19,7 +19,7 @@ export class ReclamoService {
   }
 
   editarReclamo(reclamo: Reclamo) {
-      return this.http.put(`${baseUrlReclamo}`, reclamo)
+      return this.http.put(baseUrlReclamo, reclamo)
   }
 
   eliminar(id: any): Observable<any> {
