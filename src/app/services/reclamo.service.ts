@@ -18,15 +18,11 @@ export class ReclamoService {
     return this.http.post(baseUrlReclamo, data)
   }
 
-  editarReclamo(idReclamo: number, reclamo: Reclamo) {
-      return this.http.put(`${baseUrlReclamo}/${idReclamo}`, reclamo)
+  editarReclamo(reclamo: Reclamo) {
+      return this.http.put(`${baseUrlReclamo}`, reclamo)
   }
 
-  alternarEstado(idReclamo: number, estado: number): Observable<any> {
-      return this.http.patch(`${baseUrlReclamo}/estado/${idReclamo}`, null)
-  }
-
-  eliminar(id: number): Observable<any> {
+  eliminar(id: any): Observable<any> {
       return this.http.delete(`${baseUrlReclamo}/id/${id}`)
   }
 

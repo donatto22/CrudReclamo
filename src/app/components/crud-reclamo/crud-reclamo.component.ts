@@ -41,4 +41,37 @@ export class CrudReclamoComponent implements OnInit {
       this.clienteService.listaCliente().subscribe((clientes: Cliente[]) => {this.listaClientes = clientes})
   }
 
+  eliminarReclamo(reclamo: Reclamo) {
+      Swal.fire({
+          title: 'Eliminación',
+          text: 'Estás por eliminar un reclamo de un cliente',
+          icon: 'warning',
+          showCancelButton: true,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, eliminar'
+      }).then(res => {
+          if(res.isConfirmed) {
+              this.reclamoService.eliminar(reclamo.idReclamo)
+              Swal.fire({
+                  title: 'Reclamo eliminado',
+                  icon: 'success'
+              })
+          } else {
+            Swal.fire({
+                title: 'Reclamo mantenido',
+                text: 'El reclamo se ha salvado de la eliminación',
+                icon: 'success'
+            })
+          }
+      })
+  }
+
+  actualizaEstado(r: Reclamo) {
+    r.estado = r.estado == 0 ? 1 : 0
+    this.reclamoService.editarReclamo(r).subscribe()
+  }
+
 }

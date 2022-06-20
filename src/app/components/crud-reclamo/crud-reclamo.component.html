@@ -1,5 +1,5 @@
 <div class="animate__animated animate__fadeIn">
-    <h1 class="text-center font-weight-light">Crud Reclamo</h1>
+    <h1 class="text-center text-underline font-weight-light">Crud Reclamo</h1>
 
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -11,8 +11,8 @@
 
         <div class="col-md-6 offset-md-3">
             <div class="container">
-                <div class="row">
-                    <div class="col align-self-start col-sx-1 align-items-center">
+                <div class="row justify-content-between">
+                    <div class="col-auto">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" [(ngModel)]="toggleEstado" class="custom-control-input" id="estado">
                             <label class="custom-control-label font-weight-bold" [class]="toggleEstado == 1 ? 'text-success' : 'text-muted' "
@@ -20,7 +20,7 @@
                         </div>
                     </div>
 
-                    <div class="col align-self-end">
+                    <div class="col-auto">
                         <button class="btn btn-outline-info" (click)="listarReclamos()">Consultar</button> |
                         <button class="btn btn-outline-info" data-toggle="modal" data-target="#modalCrear">Crear Reclamo</button>
                     </div>
@@ -35,7 +35,7 @@
         <thead class="thead-dark">
             <tr>
                 <th>#</th>
-                <th>Descripcion</th>
+                <th>Descripción</th>
                 <th>Cliente</th>
                 <th>Tipo de Reclamo</th>
                 <th>Fecha de Compra</th>
@@ -43,5 +43,24 @@
                 <th>#</th>
             </tr>
         </thead>
+
+        <tbody>
+            <tr *ngFor="let r of listaReclamos">
+                <th scope="row" class="align-middle"> {{ r.idReclamo }}</th>
+                <td class="align-middle"> {{ r.descripcion }} </td>
+                <td class="align-middle"> {{ r.cliente?.nombres }} </td>
+                <td class="align-middle"> {{ r.tipoReclamo?.descripcion }} </td>
+                <td class="align-middle text-center"> {{ r.fechaCompra}} </td>
+                <td class="align-middle text-center cursor-pointer">
+                    <span (click)="actualizaEstado(r)" class=" w-2 p-1 align-middle" [class]="r.estado == 1 ? 'btn btn-success badge badge-success' : 'btn btn-warning badge badge-warning' ">
+                        {{ r.estado == 1 ? "Activo" : "Inactivo" }}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-outline-warning">Editar</button> |
+                    <button class="btn btn-outline-danger" (click)="eliminarReclamo(r)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
     </table>
   </div>
