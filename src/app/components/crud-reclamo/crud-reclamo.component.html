@@ -1,1 +1,47 @@
-<p>crud-reclamo works!</p>
+<div class="animate__animated animate__fadeIn">
+    <h1 class="text-center font-weight-light">Crud Reclamo</h1>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <label for="descripcion">Descripcion</label>
+            <input type="text" [(ngModel)]="txtDescripcion" class="form-control" id="descripcion" name="descripcion">
+        </div>
+
+        <br><br><br><br>
+
+        <div class="col-md-6 offset-md-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col align-self-start col-sx-1 align-items-center">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" [(ngModel)]="toggleEstado" class="custom-control-input" id="estado">
+                            <label class="custom-control-label font-weight-bold" [class]="toggleEstado == 1 ? 'text-success' : 'text-muted' "
+                            for="estado">{{ toggleEstado == 1 ? 'Activo' : 'Inactivo' }}</label>
+                        </div>
+                    </div>
+
+                    <div class="col align-self-end">
+                        <button class="btn btn-outline-info" (click)="listarReclamos()">Consultar</button> |
+                        <button class="btn btn-outline-info" data-toggle="modal" data-target="#modalCrear">Crear Reclamo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Descripcion</th>
+                <th>Cliente</th>
+                <th>Tipo de Reclamo</th>
+                <th>Fecha de Compra</th>
+                <th>Estado</th>
+                <th>#</th>
+            </tr>
+        </thead>
+    </table>
+  </div>

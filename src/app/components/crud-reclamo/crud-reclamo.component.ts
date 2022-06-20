@@ -15,7 +15,7 @@ export class CrudReclamoComponent implements OnInit {
 
   listaClientes: Cliente[] = []
   listaReclamos: Reclamo[] = []
-  toogleEstado: number = 1
+  toggleEstado: number = 1
 
   txtDescripcion: string = ''
   mensaje: string = ''
@@ -27,9 +27,9 @@ export class CrudReclamoComponent implements OnInit {
   ngOnInit(): void {}
 
   listarReclamos() {
-    this.toogleEstado ? this.toogleEstado = 1 : this.toogleEstado = 0
+    this.toggleEstado ? this.toggleEstado = 1 : this.toggleEstado = 0
 
-    this.reclamoService.listarReclamos({ descripcion: this.txtDescripcion, estado: this.toogleEstado })
+    this.reclamoService.listarReclamos({ descripcion: this.txtDescripcion, estado: this.toggleEstado })
     .subscribe((res: any) => {
       if (res && res.data.length > 0) {
         this.listaReclamos = res.data; this.mensaje = res.mensaje
