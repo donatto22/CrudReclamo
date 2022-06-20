@@ -1,1 +1,121 @@
-<p>crud-reclamo works!</p>
+<div class="animate__animated animate__fadeIn">
+    <h1 class="text-center text-underline font-weight-light">Crud Reclamo</h1>
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <label for="descripcion">Descripcion</label>
+            <input type="text" maxlength="100" placeholder="Máximo 100 caracteres" [(ngModel)]="txtDescripcion" class="form-control" id="descripcion" name="descripcion">
+        </div>
+
+        <br><br><br><br>
+
+        <div class="col-md-6 offset-md-3">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-auto">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" [(ngModel)]="toggleEstado" class="custom-control-input" id="estado">
+                            <label class="custom-control-label font-weight-bold" [class]="toggleEstado == 1 ? 'text-success' : 'text-muted' "
+                            for="estado">{{ toggleEstado == 1 ? 'Activo' : 'Inactivo' }}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-auto">
+                        <button class="btn btn-outline-info" (click)="listarReclamos()">Consultar</button> |
+                        <button id="btnCrear" class="btn btn-outline-info" data-toggle="modal" data-target="#modalCrear" (click)="ejecutarAccion(1)">Crear Reclamo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Descripción</th>
+                <th>Cliente</th>
+                <th>Tipo de Reclamo</th>
+                <th>Fecha de Compra</th>
+                <th>Estado</th>
+                <th class="text-center">#</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let r of listaReclamos">
+                <th scope="row" class="align-middle"> {{ r.idReclamo }}</th>
+                <td class="align-middle"> {{ r.descripcion }} </td>
+                <td class="align-middle"> {{ r.cliente?.nombres }} </td>
+                <td class="align-middle"> {{ r.tipoReclamo?.descripcion }} </td>
+                <td class="align-middle text-center"> {{ r.fechaCompra}} </td>
+                <td class="align-middle text-center cursor-pointer">
+                    <span (click)="actualizaEstado(r)" class=" w-2 p-1 align-middle" [class]="r.estado == 1 ? 'btn btn-success badge badge-success' : 'btn btn-warning badge badge-warning' ">
+                        {{ r.estado == 1 ? "Activo" : "Inactivo" }}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-outline-warning" data-toggle="modal" data-target="#modalCrear" id="btnEditar" (click)="ejecutarAccion(2, r)">Editar</button> |
+                    <button class="btn btn-outline-danger" (click)="eliminarReclamo(r)">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div >
+
+</div>
+
+<div class="modal fade" id="modalCrear" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="modalCrear">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title">Crud Reclamo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnCerrarCrear">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form method="post" class="content" [formGroup]="formCrearReclamo">
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="descripcion" maxlength="100" formControlName="descripcion">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="idCliente">Cliente <span class="text-danger">*</span></label>
+                            <select id="idCliente" formControlName="idCliente" class="form-control">
+                                <option value="-1" selected>Seleccione cliente</option>
+                                <option *ngFor="let c of listaClientes" [value]="c.idCliente">{{ c.nombres }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="tipoReclamo">Tipo de Reclamo <span class="text-danger">*</span></label>
+                            <select id="tipoReclamo" formControlName="tipoReclamo" class="form-control">
+                                <option value="-1" selected>Seleccionar tipo de Reclamo</option>
+                                <option *ngFor="let t of listaTipoReclamos" [value]="t.idTipoReclamo">{{ t.descripcion }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fechaCompra">Fecha de compra <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="fechaCompra" class="form-control" id="fechaCompra" name="fechaCompra"/>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Reset</button>
+                <button type="button" id="btnAction" class="btn btn-info">Grabar</button>
+            </div>
+        </div>
+    </div>
+</div>
