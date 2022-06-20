@@ -14,7 +14,6 @@ import { TipoReclamoService } from 'src/app/services/tipo-reclamo.service';
   styleUrls: ['./crud-reclamo.component.css']
 })
 export class CrudReclamoComponent implements OnInit {
-
   listaClientes: Cliente[] = []
   listaReclamos: Reclamo[] = []
   listaTipoReclamos: TipoReclamo[] = []
@@ -24,6 +23,13 @@ export class CrudReclamoComponent implements OnInit {
   mensaje: string = ''
 
   formCrearReclamo = this.formBuilder.group({
+    descripcion: ['', [Validators.required, Validators.maxLength(120)]],
+    fechaCompra: ['', [Validators.required]],
+    idCliente: [-1, [Validators.required, Validators.min(1)]],
+    tipoReclamo: [-1, [Validators.required, Validators.min(1)]]
+  })
+
+  formEditarReclamo = this.formBuilder.group({
     descripcion: ['', [Validators.required, Validators.maxLength(120)]],
     fechaCompra: ['', [Validators.required]],
     idCliente: [-1, [Validators.required, Validators.min(1)]],
@@ -65,8 +71,16 @@ export class CrudReclamoComponent implements OnInit {
     })
   }
 
+  cleanForm() {
+    this.formCrearReclamo.reset({ idCliente: -1, tipoReclamo: -1 })
+  }
+
   listarClientes() {
       this.clienteService.listaCliente().subscribe((clientes: Cliente[]) => { this.listaClientes = clientes })
+  }
+
+  analize(field: string) {
+    return this.formCrearReclamo.get(field)?.invalid && this.formCrearReclamo.get(field)?.touched
   }
 
   listarTipoReclamos() {
@@ -106,22 +120,6 @@ export class CrudReclamoComponent implements OnInit {
     this.reclamoService.editarReclamo(r).subscribe()
   }
 
-  ejecutarAccion(cod: number, reclamo?: Reclamo) {
-    const button = document.getElementById('btnAction')
-    if(cod == 1) {
-      button?.addEventListener('click', () => {
-        this.crearReclamo()
-      })
-    }
-
-    else {
-      this.llenarCampos(reclamo)
-      button?.addEventListener('click', () => {
-        this.editarReclamo()
-      })
-    }
-  }
-
   crearReclamo() {
     if(this.formCrearReclamo.invalid) {
       this.formCrearReclamo.markAllAsTouched()
@@ -141,7 +139,8 @@ export class CrudReclamoComponent implements OnInit {
       }
     }
 
-    this.reclamoService.insertarReclamo(this.objReclamo).subscribe(res => {
+    this.reclamoService.insertarReclamo(this.objReclamo).subscribe(() => {
+      this.idReclamo = 0
       this.formCrearReclamo.reset({
         idCliente: -1,
         tipoReclamo: -1
@@ -156,7 +155,7 @@ export class CrudReclamoComponent implements OnInit {
   llenarCampos(r: any) {
     this.idReclamo = Number(r.idReclamo)
 
-    this.formCrearReclamo.reset({
+    this.formEditarReclamo.reset({
       descripcion: r.descripcion,
       fechaCompra: r.fechaCompra,
       idCliente: r.cliente?.idCliente,
@@ -165,13 +164,11 @@ export class CrudReclamoComponent implements OnInit {
   }
 
   editarReclamo() {
-    if(this.formCrearReclamo.invalid) {
-      this.formCrearReclamo.markAllAsTouched()
+    if(this.formEditarReclamo.invalid) {
+      this.formEditarReclamo.markAllAsTouched()
     }
 
-    const data = this.formCrearReclamo.value
-
-    console.log(data.estado)
+    const data = this.formEditarReclamo.value
 
     const reclamo: Reclamo = {
       idReclamo: this.idReclamo,
@@ -187,8 +184,7 @@ export class CrudReclamoComponent implements OnInit {
     }
 
     this.reclamoService.editarReclamo(reclamo).subscribe(res => {
-      console.log(res)
-      document.getElementById('btnCerrarCrear')?.click()
+      document.getElementById('btnCerrarEditar')?.click()
       Swal.fire('Modificación reclamo', 'Proceso de actualización completo', 'success')
       this.listarReclamos()
     })
