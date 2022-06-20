@@ -25,12 +25,12 @@
                 </div>
 
                 <label for="certificado" class="col-lg-1">Certificado</label>
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                     <input type="text" class="form-control" name="certificado" id="certificado"
                         [(ngModel)]="certificado" />
                 </div>
 
-                <label for="pais" class="col-lg-1" style="margin-top: 10px;">País</label>
+                <label for="pais" class="col-lg-1" style="margin-top: 5px;">País</label>
                 <div class="col-lg-3" style="margin-top: 10px;">
                     <select id="pais" name="pais" class="form-control" [(ngModel)]="idPais">
                         <option value="-1"> [Seleccione] </option>
@@ -57,7 +57,7 @@
 
             <div class="row" style="margin-top: 3%">
                 <table class="table table-hover">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
@@ -74,7 +74,10 @@
                             <td>{{ aux.descripcion }}</td>
                             <td>{{ aux.certificado }}</td>
                             <td>{{ aux.pais!.nombre }}</td>
-                            <td>{{ aux.estado == 1? "Activo" : "Inactivo" }}</td>
+                            <td><label class="custom-label" for="idEstado_{{ aux.idMarca }}">
+                                <span *ngIf="aux.estado == 1" class="badge badge-success">Activa</span>
+                                <span *ngIf="aux.estado == 0" class="badge badge-warning">Inactiva</span>
+                                </label></td>
                         </tr>
                     </tbody>
 
