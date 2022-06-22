@@ -23,7 +23,7 @@ export class CrudProveedorComponent implements OnInit {
   filtroRazonRuc: string = '';
   filtroEstado: number = 1;
 
-  objProveedor: Proveedor = {
+  proveedor: Proveedor = {
     idProveedor: 0,
     razonsocial: "",
     ruc: "",
@@ -36,12 +36,9 @@ export class CrudProveedorComponent implements OnInit {
       idUbigeo: -1,
       departamento: "-1",
       provincia: "-1",
-      distrito: "",
+      distrito: "-1",
     }
   };
-
-  idProveedor: number = -1;
-
 
   formRegistrarProveedor = new FormGroup({
     razonsocial: new FormControl('', [Validators.required, Validators.maxLength(45)]),
@@ -50,9 +47,9 @@ export class CrudProveedorComponent implements OnInit {
     telefono: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.pattern('^[0-9]*$')]),
     celular: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.pattern('^[0-9]*$')]),
     contacto: new FormControl('', [Validators.required, Validators.maxLength(45)]),
-    departamentoId: new FormControl(-1, [Validators.required, Validators.min(1)]),
-    provinciaId: new FormControl(-1, [Validators.required, Validators.min(1)]),
-    distritoId: new FormControl(-1, [Validators.required, Validators.min(1)]),
+    departamentoId: new FormControl('', [Validators.required, Validators.min(1)]),
+    provinciaId: new FormControl('', [Validators.required, Validators.min(1)]),
+    distritoId: new FormControl('', [Validators.required, Validators.min(1)]),
   });
 
   formActualizarProveedor = new FormGroup({
@@ -62,9 +59,9 @@ export class CrudProveedorComponent implements OnInit {
     telefono: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.pattern('^[0-9]*$')]),
     celular: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.pattern('^[0-9]*$')]),
     contacto: new FormControl('', [Validators.required, Validators.maxLength(45)]),
-    departamentoId: new FormControl(-1, [Validators.required, Validators.min(1)]),
-    provinciaId: new FormControl(-1, [Validators.required, Validators.min(1)]),
-    distritoId: new FormControl(-1, [Validators.required, Validators.min(1)]),
+    departamentoId: new FormControl('', [Validators.required, Validators.min(1)]),
+    provinciaId: new FormControl('', [Validators.required, Validators.min(1)]),
+    distritoId: new FormControl('', [Validators.required, Validators.min(1)]),
   });
 
   submitted = false;
@@ -78,22 +75,40 @@ export class CrudProveedorComponent implements OnInit {
   }
 
   cargaProvincia() {
-    this.ubigeoService.listaProvincias(this.objProveedor.ubigeo?.departamento).subscribe(
+    this.ubigeoService.listaProvincias(this.proveedor.ubigeo?.departamento).subscribe(
       response => this.provincias = response
     );
 
-    this.objProveedor!.ubigeo!.provincia = "-1";
+    this.proveedor!.ubigeo!.provincia = "-1";
     this.distritos = [];
-    this.objProveedor!.ubigeo!.idUbigeo = -1;
+    this.proveedor!.ubigeo!.idUbigeo = -1;
 
   }
 
   cargaDistrito() {
-    this.ubigeoService.listaDistritos(this.objProveedor.ubigeo?.departamento, this.objProveedor.ubigeo?.provincia).subscribe(
+    this.ubigeoService.listaDistritos(this.proveedor.ubigeo?.departamento, this.proveedor.ubigeo?.provincia).subscribe(
       response => this.distritos = response
     );
 
-    this.objProveedor!.ubigeo!.idUbigeo = -1;
+    this.proveedor!.ubigeo!.idUbigeo = -1;
+  }
+
+  limpiarModalRegistrar() {
+    this.formRegistrarProveedor.reset(
+      {
+        departamentoId:-1,
+        provinciaId: -1,
+        distritoId: -1
+      }
+    );
+    this.proveedor.idProveedor=0;
+    this.proveedor.ubigeo={
+      idUbigeo: -1,
+      departamento: "-1",
+      provincia: "-1",
+      distrito: "-1",
+    };
+    this.consultarProveedores();
   }
 
   consultarProveedores() {
@@ -132,8 +147,9 @@ export class CrudProveedorComponent implements OnInit {
 
     this.submitted = false;
 
-    this.proveedorService.insertarProveedor(this.objProveedor).subscribe(
+    this.proveedorService.insertarProveedor(this.proveedor).subscribe(
       (x) => {
+        console.log(x);
         this.submitted = false;
         document.getElementById("btn_reg_cerrar")?.click();
         Swal.fire('Mensaje', x.mensaje, 'success');
@@ -144,7 +160,7 @@ export class CrudProveedorComponent implements OnInit {
     this.distritos = [];
     this.provincias = [];
 
-    this.objProveedor = {
+    this.proveedor = {
       idProveedor: 0,
       razonsocial: "",
       ruc: "",
@@ -157,7 +173,7 @@ export class CrudProveedorComponent implements OnInit {
         idUbigeo: -1,
         departamento: "-1",
         provincia: "-1",
-        distrito: "",
+        distrito: "-1",
       }
     }
   }

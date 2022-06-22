@@ -37,7 +37,7 @@
                     <div class="form-group col-md-2">
                         <label for="button" class="invisible-text">.</label>
                         <button class="btn btn-success btn-block" data-toggle="modal"
-                            data-target="#modalRegistrarProveedor">
+                            data-target="#modalRegistrarProveedor" (click)="limpiarModalRegistrar()">
                             Registrar
                         </button>
                     </div>
@@ -99,8 +99,8 @@
 </div>
 
 
-<div class="modal fade" id="modalRegistrarProveedor" tabindex="-1" role="dialog" aria-labelledby="modalRegistrarProveedor"
-    aria-hidden="true">
+<div class="modal fade" id="modalRegistrarProveedor" tabindex="-1" role="dialog"
+    aria-labelledby="modalRegistrarProveedor" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -111,56 +111,76 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" 
-                
-                (ngSubmit)="registraProveedor()"
-            [formGroup]="formRegistrarProveedor"
-                class="content">
-                    
+                <form (ngSubmit)="registraProveedor()" [formGroup]="formRegistrarProveedor" class="content">
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="razonsocial">Razón social</label>
-                            <input type="text" class="form-control" id="razonsocial" maxlength="45"
-                                formControlName="razonsocial" />
-                            <div class="msg-invalid">
-
+                            <input [(ngModel)]="proveedor.razonsocial" type="text" class="form-control"
+                                id="razonsocial" maxlength="45" formControlName="razonsocial" />
+                            <div class="msg-invalid" *ngIf="
+                                submitted && formRegistrarProveedor.controls.razonsocial.errors
+                              ">
+                                <ul>
+                                    <li>La Razón social es obligatorio.</li>
+                                </ul>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="serie">Ruc</label>
-                            <input type="text" class="form-control" id="serie" maxlength="45" formControlName="serie" />
-                            <div class="msg-invalid">
-
+                            <label for="ruc">Ruc</label>
+                            <input [(ngModel)]="proveedor.ruc" type="text" class="form-control" id="ruc"
+                                maxlength="11" formControlName="ruc" />
+                            <div *ngIf="
+                      submitted && formRegistrarProveedor.controls.ruc.errors
+                    " class="msg-invalid">
+                                <ul>
+                                    <li>RUC es obligatorio.</li>
+                                    <li>RUC es de 11 dígitos.</li>
+                                </ul>
                             </div>
                         </div>
 
-                        
+
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="nombre">Teléfono</label>
-                            <input type="text" class="form-control" id="nombre" maxlength="45"
-                                formControlName="nombre" />
-                            <div class="msg-invalid">
-
+                            <label for="telefono">Teléfono</label>
+                            <input [(ngModel)]="proveedor.telefono" type="text" class="form-control" id="telefono"
+                                maxlength="9" formControlName="telefono" />
+                            <div *ngIf="
+                            submitted && formRegistrarProveedor.controls.telefono.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Teléfono es obligatorio.</li>
+                                    <li>Teléfono es de 7 a 9 dígitos.</li>
+                                </ul>
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="nombre">Celular</label>
-                            <input type="text" class="form-control" id="nombre" maxlength="45"
-                                formControlName="nombre" />
-                            <div class="msg-invalid">
-
+                            <label for="celular">Celular</label>
+                            <input [(ngModel)]="proveedor.celular" type="text" class="form-control" id="celular"
+                                maxlength="9" formControlName="celular" />
+                            <div *ngIf="
+                            submitted && formRegistrarProveedor.controls.celular.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Celular es obligatorio.</li>
+                                    <li>Celular es 9 dígitos.</li>
+                                </ul>
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="nombre">Contacto</label>
-                            <input type="text" class="form-control" id="nombre" maxlength="45"
-                                formControlName="nombre" />
-                            <div class="msg-invalid">
-
+                            <label for="contacto">Contacto</label>
+                            <input [(ngModel)]="proveedor.contacto" type="text" class="form-control" id="contacto"
+                                maxlength="45" formControlName="contacto" />
+                            <div *ngIf="
+                            submitted && formRegistrarProveedor.controls.contacto.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Contacto es obligatorio.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -168,55 +188,96 @@
 
 
                         <div class="form-group col-md-12">
-                            <label for="nombre">Dirección</label>
-                            <input type="text" class="form-control" id="nombre" maxlength="45"
-                                formControlName="nombre" />
-                            <div class="msg-invalid">
-
+                            <label for="direccion">Dirección</label>
+                            <input [(ngModel)]="proveedor.direccion" type="text" class="form-control" id="direccion"
+                                maxlength="45" formControlName="direccion" />
+                            <div *ngIf="
+                            submitted && formRegistrarProveedor.controls.direccion.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Dirección es obligatorio.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="nombre">Departamento:</label>
-                            <input type="text" class="form-control" id="nombre" maxlength="45"
-                                formControlName="nombre" />
-                            <div class="msg-invalid">
+                            <label for="departamento">Departamento:</label>
+                            <select [(ngModel)]="proveedor.ubigeo!.departamento" (change)="cargaProvincia()"
+                                id="departamento" name="departamento" class="form-control"
+                                formControlName="departamentoId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of departamentos" value="{{ aux }}">
+                                    {{ aux }}
+                                </option>
+                            </select>
 
+                            <div *ngIf="
+                    submitted &&
+                    formRegistrarProveedor.controls.departamentoId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Departamento es obligatorio.</li>
+                                </ul>
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="nombre">Provincia:</label>
-                            <input type="text" class="form-control" id="nombre" maxlength="45"
-                                formControlName="nombre" />
-                            <div class="msg-invalid">
+                            <label for="provincia">Provincia:</label>
 
+
+                            <select [(ngModel)]="proveedor.ubigeo!.provincia" (change)="cargaDistrito()"
+                                id="provincia" name="provincia" class="form-control" formControlName="provinciaId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of provincias" value="{{ aux }}">
+                                    {{ aux }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                    submitted &&
+                    formRegistrarProveedor.controls.provinciaId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Provincia es obligatorio.</li>
+                                </ul>
                             </div>
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label for="nombre">Distrito:</label>
-                            <input type="text" class="form-control" id="nombre" maxlength="45"
-                                formControlName="nombre" />
-                            <div class="msg-invalid">
+                            <label for="distrito">Distrito:</label>
 
+
+                            <select [(ngModel)]="proveedor.ubigeo!.idUbigeo" id="distrito" name="distrito"
+                                class="form-control" formControlName="distritoId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of distritos" value="{{ aux.idUbigeo }}">
+                                    {{ aux.distrito }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                    submitted &&
+                    formRegistrarProveedor.controls.distritoId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Distrito es obligatorio.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                       
+                        <button class="btn btn-primary">
+                            Registrar
+                        </button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Cancelar
-                </button>
-                <button type="button" class="btn btn-info">
-                    Limpiar
-                </button>
-                <button type="button" class="btn btn-primary">
-                    Registrar
-                </button>
-            </div>
+            
+        
         </div>
     </div>
 </div>
+
