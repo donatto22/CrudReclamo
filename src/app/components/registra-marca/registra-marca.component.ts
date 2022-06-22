@@ -64,14 +64,21 @@ export class RegistraMarcaComponent implements OnInit {
 
     this.marcaService.insertaMarca(objMarca).subscribe(
       response => {
-        Swal.fire('Mensaje', response.mensaje, 'success')
-        console.log(response.mensaje)
-      }/*,
-      error => {
 
-        alert('Ocurrió un error')
-        console.log(error);
-      }*/
+        if (response.estado == 1) {
+          Swal.fire('Mensaje', response.mensaje, 'error');
+        }
+        if (response.estado == 2) {
+          Swal.fire('Mensaje', response.mensaje, 'success');
+        }
+        if (response.estado == 3) {
+          Swal.fire('Mensaje', response.mensaje, 'info');
+        }
+        if(response.estado == 4 ){
+          Swal.fire('Mensaje', response.mensaje, 'error');
+        }
+        console.log(response.mensaje)
+      }
     )
 
     this.formsRegistra.reset(
