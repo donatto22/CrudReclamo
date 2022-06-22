@@ -79,8 +79,9 @@ export class CrudReclamoComponent implements OnInit {
       this.clienteService.listaCliente().subscribe((clientes: Cliente[]) => { this.listaClientes = clientes })
   }
 
-  analize(field: string) {
-    return this.formCrearReclamo.get(field)?.invalid && this.formCrearReclamo.get(field)?.touched
+  analize(field: string, number: number) {
+    return number == 1 ? (this.formCrearReclamo.get(field)?.invalid && this.formCrearReclamo.get(field)?.touched) :
+    (this.formEditarReclamo.get(field)?.invalid && this.formEditarReclamo.get(field)?.touched)
   }
 
   listarTipoReclamos() {
@@ -166,6 +167,7 @@ export class CrudReclamoComponent implements OnInit {
   editarReclamo() {
     if(this.formEditarReclamo.invalid) {
       this.formEditarReclamo.markAllAsTouched()
+      return
     }
 
     const data = this.formEditarReclamo.value
