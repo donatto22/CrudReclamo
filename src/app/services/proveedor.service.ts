@@ -24,4 +24,14 @@ export class ProveedorService {
     return this.http.get<any>( baseUrlProveedor + "/consultaFiltro", {params});
   }
 
+  actualizaProveedor(data: Proveedor): Observable<any>{
+    return this.http.put(baseUrlProveedor, data);
+  }
+  
+  eliminarProveedor(idProveedor: number): Observable<any> {
+    return this.http.delete(baseUrlProveedor + '/' + idProveedor);
+  }
+
+
+
 }

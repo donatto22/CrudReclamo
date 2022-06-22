@@ -1,1 +1,476 @@
-<p>crud-proveedor works!</p>
+<div class="animate__animated animate__fadeIn">
+    <div class="card border-0">
+      <div class="card-title" style="padding: 0 1.25rem !important">
+        <h5>CRUD de Proveedor</h5>
+      </div>
+  
+      <div class="card-body" style="padding: 0 1.25rem 0 !important">
+        <div class="content">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nombre">Razón Social y/o RUC</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                name="nombre"
+              />
+            </div>
+  
+            <div class="form-group col-md-2">
+              <label for="checkbox"
+                >Estado:
+                <span
+                  class="font-weight-bold"></span
+                >
+              </label>
+              <div class="">
+                <label class="switch" for="checkbox">
+                  <input
+                    type="checkbox"
+                    name="checkbox"
+                    id="checkbox"
+                  />
+                  <div class="slider round"></div>
+                </label>
+              </div>
+            </div>
+  
+            <div class="form-group col-md-2">
+              <label for="button" class="invisible-text">.</label>
+              <button
+                class="btn btn-primary btn-block"
+              >
+                Consultar
+              </button>
+            </div>
+  
+            <div class="form-group col-md-2">
+              <label for="button" class="invisible-text">.</label>
+              <button
+                class="btn btn-success btn-block"
+                data-toggle="modal"
+                data-target="#modalRegistrarProducto"
+              >
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <hr />
+  
+    <div class="text-wrap table-responsive">
+      <table class="table table-hover text-center text-nowrap">
+        <thead>
+          <tr class="table-secondary">
+            <th scope="col">Id</th>
+            <th scope="col">Razón Social</th>
+            <th scope="col">Ruc</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">País</th>
+            <th scope="col">Estado</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            
+          >
+            <td colspan="7" class="text-center">A</td>
+          </tr>
+          <tr
+           
+          >
+            <th scope="row">AAA</th>
+            <td>AAA</td>
+            <td>AAA</td>
+            <td>AAA</td>
+            <td>AAA</td>
+            <td>AAA</td>
+            <td>AAA</td>
+            <td>
+              <div class="custom-control custom-switch">
+                <input
+                 
+                  type="checkbox"
+                  class="custom-control-input"
+                  style="width: 2rem !important; z-index: 999"
+                />
+                <label class="custom-control-label">
+                  <span class="badge badge-success"
+                    >Activo</span
+                  >
+                  <span class="badge badge-warning"
+                    >Inactivo</span
+                  >
+                </label>
+              </div>
+            </td>
+            <td>
+              <button
+                class="btn btn-outline-info"
+                data-toggle="modal"
+                data-target="#modalEditarProducto"
+               
+              >
+                Editar
+              </button>
+              
+            </td>
+          </tr>
+        </tbody>
+        <tfoot
+          
+        >
+          <td colspan="7">0</td>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  
+  <div
+    class="modal fade"
+    id="modalRegistrarProducto"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalRegistrarProducto"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Producto</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            id="btnCerrarModalRegistrarProducto"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post" class="content">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                maxlength="45"
+                formControlName="nombre"
+              />
+              <div class="msg-invalid" >
+               
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="serie">Serie</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="serie"
+                  maxlength="45"
+                  formControlName="serie"
+                  
+                />
+                <div class="msg-invalid">
+                 
+                </div>
+              </div>
+  
+              <div class="form-group col-md-6">
+                <label for="durabilidad">Durabilidad</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="durabilidad"
+                  maxlength="45"
+                  formControlName="durabilidad"
+                 
+                />
+                <div
+                  class="msg-invalid"
+                  
+                >
+                  * 
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="fechaVigencia">Fecha Vigencia</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaVigencia"
+                  formControlName="fechaVigencia"
+                  
+                />
+                <div
+                  class="msg-invalid"
+                  
+                >
+                 
+                </div>
+              </div>
+  
+              <div class="form-group col-md-4">
+                <label for="precio">Precio</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="precio"
+                  min="0"
+                  step="any"
+                  formControlName="precio"
+                 
+                />
+                <div class="msg-invalid" >
+                  * 
+                </div>
+              </div>
+  
+              <div class="form-group col-md-4">
+                <label for="stock">Stock</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="stock"
+                  min="0"
+                  step="1"
+                  formControlName="stock"
+                  
+                />
+                <div class="msg-invalid" >
+                  * 
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              
+  
+              <div class="form-group col-md-6">
+                <label for="pais">País</label>
+                <select
+                  formControlName="paisId"
+                  id="pais"
+                  class="form-control"
+                 
+                >
+                  <option value="-1">[Seleccione]</option>
+                  <option >
+                   
+                  </option>
+                </select>
+                <div  class="msg-invalid">
+                  * El campo país es obligatorio
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-info"
+           
+          >
+            Limpiar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+           
+          >
+            Registrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div
+    class="modal fade"
+    id="modalEditarProducto"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalEditarProducto"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Actualizar Producto</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            id="btnCerrarModalEditarProducto"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+           
+            method="post"
+            class="content"
+          >
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                maxlength="45"
+                formControlName="nombre"
+                
+              />
+              <div class="msg-invalid" >
+                * 
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="serie">Serie</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="serie"
+                  maxlength="45"
+                  formControlName="serie"
+                  
+                />
+                <div class="msg-invalid" >
+                  * 
+                </div>
+              </div>
+  
+              <div class="form-group col-md-6">
+                <label for="durabilidad">Durabilidad</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="durabilidad"
+                  maxlength="45"
+                  formControlName="durabilidad"
+                  
+                />
+                <div
+                  class="msg-invalid"
+                  
+                >
+                  * 
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="fechaVigencia">Fecha Vigencia</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaVigencia"
+                  formControlName="fechaVigencia"
+                  
+                />
+                <div
+                  class="msg-invalid"
+                  
+                >
+                  * El campo fecha es obligatorio
+                </div>
+              </div>
+  
+              <div class="form-group col-md-4">
+                <label for="precio">Precio</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="precio"
+                  min="0"
+                  step="any"
+                  formControlName="precio"
+                  
+                />
+                <div class="msg-invalid" >
+                  * 
+                </div>
+              </div>
+  
+              <div class="form-group col-md-4">
+                <label for="stock">Stock</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="stock"
+                  min="0"
+                  step="1"
+                  formControlName="stock"
+                  
+                />
+                <div class="msg-invalid">
+                  * 
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              
+              <div class="form-group col-md-6">
+                <label for="pais">País</label>
+                <select
+                  formControlName="paisId"
+                  id="pais"
+                  class="form-control"
+                  
+                >
+                  <option value="-1">[Seleccione]</option>
+                  <option >
+                    
+                  </option>
+                </select>
+                <div class="msg-invalid">
+                  * El campo país es obligatorio
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+           
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            
+          >
+            Actualizar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
