@@ -37,7 +37,7 @@
                     <div class="form-group col-md-2">
                         <label for="button" class="invisible-text">.</label>
                         <button class="btn btn-success btn-block" data-toggle="modal"
-                            data-target="#modalRegistrarProducto">
+                            data-target="#modalRegistrarProveedor">
                             Registrar
                         </button>
                     </div>
@@ -99,3 +99,124 @@
 </div>
 
 
+<div class="modal fade" id="modalRegistrarProveedor" tabindex="-1" role="dialog" aria-labelledby="modalRegistrarProveedor"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Proveedor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    id="btnCerrarModalRegistrarProveedor">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" 
+                
+                (ngSubmit)="registraProveedor()"
+            [formGroup]="formRegistrarProveedor"
+                class="content">
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="razonsocial">Razón social</label>
+                            <input type="text" class="form-control" id="razonsocial" maxlength="45"
+                                formControlName="razonsocial" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="serie">Ruc</label>
+                            <input type="text" class="form-control" id="serie" maxlength="45" formControlName="serie" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="nombre">Teléfono</label>
+                            <input type="text" class="form-control" id="nombre" maxlength="45"
+                                formControlName="nombre" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="nombre">Celular</label>
+                            <input type="text" class="form-control" id="nombre" maxlength="45"
+                                formControlName="nombre" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="nombre">Contacto</label>
+                            <input type="text" class="form-control" id="nombre" maxlength="45"
+                                formControlName="nombre" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+
+                        <div class="form-group col-md-12">
+                            <label for="nombre">Dirección</label>
+                            <input type="text" class="form-control" id="nombre" maxlength="45"
+                                formControlName="nombre" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="nombre">Departamento:</label>
+                            <input type="text" class="form-control" id="nombre" maxlength="45"
+                                formControlName="nombre" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="nombre">Provincia:</label>
+                            <input type="text" class="form-control" id="nombre" maxlength="45"
+                                formControlName="nombre" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="nombre">Distrito:</label>
+                            <input type="text" class="form-control" id="nombre" maxlength="45"
+                                formControlName="nombre" />
+                            <div class="msg-invalid">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-info">
+                    Limpiar
+                </button>
+                <button type="button" class="btn btn-primary">
+                    Registrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
