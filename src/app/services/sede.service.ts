@@ -48,28 +48,26 @@ export class SedeService {
   public consultar(data: {
     nombre?: string;
     direccion?: string;
+    codigoPostal?: string;
     idPais?: number;
     estado?: number;
-    fechaInicio?: string;
-	  fechaFin?: string;
   }): Observable<any> {
-    let url = baseUrlSede + '/listaSedeConParametros';
+    let url = baseUrlSede + '/listarSedePorFiltros';
     const {
       nombre = '',
       direccion = '',
+      codigoPostal = '',
       idPais = -1,
       estado = -1,
-      fechaInicio = '',
-	    fechaFin = '',
+      
     } = data;
 
     const params = new HttpParams()
       .append('nombre', nombre)
       .append('direccion', direccion)
+      .append('codigoPostal', codigoPostal)
       .append('idPais', idPais.toString())
-      .append('estado', estado.toString())
-      .append('fechaInicio', fechaInicio.toString())
-	    .append('fechaFin', fechaFin.toString());
+      .append('estado', estado.toString());
 
     return this.http.get(url, { params });
   }
