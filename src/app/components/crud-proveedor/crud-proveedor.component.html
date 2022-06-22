@@ -1,1 +1,465 @@
-<p>crud-proveedor works!</p>
+<div class="animate__animated animate__fadeIn">
+    <div class="card border-0">
+        <div class="card-title" style="padding: 0 1.25rem !important">
+            <h5>CRUD de Proveedor</h5>
+        </div>
+
+        <div class="card-body" style="padding: 0 1.25rem 0 !important">
+            <div class="content">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="ruc">Ingrese RUC</label>
+                        <input type="text" class="form-control" id="ruc" name="ruc" placeholder="Ingrese RUC"
+                            [(ngModel)]="filtroRazonRuc" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="checkbox">Estado:
+                            <span class="font-weight-bold"
+                                [class]="filtroEstado == 1 ? 'text-success' : 'text-warning'">{{ filtroEstado == 1 ?
+                                "Activos" : "Inactivos" }}</span>
+                        </label>
+                        <div class="">
+                            <label class="switch" for="checkbox">
+                                <input type="checkbox" name="checkbox" id="checkbox" [(ngModel)]="filtroEstado" />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="button" class="invisible-text">.</label>
+                        <button (click)="consultarProveedores()" class="btn btn-primary btn-block">
+                            Consultar
+                        </button>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="button" class="invisible-text">.</label>
+                        <button class="btn btn-success btn-block" data-toggle="modal"
+                            data-target="#modalRegistrarProveedor" (click)="limpiarModalRegistrar()">
+                            Registrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="text-wrap table-responsive">
+        <table class="table table-hover text-center text-nowrap">
+            <thead>
+                <tr class="table-secondary">
+                    <th scope="col">Id</th>
+                    <th scope="col">Razón Social</th>
+                    <th scope="col">Ruc</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Celular</th>
+                    <th scope="col">Contacto</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="listaProveedor.length === 0">
+                    <td colspan="7" class="text-center">{{ mensajeDeConsulta }}</td>
+                </tr>
+                <tr *ngFor="let proveedor of listaProveedor">
+                    <th scope="row">{{ proveedor.idProveedor }}</th>
+                    <td>{{ proveedor.razonsocial }}</td>
+                    <td>{{ proveedor.ruc }}</td>
+                    <td>{{ proveedor.direccion }}</td>
+                    <td>{{ proveedor.celular }}</td>
+                    <td>{{ proveedor.contacto }}</td>
+                    <td>
+                        <div class="custom-control custom-switch">
+                            <input [checked]="proveedor.estado" 
+                            id="idEstado_{{ proveedor.idProveedor }}"
+                            (change)="actualizaEstadoProveedor(proveedor)"
+                            type="checkbox" class="custom-control-input"
+                                style="width: 2rem !important; z-index: 999" />
+                            <label class="custom-control-label">
+                                <span *ngIf="proveedor.estado == 1" class="badge badge-success">Activo</span>
+                                <span *ngIf="proveedor.estado == 0" class="badge badge-warning">Inactivo</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalEditarProveedor" (click)="buscarProveedor(proveedor)">
+                            Editar
+                        </button>
+
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot *ngIf="listaProveedor.length !== 0" class="text-left">
+                <td colspan="7">{{ mensajeDeConsulta }}</td>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalRegistrarProveedor" tabindex="-1" role="dialog"
+    aria-labelledby="modalRegistrarProveedor" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar Proveedor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    id="btnCerrarModalRegistrarProveedor">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="registraProveedor()" [formGroup]="formRegistrarProveedor" class="content">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="razonsocial">Razón social</label>
+                            <input [(ngModel)]="proveedor.razonsocial" type="text" class="form-control" id="razonsocial"
+                                maxlength="45" formControlName="razonsocial" />
+                            <div class="msg-invalid" *ngIf="
+                                submitted && formRegistrarProveedor.controls.razonsocial.errors
+                              ">
+                                <ul>
+                                    <li>La Razón social es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ruc">Ruc</label>
+                            <input [(ngModel)]="proveedor.ruc" type="text" class="form-control" id="ruc" maxlength="11"
+                                formControlName="ruc" />
+                            <div *ngIf="
+                      submitted && formRegistrarProveedor.controls.ruc.errors
+                    " class="msg-invalid">
+                                <ul>
+                                    <li>RUC es obligatorio.</li>
+                                    <li>RUC es de 11 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="telefono">Teléfono</label>
+                            <input [(ngModel)]="proveedor.telefono" type="text" class="form-control" id="telefono"
+                                maxlength="9" formControlName="telefono" />
+                            <div *ngIf="
+                            submitted && formRegistrarProveedor.controls.telefono.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Teléfono es obligatorio.</li>
+                                    <li>Teléfono es de 7 a 9 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="celular">Celular</label>
+                            <input [(ngModel)]="proveedor.celular" type="text" class="form-control" id="celular"
+                                maxlength="9" formControlName="celular" />
+                            <div *ngIf="
+                            submitted && formRegistrarProveedor.controls.celular.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Celular es obligatorio.</li>
+                                    <li>Celular es 9 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="contacto">Contacto</label>
+                            <input [(ngModel)]="proveedor.contacto" type="text" class="form-control" id="contacto"
+                                maxlength="45" formControlName="contacto" />
+                            <div *ngIf="
+                            submitted && formRegistrarProveedor.controls.contacto.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Contacto es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+
+                        <div class="form-group col-md-12">
+                            <label for="direccion">Dirección</label>
+                            <input [(ngModel)]="proveedor.direccion" type="text" class="form-control" id="direccion"
+                                maxlength="45" formControlName="direccion" />
+                            <div *ngIf="
+                            submitted && formRegistrarProveedor.controls.direccion.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Dirección es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="departamento">Departamento:</label>
+                            <select [(ngModel)]="proveedor.ubigeo!.departamento" (change)="cargaProvincia()"
+                                id="departamento" name="departamento" class="form-control"
+                                formControlName="departamentoId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of departamentos" value="{{ aux }}">
+                                    {{ aux }}
+                                </option>
+                            </select>
+
+                            <div *ngIf="
+                    submitted &&
+                    formRegistrarProveedor.controls.departamentoId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Departamento es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="provincia">Provincia:</label>
+
+
+                            <select [(ngModel)]="proveedor.ubigeo!.provincia" (change)="cargaDistrito()" id="provincia"
+                                name="provincia" class="form-control" formControlName="provinciaId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of provincias" value="{{ aux }}">
+                                    {{ aux }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                    submitted &&
+                    formRegistrarProveedor.controls.provinciaId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Provincia es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="distrito">Distrito:</label>
+
+
+                            <select [(ngModel)]="proveedor.ubigeo!.idUbigeo" id="distrito" name="distrito"
+                                class="form-control" formControlName="distritoId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of distritos" value="{{ aux.idUbigeo }}">
+                                    {{ aux.distrito }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                    submitted &&
+                    formRegistrarProveedor.controls.distritoId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Distrito es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button class="btn btn-primary">
+                            Registrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarProveedor" tabindex="-1" role="dialog" aria-labelledby="modalEditarProveedor"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Proveedor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    id="btnCerrarModalEditarProveedor">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="actualizaProveedor()" [formGroup]="formActualizarProveedor" class="content">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="razonsocial">Razón social</label>
+                            <input [(ngModel)]="proveedor.razonsocial" type="text" class="form-control" id="razonsocial"
+                                maxlength="45" formControlName="razonsocial" />
+                            <div class="msg-invalid" *ngIf="
+                                submitted && formActualizarProveedor.controls.razonsocial.errors
+                              ">
+                                <ul>
+                                    <li>La Razón social es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ruc">Ruc</label>
+                            <input [(ngModel)]="proveedor.ruc" type="text" class="form-control" id="ruc" maxlength="11"
+                                formControlName="ruc" />
+                            <div *ngIf="
+                      submitted && formActualizarProveedor.controls.ruc.errors
+                    " class="msg-invalid">
+                                <ul>
+                                    <li>RUC es obligatorio.</li>
+                                    <li>RUC es de 11 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="telefono">Teléfono</label>
+                            <input [(ngModel)]="proveedor.telefono" type="text" class="form-control" id="telefono"
+                                maxlength="9" formControlName="telefono" />
+                            <div *ngIf="
+                            submitted && formActualizarProveedor.controls.telefono.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Teléfono es obligatorio.</li>
+                                    <li>Teléfono es de 7 a 9 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="celular">Celular</label>
+                            <input [(ngModel)]="proveedor.celular" type="text" class="form-control" id="celular"
+                                maxlength="9" formControlName="celular" />
+                            <div *ngIf="
+                            submitted && formActualizarProveedor.controls.celular.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Celular es obligatorio.</li>
+                                    <li>Celular es 9 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="contacto">Contacto</label>
+                            <input [(ngModel)]="proveedor.contacto" type="text" class="form-control" id="contacto"
+                                maxlength="45" formControlName="contacto" />
+                            <div *ngIf="
+                            submitted && formActualizarProveedor.controls.contacto.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Contacto es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+
+                        <div class="form-group col-md-12">
+                            <label for="direccion">Dirección</label>
+                            <input [(ngModel)]="proveedor.direccion" type="text" class="form-control" id="direccion"
+                                maxlength="45" formControlName="direccion" />
+                            <div *ngIf="
+                            submitted && formActualizarProveedor.controls.direccion.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Dirección es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="departamento">Departamento:</label>
+                            <select [(ngModel)]="proveedor.ubigeo!.departamento" (change)="cargaProvincia()"
+                                id="departamento" name="departamento" class="form-control"
+                                formControlName="departamentoId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of departamentos" value="{{ aux }}">
+                                    {{ aux }}
+                                </option>
+                            </select>
+
+                            <div *ngIf="
+                    submitted &&
+                    formActualizarProveedor.controls.departamentoId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Departamento es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="provincia">Provincia:</label>
+
+
+                            <select [(ngModel)]="proveedor.ubigeo!.provincia" (change)="cargaDistrito()" id="provincia"
+                                name="provincia" class="form-control" formControlName="provinciaId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of provincias" value="{{ aux }}">
+                                    {{ aux }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                    submitted &&
+                    formActualizarProveedor.controls.provinciaId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Provincia es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="distrito">Distrito:</label>
+
+
+                            <select [(ngModel)]="proveedor.ubigeo!.idUbigeo" id="distrito" name="distrito"
+                                class="form-control" formControlName="distritoId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of distritos" value="{{ aux.idUbigeo }}">
+                                    {{ aux.distrito }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                    submitted &&
+                    formActualizarProveedor.controls.distritoId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Distrito es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button class="btn btn-primary">
+                            Actualizar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
