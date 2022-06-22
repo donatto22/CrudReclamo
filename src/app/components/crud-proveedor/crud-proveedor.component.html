@@ -75,7 +75,10 @@
                     <td>{{ proveedor.contacto }}</td>
                     <td>
                         <div class="custom-control custom-switch">
-                            <input [checked]="proveedor.estado" type="checkbox" class="custom-control-input"
+                            <input [checked]="proveedor.estado" 
+                            id="idEstado_{{ proveedor.idProveedor }}"
+                            (change)="actualizaEstadoProveedor(proveedor)"
+                            type="checkbox" class="custom-control-input"
                                 style="width: 2rem !important; z-index: 999" />
                             <label class="custom-control-label">
                                 <span *ngIf="proveedor.estado == 1" class="badge badge-success">Activo</span>
@@ -286,7 +289,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Actualizar Producto</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Proveedor</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                     id="btnCerrarModalEditarProveedor">
                     <span aria-hidden="true">&times;</span>

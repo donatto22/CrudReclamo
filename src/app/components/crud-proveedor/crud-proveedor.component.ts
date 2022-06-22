@@ -227,4 +227,47 @@ export class CrudProveedorComponent implements OnInit {
     }
   }
 
+  actualizaEstadoProveedor(aux: Proveedor) {
+    let titulo = '¿Estás seguro de eliminar al proveedor?';
+    let texto = '¡Esta acción es reversible!';
+    let btnTexto = '¡Sí, eliminar!';
+    let titulo2 = '¡Eliminado!';
+    let texto2 = '¡Proveedor eliminado!';
+
+    if (aux.estado == 0) {
+      titulo = '¿Estás seguro de habilitar proveedor?'
+      texto = '¡Esta acción es reversible!';
+      btnTexto = '¡Sí, habilitado!';
+      titulo2 = '¡Habilitado!';
+      texto2 = '¡Proveedor habilitado!';
+    }
+
+    Swal.fire({
+      title: titulo,
+      text: texto,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: btnTexto
+    }).then((result) => {
+      if (result.isConfirmed) {
+        aux.estado = aux.estado == 0 ? 1 : 0;
+        this.proveedorService.actualizaProveedor(aux).subscribe(
+          (x) => {
+            Swal.fire(
+              titulo2,
+              texto2,
+              'success'
+            )
+            this.consultarProveedores();
+          }
+        );
+      } else {
+        aux.estado = aux.estado == 0 ? 0 : 1;
+        this.consultarProveedores();
+      }
+    })
+  }
+
 }
