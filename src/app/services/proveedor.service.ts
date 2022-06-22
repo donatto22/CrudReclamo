@@ -24,6 +24,26 @@ export class ProveedorService {
     return this.http.get<any>( baseUrlProveedor + "/consultaFiltro", {params});
   }
 
+  consultarProveedor(data: {
+    razonsocial?: string;
+    ruc?: string;
+    estado?: number;
+  }): Observable<any> {
+    let url = baseUrlProveedor + '/consultaFiltro';
+    const {
+      razonsocial = '',
+      ruc = '',
+      estado = -1,
+    } = data;
+
+    const params = new HttpParams()
+      .append('razonsocial', razonsocial)
+      .append('ruc', ruc)
+      .append('estado', estado.toString());
+
+    return this.http.get(url, { params });
+  }
+
   actualizaProveedor(data: Proveedor): Observable<any>{
     return this.http.put(baseUrlProveedor, data);
   }

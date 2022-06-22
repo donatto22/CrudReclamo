@@ -65,7 +65,7 @@ export class CrudProveedorComponent implements OnInit {
       this.ubigeoService.listarDepartamento().subscribe(
         response => this.departamentos = response
       );
-
+      this.consultarProveedores();
     }
 
     cargaProvincia() {
@@ -85,6 +85,30 @@ export class CrudProveedorComponent implements OnInit {
       );
   
       this.objProveedor!.ubigeo!.idUbigeo = -1;
+    }
+
+    consultarProveedores() {
+      if (this.filtroEstado) {
+        this.filtroEstado = 1;
+      } else {
+        this.filtroEstado = 0;
+      }
+  
+      this.proveedorService
+        .consultarProveedor({ razonsocial: this.filtroRazonRuc, ruc:this.filtroRazonRuc ,estado: this.filtroEstado })
+        .subscribe(
+          (res: any) => {
+            this.mensajeDeConsulta = res.mensaje;
+            if (res && res.data && res.data.length > 0) {
+              this.listaProveedor = res.data;
+            } else {
+              this.listaProveedor = [];
+            }
+          },
+          (err) => {
+            console.log('HAY UN ERROR :: ', err);
+          }
+        );
     }
 
   ngOnInit(): void {
