@@ -12,7 +12,7 @@ import Swal from 'sweetalert2'
   styleUrls: ['./crud-cliente.component.css']
 })
 export class CrudClienteComponent implements OnInit {
-  
+
 
   clientes: Cliente[] = [];
   filtro: string = "";
@@ -88,6 +88,26 @@ export class CrudClienteComponent implements OnInit {
     this.cliente!.ubigeo!.idUbigeo = -1;
   }
 
+  limpiarModalRegistrar() {
+    this.formsRegistra.reset(
+      {
+        validaDepartamento:-1,
+        validaProvincia: -1,
+        validaDistrito: -1
+      }
+    );
+    this.cliente.idCliente=0;
+    this.cliente.ubigeo={
+      idUbigeo: -1,
+      departamento: "-1",
+      provincia: "-1",
+      distrito: "-1",
+    };
+    this.clienteService.listaCliente().subscribe(
+      (x) => this.clientes = x
+    );
+  }
+
   ngOnInit(): void {
     this.clienteService.listaCliente().subscribe(
       (x) => this.clientes = x
@@ -108,7 +128,7 @@ export class CrudClienteComponent implements OnInit {
     let titulo2 = '¡Eliminado!';
     let texto2 = '¡Cliente eliminado!';
 
-    if (aux.estado==0){
+    if (aux.estado == 0) {
       titulo = '¿Estás seguro de habilitar cliente?'
       texto = '¡Esta acción es reversible!';
       btnTexto = '¡Sí, habilitado!';
@@ -138,14 +158,14 @@ export class CrudClienteComponent implements OnInit {
               (x) => this.clientes = x
             );
           }
-        );                
-      }else{
+        );
+      } else {
         aux.estado = aux.estado == 0 ? 0 : 1;
         this.clienteService.listaCliente().subscribe(
           (x) => this.clientes = x
         );
-      }      
-    })      
+      }
+    })
   }
 
   registra() {
