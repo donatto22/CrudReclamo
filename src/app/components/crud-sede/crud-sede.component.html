@@ -1,1 +1,421 @@
-<p>crud-sede works!</p>
+<div class="animate__animated animate__fadeIn">
+    <div class="card border-0">
+      <div class="card-title" style="padding: 0 1.25rem !important">
+        <h5>CRUD de Sede</h5>
+      </div>
+  
+      <div class="card-body" style="padding: 0 1.25rem 0 !important">
+        <div class="content">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nombre">Nombre de Sede</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                name="nombre"
+                [(ngModel)]="filtroNombre"
+              />
+            </div>
+  
+            <div class="form-group col-md-2">
+              <label for="checkbox"
+                >Estado:
+                <span
+                  class="font-weight-bold"
+                  [class]="filtroEstado == 1 ? 'text-success' : 'text-warning'"
+                  >{{ filtroEstado == 1 ? "Activos" : "Inactivos" }}</span
+                >
+              </label>
+              <div class="">
+                <label class="switch" for="checkbox">
+                  <input
+                    type="checkbox"
+                    name="checkbox"
+                    id="checkbox"
+                    [(ngModel)]="filtroEstado"
+                  />
+                  <div class="slider round"></div>
+                </label>
+              </div>
+            </div>
+  
+            <div class="form-group col-md-2">
+              <label for="button" class="invisible-text">.</label>
+              <button
+                (click)="consultarSedes()"
+                class="btn btn-primary btn-block"
+              >
+                Consultar
+              </button>
+            </div>
+  
+            <div class="form-group col-md-2">
+              <label for="button" class="invisible-text">.</label>
+              <button
+                class="btn btn-success btn-block"
+                data-toggle="modal"
+                data-target="#modalRegistrarSede"
+              >
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <hr />
+  
+    <div class="text-wrap table-responsive">
+      <table class="table table-hover text-center text-nowrap">
+        <thead>
+          <tr class="table-secondary">
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Codigo Postal</th>
+            <th scope="col">País</th>
+            <th scope="col">Estado</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngIf="listaSede.length === 0"
+            class="animate__animated animate__fadeIn"
+          >
+            <td colspan="7" class="text-center">{{ mensajeDeConsulta }}</td>
+          </tr>
+          <tr
+            *ngFor="let sede of listaSede"
+            class="animate__animated animate__fadeIn"
+          >
+            <th scope="row">{{ sede.idSede }}</th>
+            <td>{{ sede.nombre }}</td>
+            <td>{{ sede.direccion }}</td>
+            <td>{{ sede.codigoPostal }}</td>
+            <td>{{ sede.pais?.nombre }}</td>
+            <td>
+              <div class="custom-control custom-switch">
+                <input
+                  (change)="cambiarEstado(sede)"
+                  type="checkbox"
+                  [checked]="sede.estado"
+                  class="custom-control-input"
+                  style="width: 2rem !important; z-index: 999"
+                />
+                <label class="custom-control-label">
+                  <span *ngIf="sede.estado == 1" class="badge badge-success"
+                    >Activo</span
+                  >
+                  <span *ngIf="sede.estado == 0" class="badge badge-warning"
+                    >Inactivo</span
+                  >
+                </label>
+              </div>
+            </td>
+            <td>
+              <button
+                class="btn btn-outline-info"
+                data-toggle="modal"
+                data-target="#modalEditarSede"
+                (click)="abrirModalParaEditar(sede)"
+              >
+                Editar
+              </button>
+              <button
+                class="ml-2 btn btn-outline-danger"
+                (click)="eliminarSede(sede)"
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot
+          *ngIf="listaSede.length !== 0"
+          class="animate__animated animate__fadeIn text-left"
+        >
+          <td colspan="7">{{ mensajeDeConsulta }}</td>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  
+  <div
+    class="modal fade"
+    id="modalRegistrarSede"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalRegistrarProducto"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Sede</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            id="btnCerrarModalRegistrarSede"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formRegistrarSede" method="post" class="content">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                maxlength="45"
+                formControlName="nombre"
+                [class.is-invalid]="esValidoParaRegistrar('nombre')"
+              />
+              <div class="msg-invalid" *ngIf="esValidoParaRegistrar('nombre')">
+                * {{ validarNombreRMsg }}
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="direccion">Direccion</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="direccion"
+                  maxlength="45"
+                  formControlName="direccion"
+                  [class.is-invalid]="esValidoParaRegistrar('direccion')"
+                />
+                <div class="msg-invalid" *ngIf="esValidoParaRegistrar('direccion')">
+                  * {{ validarDireccionRMsg }}
+                </div>
+              </div>
+  
+              <div class="form-group col-md-6">
+                <label for="codigoPostal">Codigo Postal</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="codigoPostal"
+                  maxlength="45"
+                  formControlName="codigoPostal"
+                  [class.is-invalid]="esValidoParaRegistrar('codigoPostal')"
+                />
+                <div
+                  class="msg-invalid"
+                  *ngIf="esValidoParaRegistrar('codigoPostald')"
+                >
+                  * {{ validarCodigoPostalRMsg }}
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="fechaCreacion">Fecha Creacion</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaCreacion"
+                  formControlName="fechaCreacion"
+                  [class.is-invalid]="esValidoParaRegistrar('fechaCreacion')"
+                />
+                <div
+                  class="msg-invalid"
+                  *ngIf="esValidoParaRegistrar('fechaCreacion')"
+                >
+                  * El campo fecha es obligatorio
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+  
+              <div class="form-group col-md-6">
+                <label for="pais">País</label>
+                <select
+                  formControlName="paisId"
+                  id="pais"
+                  class="form-control"
+                  [class.is-invalid]="esValidoParaRegistrar('paisId')"
+                >
+                  <option value="-1">[Seleccione]</option>
+                  <option *ngFor="let pais of listaPaises" [value]="pais.idPais">
+                    {{ pais.nombre }}
+                  </option>
+                </select>
+                <div *ngIf="esValidoParaRegistrar('paisId')" class="msg-invalid">
+                  * El campo país es obligatorio
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            (click)="cancelarRegistrar()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-info"
+            (click)="limpiarFormulario()"
+          >
+            Limpiar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="registrarSede()"
+          >
+            Registrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div
+    class="modal fade"
+    id="modalEditarSede"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalEditarSede"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Actualizar Sede</h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            id="btnCerrarModalEditarSede"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            [formGroup]="formActualizarSede"
+            method="post"
+            class="content"
+          >
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombre"
+                maxlength="45"
+                formControlName="nombre"
+                [class.is-invalid]="esValidoParaEditar('nombre')"
+              />
+              <div class="msg-invalid" *ngIf="esValidoParaEditar('nombre')">
+                * {{ validarNombreEMsg }}
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="direccion">Direccion</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="direccion"
+                  maxlength="45"
+                  formControlName="direccion"
+                  [class.is-invalid]="esValidoParaEditar('direccion')"
+                />
+                <div class="msg-invalid" *ngIf="esValidoParaEditar('direccion')">
+                  * {{ validarDireccionEMsg }}
+                </div>
+              </div>
+  
+              <div class="form-group col-md-6">
+                <label for="codigoPostal">Codigo Postal</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="codigoPostal"
+                  maxlength="45"
+                  formControlName="codigoPostal"
+                  [class.is-invalid]="esValidoParaEditar('codigoPostal')"
+                />
+                <div
+                  class="msg-invalid"
+                  *ngIf="esValidoParaEditar('codigoPostal')"
+                >
+                  * {{ validarCodigoPostalEMsg }}
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="fechaCreacion">Fecha Creacion</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaCreacion"
+                  formControlName="fechaCreacion"
+                  [class.is-invalid]="esValidoParaEditar('fechaCreacion')"
+                />
+                <div
+                  class="msg-invalid"
+                  *ngIf="esValidoParaEditar('fechaCreacion')"
+                >
+                  * El campo fecha es obligatorio
+                </div>
+              </div>
+  
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="pais">País</label>
+                <select
+                  formControlName="paisId"
+                  id="pais"
+                  class="form-control"
+                  [class.is-invalid]="esValidoParaEditar('paisId')"
+                >
+                  <option value="-1">[Seleccione]</option>
+                  <option *ngFor="let pais of listaPaises" [value]="pais.idPais">
+                    {{ pais.nombre }}
+                  </option>
+                </select>
+                <div *ngIf="esValidoParaEditar('paisId')" class="msg-invalid">
+                  * El campo país es obligatorio
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            (click)="cancelarRegistrar()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="actualizarSede()"
+          >
+            Actualizar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
