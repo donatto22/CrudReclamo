@@ -22,4 +22,56 @@ export class SedeService {
     return this.http.get<any>(baseUrlSede + "/listaSedeConParametros", {params});
   }
 
+  // crud Sede
+
+  public insertarSede(data: Sede): Observable<any> {
+    return this.http.post<any>(baseUrlSede, data);
+  }
+
+  public editarSede(idSede: number, sede: Sede) {
+    return this.http.put(baseUrlSede + '/' + idSede, sede);
+  }
+  
+  public cambiarEstadoSede(
+    idSede: number,
+    estado: number
+  ): Observable<any> {
+    return this.http.patch(
+      baseUrlSede + '/estado/' + idSede + '/' + estado,
+      null
+    );
+  }
+  public eliminar(idSede: number): Observable<any> {
+    return this.http.delete(baseUrlSede + '/' + idSede);
+  }
+  
+  public consultar(data: {
+    nombre?: string;
+    direccion?: string;
+    idPais?: number;
+    estado?: number;
+    fechaInicio?: string;
+	  fechaFin?: string;
+  }): Observable<any> {
+    let url = baseUrlSede + '/listaSedeConParametros';
+    const {
+      nombre = '',
+      direccion = '',
+      idPais = -1,
+      estado = -1,
+      fechaInicio = '',
+	    fechaFin = '',
+    } = data;
+
+    const params = new HttpParams()
+      .append('nombre', nombre)
+      .append('direccion', direccion)
+      .append('idPais', idPais.toString())
+      .append('estado', estado.toString())
+      .append('fechaInicio', fechaInicio.toString())
+	    .append('fechaFin', fechaFin.toString());
+
+    return this.http.get(url, { params });
+  }
+
 }
