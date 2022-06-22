@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Proveedor } from 'src/app/models/proveedor.model';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 import { UbigeoService } from 'src/app/services/ubigeo.service';
@@ -16,6 +16,7 @@ export class CrudProveedorComponent implements OnInit {
   departamentos: string[] = [];
   provincias: string[] = [];
   distritos: Ubigeo[] = [];
+
   listaProveedor: Proveedor[] = [];
   mensajeDeConsulta: string = '';
 
@@ -35,33 +36,32 @@ export class CrudProveedorComponent implements OnInit {
   idProveedor: number = -1;
 
 
-  formRegistrarProveedor = this.formBuilder.group({
-    razonsocial: ['', [Validators.required, Validators.maxLength(45)]],
-    ruc: ['', [Validators.required, Validators.maxLength(11), Validators.pattern('^[0-9]*$')]],
-    direccion: ['', [Validators.required, Validators.maxLength(45)]],
-    telefono: ['', [Validators.required,Validators.maxLength(9), Validators.pattern('^[0-9]*$')]],
-    celular: ['', [Validators.required, Validators.maxLength(9), Validators.pattern('^[0-9]*$')]],
-    contacto: ['', [Validators.required, Validators.maxLength(45)]],
-    departamentoId: [-1, [Validators.required, Validators.min(1)]],
-    provinciaId: [-1, [Validators.required, Validators.min(1)]],
-    distritoId: [-1, [Validators.required, Validators.min(1)]],
+  formRegistrarProveedor = new FormGroup({
+    razonsocial: new FormControl('', [Validators.required, Validators.maxLength(45)]),
+    ruc: new FormControl('', [Validators.required, Validators.maxLength(11), Validators.pattern('^[0-9]*$')]),
+    direccion: new FormControl('', [Validators.required, Validators.maxLength(45)]),
+    telefono: new FormControl('', [Validators.required,Validators.maxLength(9), Validators.pattern('^[0-9]*$')]),
+    celular: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.pattern('^[0-9]*$')]),
+    contacto: new FormControl('', [Validators.required, Validators.maxLength(45)]),
+    departamentoId: new FormControl(-1, [Validators.required, Validators.min(1)]),
+    provinciaId: new FormControl(-1, [Validators.required, Validators.min(1)]),
+    distritoId: new FormControl(-1, [Validators.required, Validators.min(1)]),
   });
 
-  formActualizarProveedor = this.formBuilder.group({
-    razonsocial: ['', [Validators.required, Validators.maxLength(45)]],
-    ruc: ['', [Validators.required, Validators.maxLength(11), Validators.pattern('^[0-9]*$')]],
-    direccion: ['', [Validators.required, Validators.maxLength(45)]],
-    telefono: ['', [Validators.required,Validators.maxLength(9), Validators.pattern('^[0-9]*$')]],
-    celular: ['', [Validators.required, Validators.maxLength(9), Validators.pattern('^[0-9]*$')]],
-    contacto: ['', [Validators.required, Validators.maxLength(45)]],
-    departamentoId: [-1, [Validators.required, Validators.min(1)]],
-    provinciaId: [-1, [Validators.required, Validators.min(1)]],
-    distritoId: [-1, [Validators.required, Validators.min(1)]],
+  formActualizarProveedor = new FormGroup({
+    razonsocial: new FormControl('', [Validators.required, Validators.maxLength(45)]),
+    ruc: new FormControl('', [Validators.required, Validators.maxLength(11), Validators.pattern('^[0-9]*$')]),
+    direccion: new FormControl('', [Validators.required, Validators.maxLength(45)]),
+    telefono: new FormControl('', [Validators.required,Validators.maxLength(9), Validators.pattern('^[0-9]*$')]),
+    celular: new FormControl('', [Validators.required, Validators.maxLength(9), Validators.pattern('^[0-9]*$')]),
+    contacto: new FormControl('', [Validators.required, Validators.maxLength(45)]),
+    departamentoId: new FormControl(-1, [Validators.required, Validators.min(1)]),
+    provinciaId: new FormControl(-1, [Validators.required, Validators.min(1)]),
+    distritoId: new FormControl(-1, [Validators.required, Validators.min(1)]),
   });
 
   constructor(private ubigeoService: UbigeoService,
-    private proveedorService: ProveedorService,
-    private formBuilder: FormBuilder) { 
+    private proveedorService: ProveedorService) { 
       this.ubigeoService.listarDepartamento().subscribe(
         response => this.departamentos = response
       );
@@ -95,7 +95,7 @@ export class CrudProveedorComponent implements OnInit {
       }
   
       this.proveedorService
-        .consultarProveedor({ razonsocial: this.filtroRazonRuc, ruc:this.filtroRazonRuc ,estado: this.filtroEstado })
+        .consultarProveedor({ruc: this.filtroRazonRuc,estado: this.filtroEstado })
         .subscribe(
           (res: any) => {
             this.mensajeDeConsulta = res.mensaje;

@@ -25,19 +25,16 @@ export class ProveedorService {
   }
 
   consultarProveedor(data: {
-    razonsocial?: string;
     ruc?: string;
     estado?: number;
   }): Observable<any> {
     let url = baseUrlProveedor + '/consultaFiltro';
     const {
-      razonsocial = '',
       ruc = '',
       estado = -1,
     } = data;
 
     const params = new HttpParams()
-      .append('razonsocial', razonsocial)
       .append('ruc', ruc)
       .append('estado', estado.toString());
 
