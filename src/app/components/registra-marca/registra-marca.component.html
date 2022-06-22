@@ -12,7 +12,7 @@
             <div class="row" style="margin-top: 3%">
                 <div class="col-lg-4">
                     <label for="nombre">Nombre</label>
-                    <input placeholder="Ingrese Nombre" formControlName="validaNombre" type="text" class="form-control" id="nombre"  [class.is-invalid]="invalidaRegistrar('validaNombre')"/>
+                    <input placeholder="Ingrese Nombre" formControlName="validaNombre" type="text" class="form-control" id="nombre" maxlength="30"  [class.is-invalid]="invalidaRegistrar('validaNombre')"/>
                     <div class="msg-invalid" *ngIf="invalidaRegistrar('validaNombre')">
                         <ul>
                             <li>El Nombre es obligatorio.</li>    
@@ -23,7 +23,7 @@
 
                 <div class="col-lg-8">
                     <label for="descripcion">Descripión</label>
-                    <input placeholder="Ingrese Descripión" formControlName="validaDescripcion" type="text" class="form-control" id="descripcion" maxlength="70" [class.is-invalid]="invalidaRegistrar('validaDescripcion')" />
+                    <input placeholder="Ingrese Descripión" formControlName="validaDescripcion" type="text" class="form-control" id="descripcion" maxlength="50" [class.is-invalid]="invalidaRegistrar('validaDescripcion')" />
                     <div class="msg-invalid" *ngIf="invalidaRegistrar('validaDescripcion')">
                         <ul>
                             <li>La Descripción es obligatorio.</li>    

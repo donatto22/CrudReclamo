@@ -35,7 +35,7 @@ export class CrudMarcaComponent implements OnInit {
 
   formsRegistra = new FormGroup({
     validaNombre: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{3,30}')]),
-    validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{10,50}')]),
+    validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ.+-_/\s ]{10,50}')]),
     validaFechaV: new FormControl('', [Validators.required]),
     validaCertificado: new FormControl('', [Validators.required, Validators.pattern('[0-9A-Z]{9}')]),
     validaPais: new FormControl(-1, [Validators.min(1)]),
@@ -43,7 +43,7 @@ export class CrudMarcaComponent implements OnInit {
 
   formsActualiza = new FormGroup({
     validaNombre: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{3,30}')]),
-    validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{3,50}')]),
+    validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ.+-_/\s ]{3,50}')]),
     validaFechaV: new FormControl('', [Validators.required]),
     validaCertificado: new FormControl('', [Validators.required, Validators.pattern('[0-9A-Z]{9}')]),
     validaPais: new FormControl('', [Validators.min(1)]),
@@ -110,8 +110,20 @@ export class CrudMarcaComponent implements OnInit {
     this.marcaService.registraMarca(objMarca).subscribe(
       (x) => {
         document.getElementById("btn_reg_cerrar")?.click();
+        
+        if(x.estado == 1){
+          Swal.fire('Mensaje', x.mensaje, 'error');
+        }
+        if(x.estado == 2){
+          Swal.fire('Mensaje', x.mensaje, 'success');
+        }
+        if(x.estado == 3){
+          Swal.fire('Mensaje', x.mensaje, 'info');
+        }
+        if(x.estado == 4){
+          Swal.fire('Mensaje', x.mensaje, 'error');
+        }
 
-        Swal.fire('Mensaje', x.mensaje, 'success');
 
         this.marcaService.listadoMarca(this.filtro == "" ? "todos" : this.filtro).subscribe(
           (x) => this.marcas = x
@@ -120,7 +132,19 @@ export class CrudMarcaComponent implements OnInit {
     );
 
     /*this.nombrepais = [];*/
-    this.formsRegistra.reset();
+    this.formsRegistra.reset(
+      {
+        validaPais: -1
+      }
+    );
+  }
+
+  limpiar() {
+    this.formsRegistra.reset(
+      {
+        validaPais: -1
+      }
+    );
   }
 
 
@@ -136,11 +160,7 @@ export class CrudMarcaComponent implements OnInit {
       validaEstado: obj.estado
     })
 
-    console.log(obj)
-
-    /*this.paisService.listaPais().subscribe(
-      response => this.nombrepais = response
-    );*/
+    console.log(obj);
   }
 
 
@@ -221,7 +241,7 @@ export class CrudMarcaComponent implements OnInit {
     let titulo2 = '¡Inactivada!';
     let texto2 = '¡Marca inactiva!';
 
-    if (obj.estado==0){
+    if (obj.estado == 0) {
       titulo = '¿Estás seguro de activar la Marca?'
       texto = '¡Esta acción es reversible!';
       btnTexto = '¡Sí, activar!';
@@ -251,13 +271,13 @@ export class CrudMarcaComponent implements OnInit {
               (x) => this.marcas = x
             );
           }
-        );                
-      }else{
+        );
+      } else {
         obj.estado = obj.estado == 0 ? 0 : 1;
         this.marcaService.listaMarca().subscribe(
           (x) => this.marcas = x
         );
-      }      
+      }
     })
 
     /*this.marca = obj;
@@ -289,30 +309,48 @@ export class CrudMarcaComponent implements OnInit {
 
 
   elimanaMarca(aux: Marca) {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: "¡Se eliminará permanentemente!",
-      icon: 'warning',
 
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, Eliminar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.marcaService.eliminarMarca(aux.idMarca).subscribe(
+    console.log(aux.estado);
 
-          (x) => {
-            Swal.fire('Mensaje', x.mensaje, 'success');
-            this.marcaService.listadoMarca(this.filtro == "" ? "todos" : this.filtro).subscribe(
-              (x) => this.marcas = x
-            );
-          }
-        );
-      }
-    })
+    if (aux.estado == 0) {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡Se eliminará permanentemente!",
+        icon: 'warning',
+
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, Eliminar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.marcaService.eliminarMarca(aux.idMarca).subscribe(
+
+            (x) => {
+
+              if (x.estado == 1) {
+                Swal.fire('Mensaje', x.mensaje, 'success');
+              }
+              if (x.estado == 2) {
+                Swal.fire('Mensaje', x.mensaje, 'error');
+              }
+              if (x.estado == 3) {
+                Swal.fire('Mensaje', x.mensaje, 'info');
+              }
+              if(x.estado == 4 ){
+                Swal.fire('Mensaje', x.mensaje, 'error');
+              }
+              this.marcaService.listadoMarca(this.filtro == "" ? "todos" : this.filtro).subscribe(
+                (x) => this.marcas = x
+              );
+            }
+          );
+        }
+      })
+    }
+    else {
+      Swal.fire('Mensaje', "La Marca debe estar Inactiva para ser eliminada.", 'error');
+    }
+
   }
-
-
-
 }
