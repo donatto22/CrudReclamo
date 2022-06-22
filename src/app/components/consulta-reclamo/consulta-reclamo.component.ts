@@ -32,7 +32,11 @@ export class ConsultaReclamoComponent implements OnInit {
   }
 
   listaReclamos() {
-    this.service.listarReclamos(this.descripcion, this.selTipoReclamo, this.selIdCliente, this.estado ? 1 : 0)
+    this.service.listarReclamos({
+      descripcion: this.descripcion,
+      tipoReclamo: this.selTipoReclamo,
+      idCliente: this.selIdCliente,
+      estado: this.estado ? 1 : 0})
     .subscribe(x => this.reclamos = x.data)
   }
 
