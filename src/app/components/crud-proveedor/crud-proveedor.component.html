@@ -84,7 +84,7 @@
                         </div>
                     </td>
                     <td>
-                        <button class="btn btn-outline-info" data-toggle="modal" data-target="#modalEditarProducto">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalEditarProveedor" (click)="buscarProveedor(proveedor)">
                             Editar
                         </button>
 
@@ -116,8 +116,8 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="razonsocial">Razón social</label>
-                            <input [(ngModel)]="proveedor.razonsocial" type="text" class="form-control"
-                                id="razonsocial" maxlength="45" formControlName="razonsocial" />
+                            <input [(ngModel)]="proveedor.razonsocial" type="text" class="form-control" id="razonsocial"
+                                maxlength="45" formControlName="razonsocial" />
                             <div class="msg-invalid" *ngIf="
                                 submitted && formRegistrarProveedor.controls.razonsocial.errors
                               ">
@@ -128,8 +128,8 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="ruc">Ruc</label>
-                            <input [(ngModel)]="proveedor.ruc" type="text" class="form-control" id="ruc"
-                                maxlength="11" formControlName="ruc" />
+                            <input [(ngModel)]="proveedor.ruc" type="text" class="form-control" id="ruc" maxlength="11"
+                                formControlName="ruc" />
                             <div *ngIf="
                       submitted && formRegistrarProveedor.controls.ruc.errors
                     " class="msg-invalid">
@@ -226,8 +226,8 @@
                             <label for="provincia">Provincia:</label>
 
 
-                            <select [(ngModel)]="proveedor.ubigeo!.provincia" (change)="cargaDistrito()"
-                                id="provincia" name="provincia" class="form-control" formControlName="provinciaId">
+                            <select [(ngModel)]="proveedor.ubigeo!.provincia" (change)="cargaDistrito()" id="provincia"
+                                name="provincia" class="form-control" formControlName="provinciaId">
                                 <option value="-1">[Seleccione]</option>
                                 <option *ngFor="let aux of provincias" value="{{ aux }}">
                                     {{ aux }}
@@ -268,16 +268,195 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             Cancelar
                         </button>
-                       
+
                         <button class="btn btn-primary">
                             Registrar
                         </button>
                     </div>
                 </form>
             </div>
-            
-        
+
+
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="modalEditarProveedor" tabindex="-1" role="dialog" aria-labelledby="modalEditarProveedor"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Actualizar Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    id="btnCerrarModalEditarProveedor">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="actualizaProveedor()" [formGroup]="formActualizarProveedor" class="content">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="razonsocial">Razón social</label>
+                            <input [(ngModel)]="proveedor.razonsocial" type="text" class="form-control" id="razonsocial"
+                                maxlength="45" formControlName="razonsocial" />
+                            <div class="msg-invalid" *ngIf="
+                                submitted && formActualizarProveedor.controls.razonsocial.errors
+                              ">
+                                <ul>
+                                    <li>La Razón social es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ruc">Ruc</label>
+                            <input [(ngModel)]="proveedor.ruc" type="text" class="form-control" id="ruc" maxlength="11"
+                                formControlName="ruc" />
+                            <div *ngIf="
+                      submitted && formActualizarProveedor.controls.ruc.errors
+                    " class="msg-invalid">
+                                <ul>
+                                    <li>RUC es obligatorio.</li>
+                                    <li>RUC es de 11 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="telefono">Teléfono</label>
+                            <input [(ngModel)]="proveedor.telefono" type="text" class="form-control" id="telefono"
+                                maxlength="9" formControlName="telefono" />
+                            <div *ngIf="
+                            submitted && formActualizarProveedor.controls.telefono.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Teléfono es obligatorio.</li>
+                                    <li>Teléfono es de 7 a 9 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="celular">Celular</label>
+                            <input [(ngModel)]="proveedor.celular" type="text" class="form-control" id="celular"
+                                maxlength="9" formControlName="celular" />
+                            <div *ngIf="
+                            submitted && formActualizarProveedor.controls.celular.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Celular es obligatorio.</li>
+                                    <li>Celular es 9 dígitos.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="contacto">Contacto</label>
+                            <input [(ngModel)]="proveedor.contacto" type="text" class="form-control" id="contacto"
+                                maxlength="45" formControlName="contacto" />
+                            <div *ngIf="
+                            submitted && formActualizarProveedor.controls.contacto.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Contacto es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+
+                        <div class="form-group col-md-12">
+                            <label for="direccion">Dirección</label>
+                            <input [(ngModel)]="proveedor.direccion" type="text" class="form-control" id="direccion"
+                                maxlength="45" formControlName="direccion" />
+                            <div *ngIf="
+                            submitted && formActualizarProveedor.controls.direccion.errors
+                          " class="msg-invalid">
+                                <ul>
+                                    <li>Dirección es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="departamento">Departamento:</label>
+                            <select [(ngModel)]="proveedor.ubigeo!.departamento" (change)="cargaProvincia()"
+                                id="departamento" name="departamento" class="form-control"
+                                formControlName="departamentoId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of departamentos" value="{{ aux }}">
+                                    {{ aux }}
+                                </option>
+                            </select>
+
+                            <div *ngIf="
+                    submitted &&
+                    formActualizarProveedor.controls.departamentoId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Departamento es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="provincia">Provincia:</label>
+
+
+                            <select [(ngModel)]="proveedor.ubigeo!.provincia" (change)="cargaDistrito()" id="provincia"
+                                name="provincia" class="form-control" formControlName="provinciaId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of provincias" value="{{ aux }}">
+                                    {{ aux }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                    submitted &&
+                    formActualizarProveedor.controls.provinciaId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Provincia es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="distrito">Distrito:</label>
+
+
+                            <select [(ngModel)]="proveedor.ubigeo!.idUbigeo" id="distrito" name="distrito"
+                                class="form-control" formControlName="distritoId">
+                                <option value="-1">[Seleccione]</option>
+                                <option *ngFor="let aux of distritos" value="{{ aux.idUbigeo }}">
+                                    {{ aux.distrito }}
+                                </option>
+                            </select>
+                            <div *ngIf="
+                    submitted &&
+                    formActualizarProveedor.controls.distritoId.errors
+                  " class="msg-invalid">
+                                <ul>
+                                    <li>Distrito es obligatorio.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button class="btn btn-primary">
+                            Actualizar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

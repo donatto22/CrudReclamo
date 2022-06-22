@@ -178,4 +178,53 @@ export class CrudProveedorComponent implements OnInit {
     }
   }
 
+
+  buscarProveedor(aux: Proveedor) {
+    this.proveedor = aux;
+
+    this.ubigeoService.listaProvincias(this.proveedor.ubigeo?.departamento).subscribe(
+      response => this.provincias = response
+    );
+
+    this.ubigeoService.listaDistritos(this.proveedor.ubigeo?.departamento, this.proveedor.ubigeo?.provincia).subscribe(
+      response => this.distritos = response
+    );
+
+  }
+
+  actualizaProveedor() {
+    this.submitted = true;
+    if (this.formActualizarProveedor.invalid) {
+      return;
+    }
+    this.submitted = false;
+    this.proveedorService.actualizaProveedor(this.proveedor).subscribe(
+      (x) => {
+        document.getElementById("btn_act_cerrar")?.click();
+        Swal.fire('Mensaje', x.mensaje, 'success');
+        this.consultarProveedores();
+      }
+    );
+
+    this.distritos = [];
+    this.provincias = [];
+
+    this.proveedor = {
+      idProveedor: 0,
+      razonsocial: "",
+      ruc: "",
+      direccion: "",
+      telefono: "",
+      celular: "",
+      contacto: "",
+      estado: 1,
+      ubigeo: {
+        idUbigeo: -1,
+        departamento: "-1",
+        provincia: "-1",
+        distrito: "-1",
+      }
+    }
+  }
+
 }
