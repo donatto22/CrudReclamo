@@ -24,8 +24,8 @@ export class RegistraMarcaComponent implements OnInit {
 
 
   formsRegistra = new FormGroup({
-    validaNombre: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{3,30}')]),
-    validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ\s ]{10,50}')]),
+    validaNombre: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ.+-_/\s ]{3,30}')]),
+    validaDescripcion: new FormControl('', [Validators.required, Validators.pattern('[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ.+-_/\s ]{10,50}')]),
     validaFechaV: new FormControl('', [Validators.required]),
     validaCertificado: new FormControl('', [Validators.required, Validators.pattern('[0-9A-Z]{9}')]),
     validaPais: new FormControl(-1, [Validators.min(1)]),
@@ -35,7 +35,7 @@ export class RegistraMarcaComponent implements OnInit {
 
 
 
-  constructor(private paisService: PaisService, private marcaService: MarcaService, /* private toastr: ToastrService */) {
+  constructor(private paisService: PaisService, private marcaService: MarcaService/*, private toastr: ToastrService */) {
 
     this.paisService.listaPais().subscribe(
       (x) => this.paises = x
@@ -65,18 +65,27 @@ export class RegistraMarcaComponent implements OnInit {
     this.marcaService.insertaMarca(objMarca).subscribe(
       response => {
 
-        //alert(response.mensaje)
-        Swal.fire('Mensaje', response.mensaje, 'success');
+        if (response.estado == 1) {
+          Swal.fire('Mensaje', response.mensaje, 'error');
+        }
+        if (response.estado == 2) {
+          Swal.fire('Mensaje', response.mensaje, 'success');
+        }
+        if (response.estado == 3) {
+          Swal.fire('Mensaje', response.mensaje, 'info');
+        }
+        if(response.estado == 4 ){
+          Swal.fire('Mensaje', response.mensaje, 'error');
+        }
         console.log(response.mensaje)
-      },
-      error => {
-        //this.toastr.error('Ocurrió error inesperado', 'Error')
-        alert('Ocurrió un error')
-        console.log(error);
       }
-    );
+    )
 
-    this.formsRegistra.reset();
+    this.formsRegistra.reset(
+      {
+        validaPais: -1
+      }
+    )
   }
 
 

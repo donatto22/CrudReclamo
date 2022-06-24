@@ -64,7 +64,7 @@
 
     <div class="modal fade"  id="idModalRegistrar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-        <div class="modal-dialog" style="max-width: 70%;">
+        <div class="modal-dialog" style="max-width: 50%;">
             <div class="modal-content" >
 
                 <div class="modal-header">
@@ -81,7 +81,7 @@
                                 <div  class="row">
                                     <div class="col-lg-4">
                                         <label for="id_reg_nombre">Nombre</label>
-                                        <input formControlName="validaNombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_reg_nombre" [class.is-invalid]="invalidaRegistrar('validaNombre')"/>
+                                        <input formControlName="validaNombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_reg_nombre" maxlength="30" [class.is-invalid]="invalidaRegistrar('validaNombre')"/>
                                         <div class="msg-invalid" *ngIf="invalidaRegistrar('validaNombre')">
                                             <ul>
                                                 <li>El Nombre es obligatorio.</li>    
@@ -92,7 +92,7 @@
                                     
                                     <div class="col-lg-8">
                                         <label for="id_reg_dni">Descripción</label>
-                                        <input  formControlName="validaDescripcion" type="text" placeholder="Ingrese Descripción" class="form-control" id="id_reg_descripcion" [class.is-invalid]="invalidaRegistrar('validaDescripcion')"/>
+                                        <input  formControlName="validaDescripcion" type="text" placeholder="Ingrese Descripción" class="form-control" maxlength="50" id="id_reg_descripcion" [class.is-invalid]="invalidaRegistrar('validaDescripcion')"/>
                                         <div class="msg-invalid" *ngIf="invalidaRegistrar('validaDescripcion')">
                                             <ul>
                                                 <li>La Descripción es obligatorio.</li>    
@@ -149,6 +149,7 @@
                         </div> 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn_reg_cerrar" style="width: 100px;">Close</button>
+                            <button type="button" class="btn btn-secondary" (click)="limpiar()" style="width: 100px; float: left;">Limpiar</button>
                             <div class="form-group text-center">
                                 <div class="col-lg-12">
                                     <button id="id_reg_registra" (click)="registraMarca()" class="btn btn-success form-control"style="width: 100px;">Registrar</button>
@@ -167,7 +168,7 @@
     </div>
 
     <div class="modal fade" id="idModalActualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 80%;">
+        <div class="modal-dialog" style="max-width: 60%;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Actualización de Marca</h5>
@@ -183,7 +184,7 @@
                             <div  class="row">
                                 <div class="col-lg-4">
                                     <label for="id_act_nombre">Nombre</label>
-                                    <input   formControlName="validaNombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_act_nombre" [class.is-invalid]="invalidaActualizar('validaNombre')"/>
+                                    <input   formControlName="validaNombre" type="text" placeholder="Ingrese el nombre" class="form-control" id="id_act_nombre" maxlength="30" [class.is-invalid]="invalidaActualizar('validaNombre')"/>
                                     <div class="msg-invalid" *ngIf="invalidaActualizar('validaNombre')">
                                         <ul>
                                             <li>El Nombre es obligatorio.</li>    
@@ -194,7 +195,7 @@
 
                                 <div class="col-lg-6">
                                     <label for="id_act_dni">Descripción</label>
-                                    <input  formControlName="validaDescripcion" type="text" placeholder="Ingrese Descripción" class="form-control" id="id_act_descripcion" [class.is-invalid]="invalidaActualizar('validaDescripcion')" />
+                                    <input  formControlName="validaDescripcion" type="text" placeholder="Ingrese Descripción" class="form-control" maxlength="50" id="id_act_descripcion" [class.is-invalid]="invalidaActualizar('validaDescripcion')" />
                                     <div class="msg-invalid" *ngIf="invalidaActualizar('validaDescripcion')">
                                         <ul>
                                             <li>La Descripción es obligatorio.</li>    
