@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/dawii_modelo_proyecto'),
+      dir: require('path').join(__dirname, './coverage/dawii_2022_1_grupo_01_sabado_frontend'),
       subdir: '.',
       reporters: [
         { type: 'html' },
