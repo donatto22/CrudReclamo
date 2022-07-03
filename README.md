@@ -1,6 +1,3 @@
-# Proyecto Frontend del DAWII - Cibertec
-### Spring, Angular, JPA y MYSQL
+## Captura
 
-## Autor 
-
-* **Jorge Jacinto ** - [jorgejacinto9701](https://github.com/jorgejacinto9701)
+![image](https://user-images.githubusercontent.com/68967448/177020637-96fa4c6b-03ff-4a4d-b196-159c3c9b16e5.png)
